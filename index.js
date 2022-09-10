@@ -1,4 +1,5 @@
 function laCajaDePandora(numero){
+
     if (numero % 2 == 0) {
         return 0 || 1;
     } else if (numero % 2 == 1) {
