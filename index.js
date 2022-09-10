@@ -4,7 +4,18 @@ function sebastian() {
         "age": 18,
         "nationality": "Colombian"
     }
-}
+
+    }
+
+function agustin(){
+    var obj = {
+        nombre: "Agustín",
+        edad: 25,
+        nacionalidad: "Argentina"
+    }
+    return obj;
+  }
+
 
 function laCajaDePandora(numero) {
     if(num % 2) return numero.toString(2);
@@ -26,3 +37,4 @@ function fabricio() {
         nacionalidad: "Argentino",
     }
 }
+
