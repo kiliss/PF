@@ -1,3 +1,12 @@
+
+function anderson(){
+    return {
+        nombre:anderson,
+        edad: 22,
+        nacionalidad: Colombia
+    }
+}
+
 function sebastian() {
     return {
         "name": "sebastian",
