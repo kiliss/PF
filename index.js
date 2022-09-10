@@ -1,9 +1,20 @@
 
+  
+   function gabriel(){
+    let misDatos={
+        nombre:'gabriel',
+        apellido:'nesteruk',
+        edad:'21',
+        nacionalidad:'argentina'}
+    
+    return  misDatos
+    }
+
 function anderson(){
     return {
-        nombre:anderson,
+        nombre:"anderson",
         edad: 22,
-        nacionalidad: Colombia
+        nacionalidad: "Colombia"
     }
 }
 
@@ -43,7 +54,8 @@ function fabricio() {
     return{
         nombre: "Fabricio",
         edad: 20,
-        nacionalidad: "Argentino",
+        nacionalidad: "Argentina",
     }
 }
 
+// terminamos
