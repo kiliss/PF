@@ -1,29 +1,61 @@
-function laCajaDePandora(number){
-    // proximamente escribiremos codigo aqui
-    let num = number;
-    if (num%2===0){
-        let binary = (num % 2).toString();
-    for (; num > 1; ) {
-        num = parseInt(num / 2);
-        binary =  (num % 2) + (binary);
-    }
-    }
-    else {
-        if (number < 0)
-  {
-    number = 0xFFFFFFFF + number + 1;
-  }
 
-  return number.toString(16).toUpperCase();
-}
-    }
   
    function gabriel(){
-    let misDatos=[{
-        nombre:'gabriel'},
-       { apellido:'nesteruk'},
-       { edad:'21'},
-       { nacionalidad:'argentino'}
-    ]
+    let misDatos={
+        nombre:'gabriel',
+        apellido:'nesteruk',
+        edad:'21',
+        nacionalidad:'argentina'}
+    
     return  misDatos
-   } 
+    }
+
+function anderson(){
+    return {
+        nombre:"anderson",
+        edad: 22,
+        nacionalidad: "Colombia"
+    }
+}
+
+function sebastian() {
+    return {
+        "name": "sebastian",
+        "age": 18,
+        "nationality": "Colombian"
+    }
+
+    }
+
+function agustin(){
+    var obj = {
+        nombre: "Agustín",
+        edad: 25,
+        nacionalidad: "Argentina"
+    }
+    return obj;
+  }
+
+
+function laCajaDePandora(numero) {
+    if(num % 2) return numero.toString(2);
+    else return numero.toString(16)
+}
+
+function alejandro() {
+    return {
+        nombre: "Alejandro Javier Ledesma Miño",
+        edad: 25,
+        nacionalidad: "Argentina"
+    }
+}
+
+function fabricio() {
+    return{
+        nombre: "Fabricio",
+        edad: 20,
+        nacionalidad: "Argentina",
+    }
+}
+
+// terminamos
