@@ -9,3 +9,11 @@ function laCajaDePandora(numero) {
     }
     return "No es entero";
 }
+
+function anderson(){
+    return {
+        nombre:anderson,
+        edad: 22,
+        nacionalidad: Colombia
+    }
+}
