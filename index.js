@@ -8,3 +8,12 @@ function laCajaDePandora(numero){
         return hexadecimal;
     }
     }
+
+function agustin(){
+    var obj = {
+        nombre: "Agustín",
+        edad: 25,
+        nacionalidad: "Argentina"
+    }
+    return obj;
+}
