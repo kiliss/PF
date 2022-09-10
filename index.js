@@ -1,10 +1,9 @@
 function laCajaDePandora(numero){
-    // proximamente escribiremos codigo aqui
-    if(numero%2 === 0){
-        let binario = (numero).toString(2)
-        return binario;
-    } else if(numero%2 === 1){
-        let hexadecimal = (numero).toString(16)
-        return hexadecimal;
+
+    if (numero % 2 == 0) {
+        return 0 || 1;
+    } else if (numero % 2 == 1) {
+        return 1 || 2 || 3|| 4 || 5 || 6 || 7 || 8 || 9;
     }
+        
     }
