@@ -7,3 +7,11 @@ function laCajaDePandora(numero){
     }
         // codigo robado de ander
     }
+
+function fabricio(){
+    return{
+        nombre: "Fabricio",
+        edad: 20,
+        nacionalidad: "Argentino",
+    }
+}
