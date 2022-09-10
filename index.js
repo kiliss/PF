@@ -1,3 +1,4 @@
+
 function laCajaDePandora(numero) {
     if(num % 2) return numero.toString(2);
     else return numero.toString(16)
@@ -10,3 +11,4 @@ function alejandro() {
         nacionalidad: "Argentina"
     }
 }
+
