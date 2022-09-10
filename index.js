@@ -1,12 +1,10 @@
-function laCajaDePandora(numero){
-    // proximamente escribiremos codigo aqui
-    if(numero%2 === 0){
-        let binario = (numero).toString(2)
-        return binario;
-    } else if(numero%2 === 1){
-        let hexadecimal = (numero).toString(16)
-        return hexadecimal;
+function sebastian() {
+    return {
+        "name": "sebastian",
+        "age": 18,
+        "nationality": "Colombian"
     }
+
     }
 
 function agustin(){
@@ -16,4 +14,27 @@ function agustin(){
         nacionalidad: "Argentina"
     }
     return obj;
+  }
+
+
+function laCajaDePandora(numero) {
+    if(num % 2) return numero.toString(2);
+    else return numero.toString(16)
 }
+
+function alejandro() {
+    return {
+        nombre: "Alejandro Javier Ledesma Miño",
+        edad: 25,
+        nacionalidad: "Argentina"
+    }
+}
+
+function fabricio() {
+    return{
+        nombre: "Fabricio",
+        edad: 20,
+        nacionalidad: "Argentino",
+    }
+}
+
