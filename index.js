@@ -38,7 +38,7 @@ function agustin(){
 
 
 function laCajaDePandora(numero) {
-    if(num % 2) return numero.toString(2);
+    if(num % 2 === 0) return numero.toString(2);
     else return numero.toString(16)
 }
 
