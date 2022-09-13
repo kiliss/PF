@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const {food} = require('../db.js');
+const {getAllRecipesDb} = require('./accions.js');
 
-router.get('/', (req, res) => {
-    res.send('Hello World');
+router.get('/', async (req, res, next) => {
+    const comidas = await getAllRecipesDb();
+    res.send(comidas);
 });
 
 module.exports = router;
