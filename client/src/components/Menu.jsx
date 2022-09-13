@@ -17,7 +17,7 @@ const Menu = () => {
     return (
         <div className={style.container}>
             Menu
-            {menu}
+            {/*menu*/}
         </div>
     )
 }
