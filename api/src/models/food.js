@@ -4,11 +4,6 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequilize) => {
     //defino el modelo
     sequilize.define('food', {
-        id: {
-            type: DataTypes.UUIDV4,
-            allowNull: false,
-            primaryKey: true
-        },
         name: {
             type: DataTypes.STRING,
             allowNull: false

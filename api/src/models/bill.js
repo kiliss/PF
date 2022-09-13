@@ -3,12 +3,7 @@ const { DataTypes } = require('sequelize')
 //luego le injectamos la conexion a sequelize
 module.exports = (sequilize) => {
     //defino el modelo
-    sequilize.define('reservation', {
-        id: {
-            type: DataTypes.UUIDV4,
-            allowNull: false,
-            primaryKey: true
-        },
+    sequilize.define('bill', {
         date: {
             type: DataTypes.DATE,
             allowNull: false

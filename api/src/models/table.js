@@ -4,11 +4,6 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequilize) => {
     //defino el modelo
     sequilize.define('table', {
-        id: {
-            type: DataTypes.UUIDV4,
-            allowNull: false,
-            primaryKey: true
-        },
         num_Table: {
             type: DataTypes.INTEGER,
             allowNull: false
