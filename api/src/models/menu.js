@@ -7,6 +7,14 @@ module.exports = (sequilize) => {
         name: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        photo: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        description: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     })
 }
