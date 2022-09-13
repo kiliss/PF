@@ -31,7 +31,7 @@ let sequelize =
         ssl: true,
         })
     : new Sequelize(
-            `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/foods`,
+            `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/restaurant`,
             { logging: false, native: false }
         );
 
