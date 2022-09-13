@@ -7,7 +7,7 @@ const server = express();
 
 server.use(morgan('dev'));
 server.use(express.json());
-server.use('/foods', foods);
 
+server.use('/foods', foods);
 
 module.exports = server;
