@@ -1,3 +1,29 @@
 .container {
-    background-color: transparent;
+    background: white;
+    color: white;
+}
+
+.header {
+    background: linear-gradient(0deg, white 0%, #702626 50%);
+    height: 100vh;
+    display: flex;
+}
+
+.header .half {
+    width: 50vw;
+    font-size: 80px;
+    font-family: 'Cabin Sketch', cursive;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+.header .half img, .header .half div {
+    width: 100%;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
