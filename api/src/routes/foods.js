@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
     res.json(await getDBInfoo());
 });
 
-router.post('/createfood', async (req, res, next) => {
+router.post('/createfood', async (req, res, next) => {          // crear comida
     const { name, photo, summary, price, stock, menu } = req.body;
         let food = await Food.create({
             name,
@@ -38,13 +38,29 @@ router.post('/createfood', async (req, res, next) => {
         res.status(201).send("Food created");
 });
 
-router.post('/createmenu', async (req, res, next) => {
+router.post('/createmenu', async (req, res, next) => {   // Crea menu
     const { name } = req.body;
     Menu.create({
         name: name,
     });
     info = await getDBInfoo();
     res.status(201).send("Menu created");
+});
+ 
+router.post('/addfood', async (req, res, next) => {  // Agrega comidas existentes a menus existentes
+    const { food, menu } = req.body;
+    let meenu = await Menu.findOne({
+        where: {
+            name: menu
+        }
+    });
+    let foood = await Food.findOne({
+        where: {
+            name: food
+        }
+    });
+    meenu.addFood(foood);
+    res.status(201).send("Food added");
 });
 
 module.exports = router;
