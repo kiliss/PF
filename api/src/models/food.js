@@ -17,7 +17,8 @@ module.exports = (sequilize) => {
         },
         summary: {
             type: DataTypes.TEXT,
-            allowNull: false
+            allowNull: false,
+            defaultValue: 'No summary'
         }, 
         price: {
             type: DataTypes.DECIMAL,
@@ -26,7 +27,7 @@ module.exports = (sequilize) => {
         stock:{
             type:DataTypes.BOOLEAN,
             allowNull:false,
+            defaultValue:true
         }
-
     })
 }
