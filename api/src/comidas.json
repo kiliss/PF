@@ -1,0 +1,44 @@
+[
+    {
+        "menu": "Desayuno",
+        "description": "Obtén la suficiente energía que necesitaras para empezar el día.",
+        "photo": "https://images.hola.com/imagenes/cocina/noticiaslibros/20200213160483/dia-nacional-desayuno/0-782-593/portada-desayuno-adobe-m.jpg",
+        "foods": {
+            "food": [
+                {
+                    "name": "Croissant",
+                    "photo": "https://img-global.cpcdn.com/recipes/89a85ed6abb7858b/680x482cq70/croissant-francia-foto-principal.webp",
+                    "price": "$150"
+                }
+            ]
+        }
+    },
+    {
+        "menu": "Almuerzo",
+        "description": "Reabastece tu estomago con nuestra diversa selección para el almuerzo.",
+        "photo": "https://recetasespecialesdecocina.files.wordpress.com/2018/10/asado.jpg",
+        "foods": {
+            "food": [
+                {
+                    "name": "Asado",
+                    "photo": "https://recetasespecialesdecocina.files.wordpress.com/2018/10/asado.jpg",
+                    "price": "$300"
+                }
+            ]
+        }
+    },
+    {
+        "menu": "Cena",
+        "description": "Finaliza el día comiendo con nosotros recibiendo nuestra hospitalidad.",
+        "photo": "https://cdn7.kiwilimon.com/ss_secreto/3010/640x426/3010.jpg.webp",
+        "foods": {
+            "food": [
+                {
+                    "name": "Pasta",
+                    "photo": "https://cdn7.kiwilimon.com/ss_secreto/3010/640x426/3010.jpg.webp",
+                    "price": "$200"
+                }
+            ]
+        }
+    }
+]

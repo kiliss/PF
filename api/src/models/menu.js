@@ -7,10 +7,6 @@ module.exports = (sequilize) => {
         name: {
             type: DataTypes.STRING,
             allowNull: false
-        },
-        avaible: {
-            type: DataTypes.DATE,
-            allowNull: false
         }
     })
 }
