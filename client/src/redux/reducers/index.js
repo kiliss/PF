@@ -1,5 +1,5 @@
 const initialStare = {
-    menu : [],
+    menus : [],
 };
 
 function rootReducer (state= initialStare, action) {
@@ -7,7 +7,7 @@ function rootReducer (state= initialStare, action) {
         case "GET_MENUS":
             return{
                 ...state,
-                menu: action.payload
+                menus: action.payload
             }
         default:
         return state;
