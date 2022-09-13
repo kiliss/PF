@@ -4,11 +4,6 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequilize) => {
     //defino el modelo
     sequilize.define('bill', {
-        id: {
-            type: DataTypes.UUID,
-            allowNull: false,
-            primaryKey: true
-        },
         date: {
             type: DataTypes.DATE,
             allowNull: false

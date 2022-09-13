@@ -4,11 +4,6 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequilize) => {
     //defino el modelo
     sequilize.define('food', {
-        id: {
-            type: DataTypes.UUID,
-            allowNull: false,
-            primaryKey: true
-        },
         name: {
             type: DataTypes.STRING,
             allowNull: false
@@ -22,7 +17,8 @@ module.exports = (sequilize) => {
         },
         summary: {
             type: DataTypes.TEXT,
-            allowNull: false
+            allowNull: false,
+            defaultValue: 'No summary'
         }, 
         price: {
             type: DataTypes.DECIMAL,
@@ -31,7 +27,7 @@ module.exports = (sequilize) => {
         stock:{
             type:DataTypes.BOOLEAN,
             allowNull:false,
+            defaultValue:true
         }
-
     })
 }

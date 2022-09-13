@@ -3,19 +3,14 @@ const { DataTypes } = require('sequelize')
 //luego le injectamos la conexion a sequelize
 module.exports = (sequilize) => {
     //defino el modelo
-    sequilize.define('table', {
-        num_Table: {
+    sequilize.define('feedback', {
+        Valoration: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        state: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false
-        },
-        chairs: {
-            type: DataTypes.INTEGER,
+        comment: {
+            type: DataTypes.STRING,
             allowNull: false
         }
-
     })
 }

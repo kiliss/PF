@@ -4,11 +4,6 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequilize) => {
     //defino el modelo
     sequilize.define('reservation', {
-        id: {
-            type: DataTypes.UUID,
-            allowNull: false,
-            primaryKey: true
-        },
         id_User: {
             type: DataTypes.INTEGER,
             ForeingKey: true
