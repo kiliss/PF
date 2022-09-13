@@ -1,13 +1,14 @@
+require('dotenv').config();
 const express = require('express');
-const morgan = require('morgan');
-const foods = require('./routes/foods');
+const app = express();
+const cors = require('cors');
+const routes = require('./routes/foods.js');
 
-const server = express();
+app.use(cors());
 
+const http = require('http');
+const server = http.createServer(app);
 
-server.use(morgan('dev'));
-server.use(express.json());
-
-server.use('/foods', foods);
+app.use('/', routes);
 
 module.exports = server;

@@ -15,7 +15,9 @@ const getAllRecipesApi = async()=>{
     return comidas;
 }
 const getAllRecipesDb = async()=>{
-    const comidas = await getAllRecipesApi();
+    // const comidas = await getAllRecipesApi();
+    const comidas = require('../comidas.json');
+    console.log(comidas)
     return comidas
 }
 
