@@ -5,7 +5,7 @@ module.exports = (sequilize) => {
     //defino el modelo
     sequilize.define('table', {
         id: {
-            type: DataTypes.UUIDV4,
+            type: DataTypes.UUID,
             allowNull: false,
             primaryKey: true
         },
