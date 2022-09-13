@@ -62,6 +62,17 @@ router.post('/addfood', async (req, res, next) => {  // Agrega comidas existente
     meenu.addFood(foood);
     res.status(201).send("Food added");
 });
-
+router.delete("/delete:id",async (req,res)=>{
+    try {
+        const id=req.params;
+        const foodToDelete=await Food.findByPk(id)
+        if(foodToDelete!==null){
+            await foodToDelete.destroy();
+            res.json("food borrada")
+        }
+    } catch(e) {
+        return res.status(404).json("error "+e)
+    }
+})
 
 module.exports = router;
