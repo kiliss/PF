@@ -94,24 +94,24 @@ router.get('/', async (req, res) => {
     }
 });
 
-// router.get('/:name', async (req, res) => {
-//     const { name } = req.params;
-//     if(name){
-//         try{
-//             let findName=await Menu.findAll({
-//                 where:{
-//                     name:{
-//                         [Op.iLike]: `%${name}%`
-//                     }
-//                 },
-//                 include:Food
-//             })
-//             res.status(201).send(findName);
-//     }catch(error){
-//         return res.status(400).json("error "+error.message)
-//     }
+router.get('/:name', async (req, res) => {
+    const { name } = req.params;
+    if(name){
+        try{
+            let findName=await Menu.findAll({
+                where:{
+                    name:{
+                        [Op.iLike]: `%${name}%`
+                    }
+                },
+                include:Food
+            })
+            res.status(201).send(findName);
+    }catch(error){
+        return res.status(400).json("error "+error.message)
+    }
     
-// }})
+}})
 
 
 router.post('/', async (req, res) => {   // Crea menu
@@ -145,6 +145,24 @@ router.delete('/:name', async (req, res) => {
         }
     }
     catch(error){
+        return res.status(400).json("error "+error.message)
+    }
+})
+
+router.put('/:name', async (req, res) => {
+    try {
+        let menu = await Menu.findOne({
+            where: {
+                name: req.params.name
+            }
+            });
+            if (menu) {
+                await menu.update();
+                res.status(200).send("Menu updated");
+            } else {
+                res.status(404).send("Menu not found");
+            }
+    } catch (error) {
         return res.status(400).json("error "+error.message)
     }
 })
