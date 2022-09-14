@@ -94,24 +94,24 @@ router.get('/', async (req, res) => {
     }
 });
 
-// router.get('/:name', async (req, res) => {
-//     const { name } = req.params;
-//     if(name){
-//         try{
-//             let findName=await Menu.findAll({
-//                 where:{
-//                     name:{
-//                         [Op.iLike]: `%${name}%`
-//                     }
-//                 },
-//                 include:Food
-//             })
-//             res.status(201).send(findName);
-//     }catch(error){
-//         return res.status(400).json("error "+error.message)
-//     }
+router.get('/:name', async (req, res) => {
+    const { name } = req.params;
+    if(name){
+        try{
+            let findName=await Menu.findAll({
+                where:{
+                    name:{
+                        [Op.iLike]: `%${name}%`
+                    }
+                },
+                include:Food
+            })
+            res.status(201).send(findName);
+    }catch(error){
+        return res.status(400).json("error "+error.message)
+    }
     
-// }})
+}})
 
 
 router.post('/', async (req, res) => {   // Crea menu
