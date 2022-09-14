@@ -9,7 +9,7 @@ const getDBInfoo = async () => {
     return await Menu.findAll({
         include: {
             model: Food,
-            attributes: ['name', "photo", "summary", "price", "stock","bebible"],
+            attributes: ['name', "photo", "summary", "price", "stock","drinkable"],
             through: {
                 attributes: [],
             },
@@ -29,10 +29,10 @@ router.get('/', async (req, res) => {
                 include: {
                     model: Food,
                     where: {
-                        bebible: req.query.filter,
+                        drinkable: req.query.filter,
                     },
                     
-                    attributes: ['name', "photo", "summary", "price", "stock","bebible"], 
+                    attributes: ['name', "photo", "summary", "price", "stock","drinkable"], 
                     through: {
                         attributes: [],
                     },
@@ -67,9 +67,9 @@ router.get('/', async (req, res) => {
                 include: {
                     model: Food,
                     where: {
-                        bebible: req.query.filter,
+                        drinkable: req.query.filter,
                     },
-                    attributes: ['name', "photo", "summary", "price", "stock","bebible"],
+                    attributes: ['name', "photo", "summary", "price", "stock","drinkable"],
                     through: {
                         attributes: [],
                     },

@@ -13,7 +13,7 @@ const allFoods = async () => {
             summary: e.summary,
             price: e.price,
             stock: e.stock,
-            bebible: e.bebible,
+            drinkable: e.drinkable,
         }
     })
     return newFood;
@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
         if(req.query.filter && req.query.order && req.query.name){
             let foods = await Food.findAll({
                 where: {
-                bebible: req.query.filter,
+                drinkable: req.query.filter,
             },
             order: [['price', req.query.order]],
             include: {
@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
         } else if(req.query.filter && req.query.order){
             let foods = await Food.findAll({
                 where: {
-                bebible: req.query.filter,
+                drinkable: req.query.filter,
             },
             order: [['price', req.query.order]],
             include: {
@@ -51,7 +51,7 @@ router.get('/', async (req, res) => {
         } else if(req.query.filter && req.query.name){
             let foods = await Food.findAll({
                 where: {
-                bebible: req.query.filter,
+                drinkable: req.query.filter,
             },
             include: {
                 model: Menu,
@@ -77,7 +77,7 @@ router.get('/', async (req, res) => {
         } else if(req.query.filter){
             let foods = await Food.findAll({
                 where: {
-                bebible: req.query.filter,
+                drinkable: req.query.filter,
             },
             include: {
                 model: Menu,
@@ -144,7 +144,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {          // crear comida
-    const { name, photo, summary, price, stock, menu, bebible } = req.body;
+    const { name, photo, summary, price, stock, menu, drinkable } = req.body;
     try{
     findname = await Food.findOne({
         where: {
@@ -160,7 +160,7 @@ router.post('/', async (req, res) => {          // crear comida
             summary,
             price,
             stock,
-            bebible: false || bebible,
+            drinkable: false || drinkable,
         });
         let meenu = await Menu.findOne({
             where: {
