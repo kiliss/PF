@@ -42,6 +42,10 @@ router.get('/', async (req, res) => {
                 bebible: req.query.filter,
             },
             order: [['price', req.query.order]],
+            include: {
+                model: Menu,
+                attributes: ['name', "photo", "description"]
+            }
         })
         res.json(foods);
         } else if(req.query.filter && req.query.name){
@@ -75,6 +79,10 @@ router.get('/', async (req, res) => {
                 where: {
                 bebible: req.query.filter,
             },
+            include: {
+                model: Menu,
+                attributes: ['name', "photo", "description"]
+            }
         })
         res.json(foods);
 
@@ -87,11 +95,22 @@ router.get('/', async (req, res) => {
                 }
             })
             res.json(foods);
+        } else if(req.query.name){
+            let foods = await Food.findAll({
+                include: {
+                    model: Menu,
+                    where:{
+                        name: req.query.name
+                    },
+                    attributes: ['name', "photo", "description"]
+                }
+            })
+            res.json(foods);
         } else {
             let foods = await Food.findAll({
                 include: {
                     model: Menu,
-                                },
+                    },
                 attributes: ['name', "photo", "description"]
             });
             res.json(foods);
