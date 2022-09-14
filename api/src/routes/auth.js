@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-require('../passport.js');
+require('../../passport.js');
 
 
 router.get('/login/success', (req, res) => {
