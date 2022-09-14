@@ -7,7 +7,6 @@ async function loadMenus() {
 };
 
 conn.sync({ force: true }).then(async() => {
-
   await loadMenus();
   server.listen(process.env.PORT, () => {
     console.log("%s listening at 3001");
