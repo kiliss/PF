@@ -1,5 +1,6 @@
 const server = require('./src/app.js');
 const { conn, Menu } = require('./src/db.js');
+// const { conn } = require('./src/db.js');
 
 async function loadMenus() {
   const menus = require('./menus.json');
