@@ -112,17 +112,9 @@ router.get('/', async (req, res) => {
     
 // }})
 
-router.post('/createmenu', async (req, res, next) => {   // Crea menu
+
+router.post('/', async (req, res, next) => {   // Crea menu
     const { name, photo, description } = req.body;
-    try {
-    findname = await Menu.findOne({
-        where: {
-            name: name
-        }
-    });
-    if (findname) {
-        return res.status(400).send("Menu already exists");
-    }
     Menu.create({
         name: name,
         photo: photo,
@@ -134,5 +126,24 @@ router.post('/createmenu', async (req, res, next) => {   // Crea menu
         return res.status(400).json("error "+error.message)
     }
 });
+
+router.delete('/:name', async (req, res) => {
+    try{
+        const name = req.params;
+        const menuToDelete = Menu.findAll({
+            where: {
+                name:{
+                    [Op.iLike]: `%${name}%`
+                }
+            }
+        });
+        if(menuToDelete !== null){
+            await menuToDelete.destroy();
+            res.json("Menu Borrado");
+        }
+    } catch(e) {
+        return res.status(404).json("Error" + e)
+    }
+})
 
 module.exports = router;
