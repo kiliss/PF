@@ -7,19 +7,23 @@ import Login from "./components/Login";
 import Tables from "./components/Tables";
 import Table from "./components/Tables";
 import Reservation from "./components/Reservation";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <Routes>
-      <Route exact path='/' element={<Home />} />
-      <Route exact path='/menu/:id' element={<Menu />} />
-      <Route exact path='/profile' element={<Profile />} />
-      <Route exact path='/login' element={<Login />} />
-      <Route exact path='/tables' element={<Tables />} />
-      <Route exact path='/tables/:id' element={<Table />} />
-      <Route exact path='/reservation' element={<Reservation />} />
-      <Route exact path='*' element={<Navigate to="/" replace />} />
-    </Routes>
+    <>
+      <Navbar />
+      <Routes>
+        <Route exact path='/' element={<Home />} />
+        <Route exact path='/menu/:id' element={<Menu />} />
+        <Route exact path='/profile' element={<Profile />} />
+        <Route exact path='/login' element={<Login />} />
+        <Route exact path='/tables' element={<Tables />} />
+        <Route exact path='/tables/:id' element={<Table />} />
+        <Route exact path='/reservation' element={<Reservation />} />
+        <Route exact path='*' element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 }
 
