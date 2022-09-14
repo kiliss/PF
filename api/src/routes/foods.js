@@ -106,12 +106,12 @@ router.get('/', async (req, res) => {
                 }
             })
             res.json(foods);
+            
         } else {
             let foods = await Food.findAll({
                 include: {
                     model: Menu,
                     },
-                attributes: ['name', "photo", "description"]
             });
             res.json(foods);
         }
