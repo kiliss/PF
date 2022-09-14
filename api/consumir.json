@@ -1,0 +1,110 @@
+{
+    "menu": [
+        {
+            "id": 1,
+            "name": "Desayuno",
+            "description": "Obtén la suficiente energía que necesitaras para empezar el día.",
+            "photo": "https://images.hola.com/imagenes/cocina/noticiaslibros/20200213160483/dia-nacional-desayuno/0-782-593/portada-desayuno-adobe-m.jpg"
+        },
+        {
+            "id": 2,
+            "name": "Almuerzo",
+            "description": "Reabastece tu estomago con nuestra diversa selección para el almuerzo.",
+            "photo": "https://recetasespecialesdecocina.files.wordpress.com/2018/10/asado.jpg"
+        },
+        {
+            "id": 3,
+            "name": "Cena",
+            "description": "Finaliza el día comiendo con nosotros recibiendo nuestra hospitalidad.",
+            "photo": "https://cdn7.kiwilimon.com/ss_secreto/3010/640x426/3010.jpg.webp"
+        }
+    ],
+    "food": [
+        {
+            "id": 1,
+            "name": "Café",
+            "photo": "https://www.pequerecetas.com/wp-content/uploads/2014/01/cangreburguer-e1610068601953.jpg.webp",
+            "summary": "",
+            "price": 300,
+            "stock": true,
+            "drinkable": true
+        },
+        {
+            "id": 2,
+            "name": "Panqueque",
+            "photo": "https://www.pequerecetas.com/wp-content/uploads/2014/01/cangreburguer-e1610068601953.jpg.webp",
+            "summary": "",
+            "price": 240,
+            "stock": true,
+            "drinkable": false
+        },
+        {
+            "id": 3,
+            "name": "Buñuelo",
+            "photo": "https://www.pequerecetas.com/wp-content/uploads/2014/01/cangreburguer-e1610068601953.jpg.webp",
+            "summary": "",
+            "price": 100,
+            "stock": true,
+            "drinkable": false
+        },
+        {
+            "id": 4,
+            "name": "Omelet",
+            "photo": "https://www.pequerecetas.com/wp-content/uploads/2014/01/cangreburguer-e1610068601953.jpg.webp",
+            "summary": "",
+            "price": 180,
+            "stock": true,
+            "drinkable": false
+        },
+        {
+            "id": 5,
+            "name": "Malteada",
+            "photo": "https://www.pequerecetas.com/wp-content/uploads/2014/01/cangreburguer-e1610068601953.jpg.webp",
+            "summary": "",
+            "price": 290,
+            "stock": true,
+            "drinkable": true
+        },
+        {
+            "id": 6,
+            "name": "Té",
+            "photo": "https://www.pequerecetas.com/wp-content/uploads/2014/01/cangreburguer-e1610068601953.jpg.webp",
+            "summary": "",
+            "price": 250,
+            "stock": true,
+            "drinkable": true
+        }
+    ],
+    "menu_food": [
+        {
+            "id": 1,
+            "foodId": 1,
+            "menuId": 1
+        },
+        {
+            "id": 2,
+            "foodId": 2,
+            "menuId": 1
+        },
+        {
+            "id": 3,
+            "foodId": 3,
+            "menuId": 1
+        },
+        {
+            "id": 4,
+            "foodId": 4,
+            "menuId": 1
+        },
+        {
+            "id": 5,
+            "foodId": 5,
+            "menuId": 1
+        },
+        {
+            "id": 6,
+            "foodId": 6,
+            "menuId": 1
+        }
+    ]
+}
