@@ -1,30 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import style from "./style/Login.module.css";
+import { Link,useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+    const navigate = useNavigate()
+    const [error, setError] = useState('')
+    const [user, setUser] = useState({
+        username: '',
+        password: ''
+    })
+
+
+    const handleChange = (e) =>{
+        setUser({
+            ...user,
+            [e.target.name]:e.target.value
+        })
+    }
+
+    const handleGoogle = () =>{
+        window.open('http://localhost:3000/auth/google','_self')
+    }
+
     return (
         <div className={style.container}>
             <form>
                 <h1>Login</h1>
-                <div className={"stilos"}>
-                    <label>Email: </label>
+                <div >
+                    <label>Username: </label>
                     <input
-                        name='email'
-                        type="email"
-                        placeholder='email@gmail.com'
+                        name='user'
+                        type='text'
+                        placeholder='Username'
+                        onChange={handleChange}
                     />
                 </div>
 
-                <div className={"stilos"}>
+                <div >
                     <label>Password: </label>
                     <input
                         name='password'
                         type='password' id="password"
                         placeholder='******'
+                        onChange={handleChange}
                     />
                 </div>
-                <div className={"stilos"}>
+                <div >
                     <button >Login</button>
                 </div>
                 <a href='#!'>
@@ -37,6 +60,9 @@ const Login = () => {
             <Link to='/'>
                 <button>Register</button>
             </Link>
+            <div >
+                    <button onClick={handleGoogle}>Google</button>
+            </div>
         </div>
     )
 }
