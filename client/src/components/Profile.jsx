@@ -9,17 +9,22 @@ const Profile = () => {
              <div className="text-center text-3xl sm:text-5x1 md:text-7x1 font-['Cabin_Sketch'] pb-5">
                 Perfil
             </div>
-            <div className='grid mx-24'>
+            <div className='grid px-auto sm:px-40 md:px-40 lg:px-40'>
                 <div className='lg:grid lg:grid-cols-2 gap-x-6'>
-                    <div className='text-center '>
+                    <div className='text-center'>
                         <img className='m-auto h-64 w-64 rounded-full' src="https://thumbs.dreamstime.com/b/icono-masculino-de-la-imagen-del-perfil-del-avatar-del-defecto-placeholder-gris-de-la-foto-del-hombre-88414414.jpg" alt="Image Not Found" />
                         <h2 className='text-2xl'>pepe</h2>
                     </div>
                     <div className=''>
                         <div className='bg-gray-200 p-5 rounded-[15px]'>
-                        <div>
-                            <h3 className='font-bold'>NOMBRE: <span className='font-normal'>pepe</span> </h3>
-                            <h3 className='font-bold'>EMAIL: <span className='font-normal'>pepe@gmail.com</span></h3>
+                        <div className='flex justify-between'>
+                            <div>
+                                <h3 className='font-bold'>NOMBRE: <span className='font-normal'>pepe</span> </h3>
+                                <h3 className='font-bold'>EMAIL: <span className='font-normal'>pepe@gmail.com</span></h3>
+                            </div>
+                            <div>
+                                <button className='bg-gray-200 rounded-full border-none'><img className='max-h-10 max-w-10' src='https://cdn-icons-png.flaticon.com/128/15/15185.png'/> </button>
+                            </div>
                         </div>
                         <div className='mt-10'>
                             <h3 className='font-bold'>HISTORIAL DE COMIDAS: </h3>
@@ -38,9 +43,6 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
-            {/* <div>
-                <button>Config.</button>
-            </div> */}
         </div>
     )
 }
