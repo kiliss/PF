@@ -115,6 +115,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res, next) => {   // Crea menu
     const { name, photo, description } = req.body;
+    try{
     Menu.create({
         name: name,
         photo: photo,
@@ -125,6 +126,7 @@ router.post('/', async (req, res, next) => {   // Crea menu
     } catch (error) {
         return res.status(400).json("error "+error.message)
     }
+
 });
 
 router.delete('/:name', async (req, res) => {
