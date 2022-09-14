@@ -17,5 +17,8 @@ module.exports = (sequilize) => {
             allowNull: false
         }
 
-    })
-}
+    },
+    {
+      timestamps: false,
+    });
+  }

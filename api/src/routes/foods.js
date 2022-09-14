@@ -21,7 +21,7 @@ const allFoods = async () => {
 
 router.get('/', async (req, res) => {
     try{
-        if(req.query.filter && req.query.order){
+        if(req.query.filter && req.query.order && req.query.name){
             let foods = await Food.findAll({
                 where: {
                 bebible: req.query.filter,
@@ -29,20 +29,72 @@ router.get('/', async (req, res) => {
             order: [['price', req.query.order]],
             include: {
                 model: Menu,
+                where:{
+                    name: req.query.name
+                },
+                attributes: ['name', "photo", "description"]
             }
         })
         res.json(foods);
+        } else if(req.query.filter && req.query.order){
+            let foods = await Food.findAll({
+                where: {
+                bebible: req.query.filter,
+            },
+            order: [['price', req.query.order]],
+        })
+        res.json(foods);
+        } else if(req.query.filter && req.query.name){
+            let foods = await Food.findAll({
+                where: {
+                bebible: req.query.filter,
+            },
+            include: {
+                model: Menu,
+                where:{
+                    name: req.query.name
+                },
+                attributes: ['name', "photo", "description"]
+            }
+        })
+        res.json(foods);
+        } else if(req.query.order && req.query.name){
+            let foods = await Food.findAll({
+                order: [['price', req.query.order]],
+                include: {
+                    model: Menu,
+                    where:{
+                        name: req.query.name
+                    },
+                    attributes: ['name', "photo", "description"]
+                }
+            })
+            res.json(foods);
+        } else if(req.query.filter){
+            let foods = await Food.findAll({
+                where: {
+                bebible: req.query.filter,
+            },
+        })
+        res.json(foods);
+
         } else if(req.query.order){
             let foods = await Food.findAll({
                 order: [['price', req.query.order]],
                 include: {
                     model: Menu,
+                    attributes: ['name', "photo", "description"]
                 }
             })
             res.json(foods);
         } else {
-        const food = await allFoods()
-        res.json(food);
+            let foods = await Food.findAll({
+                include: {
+                    model: Menu,
+                                },
+                attributes: ['name', "photo", "description"]
+            });
+            res.json(foods);
         }
     }
     catch(error){
@@ -105,7 +157,7 @@ router.post('/', async (req, res) => {          // crear comida
 
 
  
-router.post('/tomenu', async (req, res, next) => {  // Agrega comidas existentes a menus existentes
+router.post('/tomenu', async (req, res) => {  // Agrega comidas existentes a menus existentes
     const { food, menu } = req.body;
     try{
     let meenu = await Menu.findOne({

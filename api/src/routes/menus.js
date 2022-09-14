@@ -8,9 +8,9 @@ const getDBInfoo = async () => {
     return await Menu.findAll({
         include: {
             model: Food,
-            attributes: ['name', "photo", "summary", "price", "stock","bebible"], //atributos que quiero traer del modelo Temperament, el id lo trae automatico
+            attributes: ['name', "photo", "summary", "price", "stock","bebible"],
             through: {
-                attributes: [],//traer mediante los atributos del modelo
+                attributes: [],
             },
         }
     })
@@ -31,9 +31,9 @@ router.get('/', async (req, res) => {
                         bebible: req.query.filter,
                     },
                     
-                    attributes: ['name', "photo", "summary", "price", "stock","bebible"], //atributos que quiero traer del modelo Temperament, el id lo trae automatico
+                    attributes: ['name', "photo", "summary", "price", "stock","bebible"], 
                     through: {
-                        attributes: [],//traer mediante los atributos del modelo
+                        attributes: [],
                     },
                 }
             })
@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
         catch(error){
             return res.status(400).json("error "+error.message)
         }
-        
+
     } else if(req.query.name){
         try{
             let findName=await Menu.findAll({
@@ -68,9 +68,9 @@ router.get('/', async (req, res) => {
                     where: {
                         bebible: req.query.filter,
                     },
-                    attributes: ['name', "photo", "summary", "price", "stock","bebible"], //atributos que quiero traer del modelo Temperament, el id lo trae automatico
+                    attributes: ['name', "photo", "summary", "price", "stock","bebible"],
                     through: {
-                        attributes: [],//traer mediante los atributos del modelo
+                        attributes: [],
                     },
                 }
             })

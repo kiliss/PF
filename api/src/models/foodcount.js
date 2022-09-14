@@ -8,5 +8,8 @@ module.exports = (sequilize) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-    })
-}
+    },
+    {
+      timestamps: false,
+    });
+  }
