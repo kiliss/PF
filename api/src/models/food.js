@@ -28,6 +28,11 @@ module.exports = (sequilize) => {
             type:DataTypes.BOOLEAN,
             allowNull:false,
             defaultValue:true
+        },
+        bebible:{
+            type:DataTypes.BOOLEAN,
+            allowNull:false,
+            defaultValue:false
         }
     })
 }
