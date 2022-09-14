@@ -34,5 +34,8 @@ module.exports = (sequilize) => {
             allowNull:false,
             defaultValue:false
         }
-    })
-}
+    },
+    {
+      timestamps: false,
+    });
+  }

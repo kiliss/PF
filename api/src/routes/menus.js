@@ -4,13 +4,14 @@ const router = express.Router();
 const { Menu, Food } = require("../db.js");
 
 
+
 const getDBInfoo = async () => {
     return await Menu.findAll({
         include: {
             model: Food,
-            attributes: ['name', "photo", "summary", "price", "stock","bebible"], //atributos que quiero traer del modelo Temperament, el id lo trae automatico
+            attributes: ['name', "photo", "summary", "price", "stock","bebible"],
             through: {
-                attributes: [],//traer mediante los atributos del modelo
+                attributes: [],
             },
         }
     })
@@ -31,9 +32,9 @@ router.get('/', async (req, res) => {
                         bebible: req.query.filter,
                     },
                     
-                    attributes: ['name', "photo", "summary", "price", "stock","bebible"], //atributos que quiero traer del modelo Temperament, el id lo trae automatico
+                    attributes: ['name', "photo", "summary", "price", "stock","bebible"], 
                     through: {
-                        attributes: [],//traer mediante los atributos del modelo
+                        attributes: [],
                     },
                 }
             })
@@ -43,7 +44,7 @@ router.get('/', async (req, res) => {
         catch(error){
             return res.status(400).json("error "+error.message)
         }
-        
+
     } else if(req.query.name){
         try{
             let findName=await Menu.findAll({
@@ -68,9 +69,9 @@ router.get('/', async (req, res) => {
                     where: {
                         bebible: req.query.filter,
                     },
-                    attributes: ['name', "photo", "summary", "price", "stock","bebible"], //atributos que quiero traer del modelo Temperament, el id lo trae automatico
+                    attributes: ['name', "photo", "summary", "price", "stock","bebible"],
                     through: {
-                        attributes: [],//traer mediante los atributos del modelo
+                        attributes: [],
                     },
                 }
             })
@@ -113,8 +114,9 @@ router.get('/', async (req, res) => {
 // }})
 
 
-router.post('/', async (req, res, next) => {   // Crea menu
+router.post('/', async (req, res) => {   // Crea menu
     const { name, photo, description } = req.body;
+    try{
     Menu.create({
         name: name,
         photo: photo,
@@ -125,24 +127,25 @@ router.post('/', async (req, res, next) => {   // Crea menu
     } catch (error) {
         return res.status(400).json("error "+error.message)
     }
+
 });
 
 router.delete('/:name', async (req, res) => {
     try{
-        const name = req.params;
-        const menuToDelete = Menu.findAll({
+        let menu = await Menu.findOne({
             where: {
-                name:{
-                    [Op.iLike]: `%${name}%`
-                }
+                name: req.params.name
             }
         });
-        if(menuToDelete !== null){
-            await menuToDelete.destroy();
-            res.json("Menu Borrado");
+        if (menu) {
+            await menu.destroy();
+            res.status(200).send("Menu deleted");
+        } else {
+            res.status(404).send("Menu not found");
         }
-    } catch(e) {
-        return res.status(404).json("Error" + e)
+    }
+    catch(error){
+        return res.status(400).json("error "+error.message)
     }
 })
 
