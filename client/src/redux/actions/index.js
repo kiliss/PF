@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function getMenus(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/foods");
+        var json = await axios.get("http://localhost:3001/menus");
         return dispatch({
             type: "GET_MENUS",
             payload: json.data

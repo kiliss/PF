@@ -39,13 +39,34 @@ router.get('/:name', async (req, res) => {
     
 }})
 
-router.post('/createmenu', async (req, res, next) => {   // Crea menu
-    const { name } = req.body;
+router.post('/', async (req, res, next) => {   // Crea menu
+    const { name, photo, description } = req.body;
     Menu.create({
         name: name,
+        photo: photo,
+        description: description,
     });
     info = await getDBInfoo();
     res.status(201).send("Menu created");
 });
+
+router.delete('/:name', async (req, res) => {
+    try{
+        const name = req.params;
+        const menuToDelete = Menu.findAll({
+            where: {
+                name:{
+                    [Op.iLike]: `%${name}%`
+                }
+            }
+        });
+        if(menuToDelete !== null){
+            await menuToDelete.destroy();
+            res.json("Menu Borrado");
+        }
+    } catch(e) {
+        return res.status(404).json("Error" + e)
+    }
+})
 
 module.exports = router;
