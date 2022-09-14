@@ -1,7 +1,13 @@
 const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
+const { conn, Menu } = require('./src/db.js');
 
-conn.sync({ force: false }).then(() => {
+async function loadMenus() {
+  const menus = require('./menus.json');
+  Menu.bulkCreate(menus);
+};
+
+conn.sync({ force: false }).then(async() => {
+  await loadMenus();
   server.listen(process.env.PORT, () => {
     console.log("%s listening at 3001");
   });
