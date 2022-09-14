@@ -149,4 +149,22 @@ router.delete('/:name', async (req, res) => {
     }
 })
 
+router.put('/:name', async (req, res) => {
+    try {
+        let menu = await Menu.findOne({
+            where: {
+                name: req.params.name
+            }
+            });
+            if (menu) {
+                await menu.update();
+                res.status(200).send("Menu updated");
+            } else {
+                res.status(404).send("Menu not found");
+            }
+    } catch (error) {
+        return res.status(400).json("error "+error.message)
+    }
+})
+
 module.exports = router;
