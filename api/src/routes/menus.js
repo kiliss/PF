@@ -32,6 +32,9 @@ router.get('/', async (req, res) => {
                     where: {
                         drinkable: {
                             [Op.or]: filter === "drink" ? [true] : filter === "food" ? [false] : [true, false]
+                        },
+                        vegetarian: {
+                            [Op.or]: filter === "veg" ? [true] : filter === "nonveg" ? [false] : [true, false]
                         }
                     }
                 }],

@@ -33,6 +33,16 @@ module.exports = (sequilize) => {
             type:DataTypes.BOOLEAN,
             allowNull:false,
             defaultValue:false
+        },
+        vegetarian:{
+            type:DataTypes.BOOLEAN,
+            allowNull:false,
+            defaultValue:false
+        },
+        details:{
+            type:DataTypes.TEXT,
+            allowNull:false,
+            defaultValue:'No details'
         }
     },
     {
