@@ -9,6 +9,7 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
+const reservation = require('./routes/reservation');
 
 
 const server = express();
@@ -42,6 +43,7 @@ server.use('/foods', foods);
 server.use('/menus', menus);
 server.use('/auth',auth);
 server.use('/users', users);
+server.use('/reservation', reservation);
 
 
 module.exports = server;
