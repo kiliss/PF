@@ -12,13 +12,13 @@ export function getMenus(){
 };
 
 // FILTRAR MENUS (*SE DEBE PROBAR*)
-export function getMenuFilters(data){
+export function getMenu(data){
     return async function(dispatch){
         try {
-            var json = await axios.get(`http://localhost:3001/menus?${data.name ? `name=${data.name}` : ''}${data.filter ? `&filter=${data.filter}` : ''}`);
+            var json = await axios.get(`http://localhost:3001/menus?name=${data.name}${data.filter ? `&filter=${data.filter}` : ''}${data.price ? `&price=${data.price}` : ''}`);
             return dispatch({
-                type: "GET_MENU_FILTER",
-                payload: json.data.length > 0 ? json.data[0] : {}
+                type: "GET_MENU",
+                payload: json.data
             })
         } catch (error) {
             console.log(error)

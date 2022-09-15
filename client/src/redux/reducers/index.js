@@ -12,7 +12,7 @@ function rootReducer (state= initialStare, action) {
                 ...state,
                 menus: action.payload
             }
-        case "GET_MENU_FILTER":
+        case "GET_MENU":
             return{
                 ...state,
                 menu: action.payload
