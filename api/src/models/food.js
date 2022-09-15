@@ -29,10 +29,20 @@ module.exports = (sequilize) => {
             allowNull:false,
             defaultValue:true
         },
-        bebible:{
+        drinkable:{
             type:DataTypes.BOOLEAN,
             allowNull:false,
             defaultValue:false
+        },
+        vegetarian:{
+            type:DataTypes.BOOLEAN,
+            allowNull:false,
+            defaultValue:false
+        },
+        details:{
+            type:DataTypes.TEXT,
+            allowNull:false,
+            defaultValue:'No details'
         }
     },
     {

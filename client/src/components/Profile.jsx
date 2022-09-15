@@ -1,8 +1,20 @@
 import React from 'react';
 // import style from "./style/Profile.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from 'react';
+import { getUserDetail } from '../redux/actions';
 
 const Profile = () => {
+    const dispatch = useDispatch();
     // traer datos de user
+    // const id = props.match.params.id
+
+    // useEffect(() => {
+    //     dispatch(getUserDetail(id))
+    // }, [dispatch, id])
+
+    const usuario = useSelector((state) => state.user)
+
     // traer datos de bill
     return (
         <div className="bg-gray-100 min-h-screen pt-16">
