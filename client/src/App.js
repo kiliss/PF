@@ -8,6 +8,7 @@ import Tables from "./components/Tables";
 import Table from "./components/Tables";
 import Reservation from "./components/Reservation";
 import Navbar from "./components/Navbar";
+import CreateFoods from './components/CreateFoods';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route exact path='/tables' element={<Tables />} />
         <Route exact path='/tables/:id' element={<Table />} />
         <Route exact path='/reservation' element={<Reservation />} />
+        <Route exact path='/createfoods' element={<CreateFoods />} />
         <Route exact path='*' element={<Navigate to="/" replace />} />
       </Routes>
     </>

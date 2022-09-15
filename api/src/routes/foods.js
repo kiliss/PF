@@ -144,7 +144,8 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {          // crear comida
-    const { name, photo, summary, price, stock, menu, drinkable } = req.body;
+    const { name, photo, summary, price, stock, menu, drinkable, vegetarian } = req.body;
+    console.log(req.body)
     try{
     findname = await Food.findOne({
         where: {
@@ -160,6 +161,7 @@ router.post('/', async (req, res) => {          // crear comida
             summary,
             price,
             stock,
+            vegetarian,
             drinkable: false || drinkable,
         });
         let meenu = await Menu.findOne({
@@ -170,6 +172,7 @@ router.post('/', async (req, res) => {          // crear comida
         meenu.addFood(food);
         res.status(201).send("Food created");
     } catch(error){
+
         return res.status(400).json("error "+error.message)
     }
 });

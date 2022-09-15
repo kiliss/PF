@@ -70,3 +70,14 @@ export function getFoodsFilters(name, order, filter){
         }
     }
 }
+
+export function postFood(data){
+    return async function(){
+        try {
+            var json = await axios.post("http://localhost:3001/foods", data)
+            return json
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}

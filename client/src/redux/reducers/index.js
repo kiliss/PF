@@ -31,6 +31,7 @@ function rootReducer (state= initialStare, action) {
                 ...state,
                 food: action.payload
             }
+            
         default:
         return state;
     }
