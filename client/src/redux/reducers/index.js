@@ -1,4 +1,4 @@
-const initialStare = {
+const initialState = {
     menus : [],
     menu: {},
     foods: [],
@@ -10,7 +10,7 @@ const initialStare = {
     reservation: [],
 };
 
-function rootReducer (state= initialStare, action) {
+function rootReducer (state= initialState, action) {
     switch(action.type){
         case "GET_MENUS":
             return{

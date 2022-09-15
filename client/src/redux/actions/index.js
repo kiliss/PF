@@ -112,6 +112,17 @@ export function getFoodsFilters(name, order, filter){
         }
     };
 };
+ // agregar comida a menu (*SE DEBE PROBAR*)
+export function postFood(data){
+    return async function(){
+        try {
+            var json = await axios.post("http://localhost:3001/foods", data)
+            return json
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
 
 // AGREGAR COMIDA A MENU EXISTENTE
 export function addFoodToMenu(payload){
