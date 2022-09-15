@@ -12,14 +12,14 @@ function rootReducer (state= initialStare, action) {
                 ...state,
                 menus: action.payload
             }
-        case "GET_MENU_FILTER":
+        case "GET_MENU":
             return{
                 ...state,
                 menu: action.payload
             }
         case "DELETE_MENU":
             return{
-                ...state.menus.filter((n) => m.name !== action.payload)
+                ...state.menus.filter((m) => m.name !== action.payload)
             }
         case "GET_FOODS":
             return{

@@ -29,7 +29,7 @@ module.exports = (sequilize) => {
             allowNull:false,
             defaultValue:true
         },
-        bebible:{
+        drinkable:{
             type:DataTypes.BOOLEAN,
             allowNull:false,
             defaultValue:false
