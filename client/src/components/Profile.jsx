@@ -1,5 +1,6 @@
 import React from 'react';
 // import style from "./style/Profile.module.css";
+import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
 import { getUserDetail } from '../redux/actions';
@@ -7,13 +8,14 @@ import { getUserDetail } from '../redux/actions';
 const Profile = () => {
     const dispatch = useDispatch();
     // traer datos de user
-    // const id = props.match.params.id
+    // const {id} = useParams()
 
     // useEffect(() => {
     //     dispatch(getUserDetail(id))
     // }, [dispatch, id])
 
     const usuario = useSelector((state) => state.user)
+    console.log(usuario)
 
     // traer datos de bill
     return (
@@ -24,7 +26,7 @@ const Profile = () => {
             <div className='grid px-auto sm:px-40 md:px-40 lg:px-40'>
                 <div className='lg:grid lg:grid-cols-2 gap-x-6'>
                     <div className='text-center'>
-                        <img className='m-auto h-64 w-64 rounded-full' src="https://thumbs.dreamstime.com/b/icono-masculino-de-la-imagen-del-perfil-del-avatar-del-defecto-placeholder-gris-de-la-foto-del-hombre-88414414.jpg" alt="Image Not Found" />
+                        <img className='m-auto h-64 w-64 rounded-full' src="https://img1.freepng.es/20180429/xoq/kisspng-computer-icons-user-profile-5ae60b5b563cb3.3045472715250256273532.jpg" alt="Image Not Found" />
                         <h2 className='text-2xl'>pepe</h2>
                     </div>
                     <div className=''>
