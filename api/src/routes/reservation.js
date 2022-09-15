@@ -19,7 +19,7 @@ router.get("/users",async (req,res)=>{
     res.json(await getReservation())
 })
 
-router.get("reservation/:id",async(req,res)=>{
+router.get("/:id",async(req,res)=>{
     const {id}=req.params;
     try{
         const reservations=await Reservation.findByPk(id,{
