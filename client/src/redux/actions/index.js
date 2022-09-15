@@ -215,3 +215,39 @@ export function createReservation(payload){
         }
     };
 };
+
+// LOGIN SUCCESS (*SE DEBE PROBAR(nunca hice una función para esto(agustín))*)
+export function loginSuccess(){
+    return async function(dispatch){
+        try {
+            var loginn = await axios.get("http://localhost:3001/auth/login/success")
+            return loginn.data
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
+// LOGIN FAIL (*SE DEBE PROBAR(nunca hice una función para esto(agustín))*)
+export function loginFail(){
+    return async function(dispatch){
+        try {
+            var loginx = await axios.get("http://localhost:3001/auth/login/failed")
+            return loginx.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+// LOGOUT (*SE DEBE PROBAR(nunca hice una función para esto(agustín))*)
+export function logout(){
+    return async function(dispatch){
+        try {
+            var logoutt = await axios.get("http://localhost:3001/auth/logout")
+            return logoutt
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
