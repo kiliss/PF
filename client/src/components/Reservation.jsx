@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+/*import React, { useEffect, useState } from "react";
 import style from "./style/Reservation.module.css";
 import { useDispatch, useSelector } from "react-redux";
 const Reservations = () => {
@@ -91,4 +91,4 @@ const validationForm=(input)=>{
 }
 
 
-export default Reservations;
+export default Reservations;*/
