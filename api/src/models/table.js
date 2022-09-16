@@ -4,6 +4,11 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequilize) => {
     //defino el modelo
     sequilize.define('table', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
         num_Table: {
             type: DataTypes.INTEGER,
             allowNull: false
@@ -18,7 +23,8 @@ module.exports = (sequilize) => {
         }
 
     },
-    {
-      timestamps: false,
-    });
-  }
+        {
+            timestamps: false,
+            initialAutoIncrement: 1000
+        });
+}
