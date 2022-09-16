@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequilize) => {
     //defino el modelo
     sequilize.define('feedback', {
-        Valoration: {
+        valoration: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
