@@ -7,6 +7,8 @@ const initialState = {
     user: [],
     reservations: [],
     reservation: [],
+    table:[],
+    tables:[],
 };
 
 function rootReducer (state= initialState, action) {
@@ -78,6 +80,16 @@ function rootReducer (state= initialState, action) {
         case "CREATE_RESERVATION":
             return{
                 ...state
+            }
+        case "GET_TABLE":
+            return{
+                ...state,
+                table:action.payload
+            }
+        case "GET_TABLES":
+            return{
+                ...state,
+                tables: action.payload
             }
         default:
         return state;
