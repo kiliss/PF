@@ -4,7 +4,7 @@ const initialState = {
     foods: [],
     food: {},
     users: [],
-    user: [],
+    user: {},
     reservations: [],
     reservation: [],
     table:[],

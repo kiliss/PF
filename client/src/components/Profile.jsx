@@ -15,13 +15,13 @@ const Profile = () => {
     }, [dispatch, id])
     
     const usuario = useSelector((state) => state.user)
-    console.log(usuario)
+    console.log(Object.keys(usuario))
 
     // traer datos de bill
     return (
         <div>
             {
-            usuario? 
+            usuario ? 
                 <div className="bg-gray-100 min-h-screen pt-16">
                 <div className="text-center text-3xl sm:text-5x1 md:text-7x1 font-['Cabin_Sketch'] pb-5">
                     Perfil
@@ -46,13 +46,17 @@ const Profile = () => {
                             <div className='mt-10'>
                                 <h3 className='font-bold'>HISTORIAL DE COMIDAS: </h3>
                                 <ul className='flex flex-col bg-gray-300 rounded-[15px]'>
-                                    <li className='flex justify-between m-2'>
-                                        <span>Hamburguesa completa $900</span>
-                                        <button className='bg-red-700 hover:bg-red-900 text-white rounded-full w-24 '>Feedback</button>
+                                    <li>
+                                        <div className='flex justify-between m-2'>
+                                            <span className='max-w-xs'>Hamburguesa completa $900</span>
+                                            <button className='bg-red-700 hover:bg-red-900 text-white rounded-full max-w-sm max-h-6 px-2'>Feedback</button>
+                                        </div>
                                     </li> 
-                                    <li className='flex justify-between m-2'>
-                                        <span>Milanesa a la napolitana con fritas $1400</span> 
-                                        <button className='bg-red-700 hover:bg-red-900 text-white rounded-full w-24'>Feedback</button>
+                                    <li>
+                                        <div className='flex justify-between m-2'>
+                                            <span className='max-w-xs'>Milanesa a la napolitana con fritas $1400</span> 
+                                            <button className='bg-red-700 hover:bg-red-900 text-white rounded-full max-w-sm max-h-6 px-2'>Feedback</button>
+                                        </div>
                                     </li> 
                                 </ul>
                             </div>
