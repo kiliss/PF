@@ -4,6 +4,11 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequilize) => {
     //defino el modelo
     sequilize.define('reservation', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
         id_User: {
             type: DataTypes.INTEGER,
             ForeingKey: true
@@ -31,7 +36,8 @@ module.exports = (sequilize) => {
         }
 
     },
-    {
-      timestamps: false,
-    });
-  }
+        {
+            timestamps: false,
+            initialAutoIncrement: 1000
+        });
+}

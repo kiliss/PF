@@ -3,11 +3,12 @@ const initialState = {
     menu: {},
     foods: [],
     food: {},
-    foodDetail: [],
     users: [],
     user: [],
     reservations: [],
     reservation: [],
+    table:[],
+    tables:[],
 };
 
 function rootReducer (state= initialState, action) {
@@ -35,12 +36,7 @@ function rootReducer (state= initialState, action) {
                 ...state,
                 foods: action.payload
             }
-        case "GET_FOOD_DETAIL":
-            return{
-                ...state,
-                foodDetail: action.payload
-            }
-        case "GET_FOOD_FILTER":
+        case "GET_FOOD":
             return{
                 ...state,
                 food: action.payload
@@ -80,6 +76,16 @@ function rootReducer (state= initialState, action) {
         case "CREATE_RESERVATION":
             return{
                 ...state
+            }
+        case "GET_TABLE":
+            return{
+                ...state,
+                table:action.payload
+            }
+        case "GET_TABLES":
+            return{
+                ...state,
+                tables: action.payload
             }
         default:
         return state;

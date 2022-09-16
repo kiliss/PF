@@ -4,7 +4,12 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequilize) => {
     //defino el modelo
     sequilize.define('feedback', {
-        Valoration: {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        valoration: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
@@ -13,7 +18,8 @@ module.exports = (sequilize) => {
             allowNull: false
         }
     },
-    {
-      timestamps: false,
-    });
-  }
+        {
+            timestamps: false,
+            initialAutoIncrement: 1000
+        });
+}
