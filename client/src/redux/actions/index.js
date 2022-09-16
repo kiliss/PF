@@ -223,6 +223,40 @@ export function createTable(payload){
         }
     }
 }
+// OBTENER BILLS (*SE DEBE PROBAR*)
+export function getBill(){
+    return async function(dispatch){
+        var json = await axios.get("http://localhost:3001/bill/");
+        return dispatch({
+            type: "GET_BILLS",
+            payload: json.data
+        })
+    };
+};
+export function getBillDetail(id){
+    return async function(dispatch){
+        try {
+            var json = await axios.get("http://localhost:3001/bill/"+id)
+                return dispatch({
+                    type: "GET_BILL",
+                    payload: json.data
+                })
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+//CREAR UNA BILL(*SE DEBE PROBAR)
+export function createBill(payload){
+    return async function(dispatch){
+        try {
+            var json =await axios.post("http://localhost:3001/bill", payload)
+            return json;
+        } catch (error) {
+            console.log (error)
+        }
+    }
+}
 // OBTENER RESERVAS (*SE DEBE PROBAR*)
 export function getReservations(){
     return async function(dispatch){
