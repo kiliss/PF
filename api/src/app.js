@@ -16,7 +16,7 @@ const feedbacks = require('./routes/feedbacks');
 
 
 const server = express();
-// const cors = require('cors');
+const cors = require('cors');
 
 
 // server.use(cookieSession({
@@ -32,6 +32,7 @@ const server = express();
 //     methods: 'GET,POST,PUT,DELETE',
 //     credentials: true,
 // }));
+server.use(cors())
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 

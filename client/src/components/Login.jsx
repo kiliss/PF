@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const Login = () => {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [user, setUser] = useState({
         email: "",
         password: ""
@@ -25,6 +25,7 @@ const Login = () => {
             console.log('no enviar');
         } else {
             let res = await axios.post("http://localhost:3001/login", user);
+            navigate(`/`);
             console.log(res.data);
         }
     }
@@ -43,7 +44,7 @@ const Login = () => {
         <div className="btn-wrapper text-center">
           <button className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150" type="button">
             <img alt="..." className="w-5 mr-1" src="https://demos.creative-tim.com/notus-js/assets/img/github.svg"/>Github</button>
-          <button className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150" type="button" onClick={handleGoogle}>
+          <button className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150" type="button" >
             <img alt="..." className="w-5 mr-1" src="https://demos.creative-tim.com/notus-js/assets/img/google.svg"/>Google </button>
 
         </div>
@@ -53,9 +54,9 @@ const Login = () => {
         <div className="text-blueGray-400 text-center mb-3 font-bold">
           <small>Or sign in with credentials</small>
         </div>
-        <form>
+        <form >
           <div className="relative w-full mb-3">
-            <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">Email</label><input name="username" value={user.username} type="email" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="Email" onChange={(e)=> handleChange(e)}/>
+            <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">Email</label><input name="email" value={user.email} type="email" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="Email" onChange={(e)=> handleChange(e)}/>
           </div>
           <div className="relative w-full mb-3">
             <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">Password</label><input name="password" value={user.password} type="password" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="Password" onChange={(e)=> handleChange(e)}/>
@@ -64,7 +65,7 @@ const Login = () => {
             <label className="inline-flex items-center cursor-pointer"><input id="customCheckLogin" type="checkbox" className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"/><span className="ml-2 text-sm font-semibold text-blueGray-600">Remember me</span></label>
           </div>
           <div className="text-center mt-6">
-            <button className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150 text-black" type="button"> Sign In </button>
+            <button className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150 text-black" type="button" onClick={handleSubmit}> Sign In </button>
           </div>
         </form>
       </div>
