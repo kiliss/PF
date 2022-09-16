@@ -1,6 +1,8 @@
-/*import React, { useEffect, useState } from "react";
+/* import React, { useEffect, useState } from "react";
 import style from "./style/Reservation.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom"
+import {getTable} from "../redux/actions/index"
 const Reservations = () => {
     const dispatch=useDispatch()
     const navigate = useNavigate()
@@ -10,11 +12,12 @@ const Reservations = () => {
         price: "",
         id_Table: "",
         id_User:"",
+        tables:[]
     })
     const [errors,setErrors]=useState({});
-    const  table=useSelector((state)=>state.table).sort((a,b)=>a.num_Table.localeCompare(b.num_Table))
+    const  tables=useSelector((state)=>state.table).sort((a,b)=>a.num_Table.localeCompare(b.num_Table))
     useEffect(()=>{
-        dispatch()
+        dispatch(getTable())
     })
     function handleSubmit(e) {
         e.preventDefault();
@@ -30,12 +33,29 @@ const Reservations = () => {
 
         }
     }
-        
+    function handleSelect(e) {
+        if (input.tables.includes(e.target.value)) {
+            alert(`The table ${e.target.value} has already been selected`)
+        } else {
+            setInput({
+                ...input,
+                tables: [...input.tables, e.target.value]
+            });
+            setErrors(
+                validationForm({
+                    ...input,
+                    tables: [...input.tables, e.target.value]
+                })
+            );
+        }
+    }
     return (
         <div className={style.container}>
             Reservations
             <form className={create-form} onSubmit={(e) => handleSubmit(e)}>
-                <h1 className={create-title}>reservate your table</h1>
+               
+            
+            <h1 className={create-title}>reservate your table</h1>
                 <input className={input-form}
                  type="text"
                  name='hour'
@@ -56,13 +76,13 @@ const Reservations = () => {
               <option hidden value=''>
                 Select table
               </option>
-              {table.map((e) => (
-                <option key={e.id} value={e.num_Table} name={e.num_Table}>
-                  {e.num_Table}
+              {tables.map((e) => (
+                <option key={e.id} value={e.num_Tables} name={e.num_Tables}>
+                  {e.num_Tables}
                 </option>
               ))}
             </select>
-            {errors.table && <p className='form-error'>{errors.table}</p>}
+            {errors.id_Table && <p className='form-error'>{errors.id_Table}</p>}
             
             <button className='btn-submit' type='submit'>
               reservate
