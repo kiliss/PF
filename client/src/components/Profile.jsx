@@ -1,6 +1,6 @@
 import React from 'react';
 // import style from "./style/Profile.module.css";
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
 import { getUserDetail, getUsers } from '../redux/actions';
@@ -8,6 +8,7 @@ import { getUserDetail, getUsers } from '../redux/actions';
 const Profile = () => {
     const dispatch = useDispatch();
     // traer datos de user
+    const navigate = useNavigate()
     const {id} = useParams()
 
     useEffect(() => {
@@ -15,13 +16,12 @@ const Profile = () => {
     }, [dispatch, id])
     
     const usuario = useSelector((state) => state.user)
-    console.log(Object.keys(usuario))
 
     // traer datos de bill
     return (
         <div>
             {
-            usuario ? 
+            Object.keys(usuario).length ? 
                 <div className="bg-gray-100 min-h-screen pt-16">
                 <div className="text-center text-3xl sm:text-5x1 md:text-7x1 font-['Cabin_Sketch'] pb-5">
                     Perfil
@@ -65,7 +65,10 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
-            : <p>No existe un usuario con ese ID</p>
+            :
+            <div>
+                <p>No existe un usuario con ese ID</p>
+            </div>
             }
         </div>
     )
