@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { Feedback, User, Bill, Order } = require('../db.js');
-const food = require('../models/food.js');
 
 router.get('/', async (req, res) => {
     try {
@@ -29,9 +28,9 @@ router.post('/', async (req, res) => {
             comment
         })
 
-        const findBill = await Bill.finByPk(id,{
-            include:{
-                model: Order
+        const findBill = await Bill.findOne({
+            where:{
+                id: id
             }
         })
 
