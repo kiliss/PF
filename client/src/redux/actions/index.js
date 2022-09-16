@@ -154,7 +154,7 @@ export function deleteFood(id){
 // OBTENER USERS (*SE DEBE PROBAR*)
 export function getUsers(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/users/users");
+        var json = await axios.get("http://localhost:3001/users");
         return dispatch({
             type: "GET_USERS",
             payload: json.data
