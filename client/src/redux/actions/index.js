@@ -112,6 +112,17 @@ export function getFoodsFilters(name, order, filter){
         }
     };
 };
+ // agregar comida a menu (*SE DEBE PROBAR*)
+export function postFood(data){
+    return async function(){
+        try {
+            var json = await axios.post("http://localhost:3001/foods", data)
+            return json
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
 
 // AGREGAR COMIDA A MENU EXISTENTE
 export function addFoodToMenu(payload){
@@ -143,7 +154,7 @@ export function deleteFood(id){
 // OBTENER USERS (*SE DEBE PROBAR*)
 export function getUsers(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/users/users");
+        var json = await axios.get("http://localhost:3001/users");
         return dispatch({
             type: "GET_USERS",
             payload: json.data
@@ -210,6 +221,42 @@ export function createReservation(payload){
         try {
             var json = await axios.post("http://localhost:3001/reservation", payload)
             return json;
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
+// LOGIN SUCCESS (*SE DEBE PROBAR(nunca hice una función para esto(agustín))*)
+export function loginSuccess(){
+    return async function(dispatch){
+        try {
+            var loginn = await axios.get("http://localhost:3001/auth/login/success")
+            return loginn.data
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
+// LOGIN FAIL (*SE DEBE PROBAR(nunca hice una función para esto(agustín))*)
+export function loginFail(){
+    return async function(dispatch){
+        try {
+            var loginx = await axios.get("http://localhost:3001/auth/login/failed")
+            return loginx.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+// LOGOUT (*SE DEBE PROBAR(nunca hice una función para esto(agustín))*)
+export function logout(){
+    return async function(dispatch){
+        try {
+            var logoutt = await axios.get("http://localhost:3001/auth/logout")
+            return logoutt
         } catch (error) {
             console.log(error)
         }

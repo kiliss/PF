@@ -1,5 +1,6 @@
 const express = require('express');
 require('dotenv').config();
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const foods = require('./routes/foods');
 const menus = require('./routes/menus');
@@ -24,11 +25,13 @@ server.use(passport.initialize());
 server.use(passport.session({}));
 
 server.use(cors({
-    origin:'http://localhost:3001',
+    origin:'*',
     methods: 'GET,POST,PUT,DELETE',
     credentials: true,
 }));
-server.use(cors());
+server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+server.use(bodyParser.json({ limit: '50mb' }));
+
 server.use(morgan('dev'));
 server.use(express.json());
 

@@ -5,19 +5,18 @@ const {User,Feedback} = require('../db.js');
 
 const getDbUsers=async()=>{
     return await User.findAll({
+        attributes:['id','user','password','email','photo','admin'],
         include:{
             model:Feedback,
             attributes:['valoration','comment'],
-            through:{
-                attributes:['user','password','email','photo','admin']
-            }
         }
     })
 }
 
-router.get("/users",async (req,res)=>{
+router.get("/",async (req,res)=>{
     res.json(await getDbUsers())
 })
+
 router.get("/:id", async (req,res)=>{
     const {id}=req.params;
     try{
@@ -26,11 +25,15 @@ router.get("/:id", async (req,res)=>{
                 model:Feedback,
             }
         })
-        ?res.status(200).json(users)
-        :res.status(404).json("Error in user by id")
+        if(users === null){
+            res.status(404).send("No se encontro usuario con ese ID")
+        } else {
+            res.status(200).json(users)
+        }
+        
     } catch(error){
         console.log("/routes/users/:id get error",error);
-      res.status(500).json({error:"ID_ERROR",description: "Error found ID"} )
+        res.status(500).json({error:"ID_ERROR",description: "Error found ID"} )
         }
 })
 
@@ -44,7 +47,7 @@ router.post('/', async (req, res) => {
             photo: photo,
             admin: admin
             })
-            ?res.status(200).json("El usuario ha sido creado correctamente", usser)
+            ?res.status(200).json("El usuario ha sido creado correctamente")
            :res.status(403).json("El usuario no se ha creado");
     }catch (error) {
         res.status(403).json(error)
