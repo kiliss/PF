@@ -12,6 +12,7 @@ require('./auth/passport');
 const login = require('./routes/login');
 const users = require('./routes/users');
 const reservation = require('./routes/reservation');
+const feedbacks = require('./routes/feedbacks');
 
 
 const server = express();
