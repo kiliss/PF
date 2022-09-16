@@ -4,6 +4,11 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequilize) => {
     //defino el modelo
     sequilize.define('menu', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
         name: {
             type: DataTypes.STRING,
             allowNull: false
@@ -17,7 +22,8 @@ module.exports = (sequilize) => {
             allowNull: false
         }
     },
-    {
-      timestamps: false,
-    });
-  }
+        {
+            timestamps: false,
+            initialAutoIncrement: 1000
+        });
+}

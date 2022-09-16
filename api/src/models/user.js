@@ -4,6 +4,11 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequilize) => {
     //defino el modelo
     sequilize.define('user', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
         user: {
             type: DataTypes.STRING,
             allowNull: false
@@ -16,17 +21,18 @@ module.exports = (sequilize) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        photo:{
+        photo: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        admin:{
+        admin: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
         }
     },
-    {
-      timestamps: false,
-    });
-  }
+        {
+            timestamps: false,
+            initialAutoIncrement: 1000
+        });
+}

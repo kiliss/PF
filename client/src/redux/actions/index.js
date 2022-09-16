@@ -188,7 +188,41 @@ export function createUser(payload){
         }
     };
 };
-
+// OBTENER DETALLE DE USER POR ID (*SE DEBE PROBAR*)
+export function getTableDetail(id){
+    return async function(dispatch){
+        try {
+            var json = await axios.get("http://localhost:3001/table/"+id)
+                return dispatch({
+                    type: "GET_TABLE",
+                    payload: json.data
+                })
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+// OBTENER tables (*SE DEBE PROBAR*)
+export function getTable(){
+    return async function(dispatch){
+        var json = await axios.get("http://localhost:3001/table/table");
+        return dispatch({
+            type: "GET_TABLES",
+            payload: json.data
+        })
+    };
+};
+//CREAR UNA MESA(*SE DEBE PROBAR)
+export function createTable(payload){
+    return async function(dispatch){
+        try {
+            var json =await axios.post("http://localhost:3001/table", payload)
+            return json;
+        } catch (error) {
+            console.log (error)
+        }
+    }
+}
 // OBTENER RESERVAS (*SE DEBE PROBAR*)
 export function getReservations(){
     return async function(dispatch){
