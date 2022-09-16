@@ -22,7 +22,7 @@ const Login = () => {
     }
 
     const handleGoogle = () =>{
-        window.open('http://localhost:3000/auth/google','_self')
+        window.open('http://localhost:3001/auth/google','_self')
     }
 
     return (
