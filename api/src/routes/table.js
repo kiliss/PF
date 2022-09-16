@@ -44,13 +44,13 @@ router.get("/:id",async(req,res)=>{
 router.post('/table', async (req,res)=>{
     const {num_Table,state,chairs}=req.body;
     try{
-        const reservation=await Reservation.create({
+        const table=await Table.create({
             num_Table:num_Table,
             state:state,
             chairs:chairs
         }
         )
-        ?res.status(200).json("La mesa ha sido creado correctamente", reservation)
+        ?res.status(200).json("La mesa ha sido creado correctamente", table)
            :res.status(403).json("La mesa no se ha creado");
     }catch(error){
         res.status(403).json(error)
