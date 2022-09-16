@@ -28,7 +28,7 @@ function rootReducer (state= initialState, action) {
             }
         case "DELETE_MENU":
             return{
-                ...state.menus.filter((n) => m.name !== action.payload)
+                ...state.menus.filter((m) => m.name !== action.payload)
             }
         case "GET_FOODS":
             return{
