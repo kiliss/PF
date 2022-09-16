@@ -3,7 +3,6 @@ const initialState = {
     menu: {},
     foods: [],
     food: {},
-    foodDetail: [],
     users: [],
     user: [],
     reservations: [],
@@ -39,12 +38,7 @@ function rootReducer (state= initialState, action) {
                 ...state,
                 foods: action.payload
             }
-        case "GET_FOOD_DETAIL":
-            return{
-                ...state,
-                foodDetail: action.payload
-            }
-        case "GET_FOOD_FILTER":
+        case "GET_FOOD":
             return{
                 ...state,
                 food: action.payload

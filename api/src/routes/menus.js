@@ -18,7 +18,7 @@ const getDBInfoo = async () => {
 };
 
 router.get('/', async (req, res) => {
-    const { name, filter = "both", price = 'id' } = req.query;
+    const { name, filter = '', price = '', vegetarian = '' } = req.query;
     try {
         if (name) {
             let menu = await Menu.findOne({
@@ -31,10 +31,10 @@ router.get('/', async (req, res) => {
                     model: Food,
                     where: {
                         drinkable: {
-                            [Op.or]: filter === "drink" ? [true] : filter === "food" ? [false] : [true, false]
+                            [Op.or]: filter === 'drink' ? [true] : filter === 'food' ? [false] : [true, false]
                         },
                         vegetarian: {
-                            [Op.or]: filter === "veg" ? [true] : filter === "nonveg" ? [false] : [true, false]
+                            [Op.or]: vegetarian === 'true' ? [true] : vegetarian === 'false' ? [false] : [true, false]
                         }
                     }
                 }],
@@ -42,14 +42,12 @@ router.get('/', async (req, res) => {
                     price.toUpperCase() === "ASC" || price.toUpperCase() === "DESC" ? [Food, 'price', price.toUpperCase()] : [Food, 'id', 'DESC']
                 ]
             });
-            if(!menu) throw "menu not found";
             return res.status(201).send(menu);
         } else {
             return res.status(201).send(await Menu.findAll());
         }
-    }
-    catch (err) {
-        return res.status(400).json(err)
+    } catch (err) {
+        return res.status(400).json("error " + err.message)
     }
 })
 

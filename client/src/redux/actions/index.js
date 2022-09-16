@@ -15,7 +15,7 @@ export function getMenus(){
 export function getMenu(data){
     return async function(dispatch){
         try {
-            var json = await axios.get(`http://localhost:3001/menus?name=${data.name}${data.filter ? `&filter=${data.filter}` : ''}${data.price ? `&price=${data.price}` : ''}`);
+            var json = await axios.get(`http://localhost:3001/menus?name=${data.name}${data.filter ? `&filter=${data.filter}` : ''}${data.price ? `&price=${data.price}` : ''}${data.vegetarian ? `&vegetarian=${data.vegetarian}` : ''}`);
             return dispatch({
                 type: "GET_MENU",
                 payload: json.data
@@ -84,12 +84,12 @@ export function getFoods(){
 };
 
 // OBTENER DETALLES DE COMIDAS POR ID (*SE DEBE PROBAR)
-export function getFoodDetail(id){
+export function getFood(id){
     return async function(dispatch){
         try {
             var json = await axios.get("http://localhost:3001/foods/"+id)
                 return dispatch({
-                    type: "GET_FOOD_DETAIL",
+                    type: "GET_FOOD",
                     payload: json.data
                 })
         } catch (error) {
@@ -104,7 +104,7 @@ export function getFoodsFilters(name, order, filter){
         try {
             var json = await axios.get(`http://localhost:3001/foods?${name ? `name=${name}`: ''}${order ? `&order=${order}` : ''}${filter ? `&filter=${filter}` : ''}`)
             return dispatch({
-                type: "GET_FOOD_FILTER",
+                type: "GET_FOOD",
                 payload: json.data.length > 0 ? json.data[0] : {}
             })
         } catch (error) {
