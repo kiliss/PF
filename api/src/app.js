@@ -67,7 +67,7 @@ server.use('/menus', menus);
 server.use('/users', users);
 server.use('/reservation', reservation);
 server.use('/login', login);
-
+server.use('/feedbacks',feedbacks);
 
 module.exports = server;
 
