@@ -19,6 +19,7 @@ const Login = () => {
         setUser(newDatos);
     }
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!e.target.checkValidity()) {
@@ -28,6 +29,10 @@ const Login = () => {
             navigate(`/`);
             console.log(res.data);
         }
+
+    // const handleGoogle = () =>{
+    //     window.open('http://localhost:3001/auth/google','_self')
+
     }
     return (
         <div className="mt-11">

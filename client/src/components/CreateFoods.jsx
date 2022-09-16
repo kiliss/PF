@@ -1,13 +1,16 @@
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import { postFood, getMenus } from "../redux/actions";
+import { postFood, getMenus, getFoods } from "../redux/actions";
 
 
-function validate(input, photo){
+function validate(input, findedName=""){
   const errors = {}
   if(!input.name){
     errors.name = 'Se requiere un nombre*'
+  }
+  if(findedName === true){
+    errors.name = 'El nombre ya existe'
   }
   if(input.name.charAt(0) === " "){
     errors.name = 'No se permiten espacios al inicio*'
@@ -57,24 +60,35 @@ export default function CreateFoods() {
 
 
   const menus = useSelector((state) => state.menus);
+  const foods = useSelector((state) => state.foods);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(getMenus());
+    dispatch(getFoods());
   }, [dispatch]);
 
 
+  const findName = (name) => {
+    if(foods.find((food) => food.name === name)){
+      return true
+    }
+  }
+  
   const handleInputChange = function (e) {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
+    let findedName = findName(e.target.value)
     setError(validate({
       ...input,
       [e.target.name]: e.target.value,
-    }));
-
+    }, findedName));
   };
+
+ 
+
 
   const handleCheckboxChange = function (e) {
     setInput({
