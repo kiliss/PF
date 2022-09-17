@@ -1,7 +1,63 @@
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import { postFood, getMenus } from "../redux/actions";
+import { postFood, getMenus, getFoods } from "../redux/actions";
+
+
+function validate(input, findedName="", photo, state, state2){
+  const errors = {}
+  if(state2 === "validate2"){
+    if(input.name.length < 3){
+      errors.name = 'El nombre debe tener al menos 3 caracteres*'
+    }
+    if(!input.name){
+      errors.name = 'Se requiere un nombre*'
+    }
+    if(!input.price){
+      errors.price = 'Se requiere un precio*'
+    }
+    if(!input.summary){
+      errors.description = 'Se requiere una descripción*'
+    }
+    if(!input.menu){
+      errors.menu = 'Se requiere un menu*'
+    }
+    if(photo.length === 0){
+      errors.photo = "Se requiere una imagen"
+    }
+    if(input.summary.length < 10){
+      errors.description = 'La descripción debe tener al menos 10 caracteres*'
+    }
+  }
+  if(state === "validate"){
+    if(findedName === true){
+      errors.name = 'El nombre ya existe'
+    }
+    if(input.name.charAt(0) === " "){
+      errors.name = 'No se permiten espacios al inicio*'
+    }
+    if(input.name.length > 30){
+      errors.name = 'El nombre no puede superar los 30 caracteres*'
+    }
+    if(input.price < 0){
+      errors.price = 'El precio no puede ser negativo*'
+    }
+    if(input.summary.length > 200){
+      errors.description = 'La descripción no puede superar los 200 caracteres*'
+    }
+    if(input.price > 999999){
+      errors.price = 'El precio no puede superar los 6 digitos*'
+    }
+    if(input.name.substr(-1) === " "){
+      errors.name = 'No se permiten espacios al final*'
+    }
+  }
+  return errors
+}
+
+
+
+
 
 export default function CreateFoods() {
   const dispatch = useDispatch();
@@ -16,29 +72,59 @@ export default function CreateFoods() {
     vegetarian: false,
     stock: true
   });
+  const [error, setError] = useState({});
+
 
   const menus = useSelector((state) => state.menus);
+  const foods = useSelector((state) => state.foods);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     dispatch(getMenus());
+    dispatch(getFoods());
   }, [dispatch]);
+
+
+  const findName = (name) => {
+    if(foods.find((food) => food.name.toLowerCase() === name.toLowerCase())){
+      return true
+    }
+  }
+  
   const handleInputChange = function (e) {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
+    let findedName = findName(e.target.value)
+    setError(validate({
+      ...input,
+      [e.target.name]: e.target.value,
+    }, findedName, photo, "validate"));
   };
+
+ 
+
+
   const handleCheckboxChange = function (e) {
     setInput({
       ...input,
       [e.target.name]: e.target.checked,
     });
-
   };
+
   const handleSubmit = function (e) {
     e.preventDefault();
-    dispatch(postFood({...input, photo: photo}));
-    alert("Food created");
+    let findedName = findName(input.name)
+    const aux = validate(input, findedName, photo, "validate", "validate2")
+    setError(aux);
+    if(Object.keys(aux).length === 0){
+      dispatch(postFood({...input, photo: photo}));
+      alert("Food created");
+      navigate("/");
+    } else {
+      alert("Complete todos los campos");
+    }
   };
 
   const uploadImage = async (e) => {
@@ -62,8 +148,8 @@ export default function CreateFoods() {
 
     return (
         <div className= "mt-20 mb-10" >
-          <div className="md:grid md:grid-cols-3 md:gap-6 ">
-            <div className="mt-5 md:col-span-2 md:mt-0 ml-4 ">
+          <div className="flex justify-center">
+            <div className="mt-5 md:col-span-2 md:mt-0 ml-4 w-3/6">
               <form onSubmit={(e) => handleSubmit(e)}>
                 <div className="shadow sm:overflow-hidden sm:rounded-md ">
                   <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
@@ -76,6 +162,7 @@ export default function CreateFoods() {
         <div className="mb-3">
             <label className="block text-sm font-medium text-gray-700">Nombre</label>
             <input type="text" value= {input.name} name= "name" placeholder="Hamburguesa" onChange={(e) => handleInputChange(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            {error.name && <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {error.name} </span>}
         </div>
                       </div>
                       <div>
@@ -94,6 +181,7 @@ export default function CreateFoods() {
           value= {input.price} onChange={(e) => handleInputChange(e)}
         />
       </div>
+        {error.price && <p className="font-medium tracking-wide text-red-500 text-xs mb-1 ml-1"> {error.price} </p>}
     </div>
                       </div>
                     </div>
@@ -110,6 +198,7 @@ export default function CreateFoods() {
                           placeholder="Tomate, lechuga, queso, etc."
                           value= {input.summary} onChange={(e) => handleInputChange(e)}
                         />
+                        {error.description && <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {error.description} </span>}
                       </div>
                       <p className="mt-2 text-sm text-gray-500">
                         Ingrese los detalles de los ingredientes de la comida.
@@ -167,12 +256,14 @@ export default function CreateFoods() {
                             ))
                           }
                         </select>
+                        {error.menu && <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {error.menu} </span>}
                     </div>
   
 
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Ingresar Imagen</label>
+                    <label className="block text-sm font-medium text-gray-700">Ingresar Imagen*</label>
+                    {error.photo && <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {error.photo} </span>}
                     <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
                       <div className="space-y-1 text-center">
                         <svg
@@ -193,26 +284,23 @@ export default function CreateFoods() {
                           <label
                             className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
                           >
-                            <span>Upload a file</span>
+                            <span>Subir foto</span>
                             <input name="photo" type="file" value={input.photo} onChange={uploadImage} className="sr-only" />
                           </label>
-                          {
-                            loading ? null : <img src={photo} style={{width: '300px'}}  alt= "Food imag"/>
-                          }
-                          <p className="pl-1">or drag and drop</p>
+                          <p className="pl-1">para la comida</p>
                         </div>
                           <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                          
                         </div>
+                        {
+                            loading ? null : <img src={photo} style={{width: '300px'}}  alt= "Food imag" className="ml-4 rounded-2xl border-2 border-gray-700"/>
+                          }
                       </div>
                     </div>
                   </div>
+                  
                   <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                    <button
-                      type="submit"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                      Save
-                    </button>
+                  <button type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save</button>
                   </div>
                 </div>
               </form>

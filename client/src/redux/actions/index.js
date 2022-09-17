@@ -124,7 +124,7 @@ export function postFood(data){
 export function addFoodToMenu(payload){
     return async function(dispatch){
         try {
-            var json = await axios.post("http://localhost:3001/foods/tomenu"+payload)
+            var json = await axios.post("http://localhost:3001/foods/tomenu", payload)
             return json
         } catch (error) {
             console.log(error)
@@ -139,7 +139,7 @@ export function deleteFood(id){
             var json = await axios.delete("http://localhost:3001/foods/"+id)
             return dispatch({
                 type: "DELETE_FOOD",
-                payload: json.data === "food borrada" ? id : ''
+                payload: json.data === "Food deleted" ? id : ''
             })
         } catch (error) {
             console.log(error)
@@ -213,6 +213,40 @@ export function createTable(payload){
     return async function(dispatch){
         try {
             var json =await axios.post("http://localhost:3001/table", payload)
+            return json;
+        } catch (error) {
+            console.log (error)
+        }
+    }
+}
+// OBTENER BILLS (*SE DEBE PROBAR*)
+export function getBill(){
+    return async function(dispatch){
+        var json = await axios.get("http://localhost:3001/bill/");
+        return dispatch({
+            type: "GET_BILLS",
+            payload: json.data
+        })
+    };
+};
+export function getBillDetail(id){
+    return async function(dispatch){
+        try {
+            var json = await axios.get("http://localhost:3001/bill/"+id)
+                return dispatch({
+                    type: "GET_BILL",
+                    payload: json.data
+                })
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+//CREAR UNA BILL(*SE DEBE PROBAR)
+export function createBill(payload){
+    return async function(dispatch){
+        try {
+            var json =await axios.post("http://localhost:3001/bill", payload)
             return json;
         } catch (error) {
             console.log (error)

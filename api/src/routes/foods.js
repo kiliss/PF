@@ -103,6 +103,7 @@ router.post('/', async (req, res) => {          // crear comida
 
 router.post('/tomenu', async (req, res) => {  // Agrega comidas existentes a menus existentes
     const { food, menu } = req.body;
+    console.log(req.body)
     try {
         let meenu = await Menu.findOne({
             where: {

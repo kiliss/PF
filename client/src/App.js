@@ -9,6 +9,8 @@ import Table from "./components/Tables";
 //import Reservation from "./components/Reservation";
 import Navbar from "./components/Navbar";
 import CreateFoods from './components/CreateFoods';
+import Register from './components/Register';
+import TableAdmin from './components/TableAdmin';
 import Products from './components/Products';
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
         <Route exact path='/tables' element={<Tables />} />
         <Route exact path='/tables/:id' element={<Table />} />
         {/*<Route exact path='/reservation' element={<Reservation />} />*/}
+        <Route exact path='/register' element={<Register />} />
+        <Route exact path='/tableadmin' element={<TableAdmin />} />
         <Route exact path='/product/create' element={<CreateFoods />} />
         <Route exact path='*' element={<Navigate to="/" replace />} />
       </Routes>
