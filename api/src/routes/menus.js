@@ -1,5 +1,5 @@
 const express = require('express');
-const { Model, Op } = require('sequelize');
+const { Op } = require('sequelize');
 const router = express.Router();
 const { Menu, Food } = require("../db.js");
 
@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
                             [Op.or]: filter === 'drink' ? [true] : filter === 'food' ? [false] : [true, false]
                         },
                         vegetarian: {
-                            [Op.or]: vegetarian === 'true' ? [true] : vegetarian === 'false' ? [false] : [true, false]
+                            [Op.or]: vegetarian === 'true' ? [true] : [true, false]
                         }
                     }
                 }],
@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
     } catch (err) {
         return res.status(400).json("error " + err.message)
     }
-})
+});
 
 router.get('/:name', async (req, res) => {
     const { name } = req.params;
@@ -69,7 +69,7 @@ router.get('/:name', async (req, res) => {
         }
 
     }
-})
+});
 
 
 router.post('/', async (req, res) => {   // Crea menu

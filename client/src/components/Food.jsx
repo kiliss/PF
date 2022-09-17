@@ -71,7 +71,7 @@ export default function Food(props) {
                                                                 <StarIcon
                                                                     key={rating}
                                                                     className={classNames(
-                                                                        food?.rating > rating ? 'text-gray-900' : 'text-gray-200',
+                                                                        food?.rating > rating ? 'text-gray-900' : 'text-gray-300',
                                                                         'h-5 w-5 flex-shrink-0'
                                                                     )}
                                                                     aria-hidden="true"
@@ -83,14 +83,26 @@ export default function Food(props) {
                                                 </div>
                                             </section>
 
-                                            <section aria-labelledby="options-heading" className="mt-10">
+                                            <section aria-labelledby="options-heading" className="mt-8">
                                                 <h3 id="options-heading" className="sr-only">
                                                     Product options
                                                 </h3>
 
                                                 <form>
-                                                    {/* Colors */}
+                                                    {/* Menus */}
                                                     <div>
+
+                                                        <span className="flex items-center space-x-3 text-white mt-5">
+                                                            {
+                                                                food?.menus?.map((m, i) => {
+                                                                    return <a className='bg-gray-900 p-1 rounded-lg text-xs font-medium' key={`food-menu-${m.name.toLowerCase()}`} href={`/menu/${m.name.toLowerCase()}`}>{m.name}</a>
+                                                                })
+                                                            }
+                                                        </span>
+                                                    </div>
+
+                                                    {/* Categories */}
+                                                    <div className="mt-8">
                                                         <h4 className="text-sm font-medium text-gray-900">Categoría</h4>
 
                                                         <span className="flex items-center space-x-3 text-gray-500 mt-4">
@@ -98,8 +110,8 @@ export default function Food(props) {
                                                         </span>
                                                     </div>
 
-                                                    {/* Sizes */}
-                                                    <div className="mt-10">
+                                                    {/* Description */}
+                                                    <div className="mt-8">
                                                         <div className="flex items-center justify-between">
                                                             <h4 className="text-sm font-medium text-gray-900">Descripción</h4>
                                                         </div>
