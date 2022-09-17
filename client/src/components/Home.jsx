@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 import { getMenus } from "../redux/actions";
 import style from "./style/Home.module.css";
@@ -7,7 +6,6 @@ import image from "../assets/home/burger-header.png"
 
 const Home = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const menus = useSelector((state) => state.menus).filter(m => m.name === "Desayuno" || m.name === "Almuerzo" || m.name === "Cena").sort(function (a, b) {
         if(a.name === "Desayuno" && b.name === "Almuerzo") return -1;
         if(a.name === "Almuerzo" && b.name === "Cena") return -1;
@@ -42,10 +40,10 @@ const Home = () => {
                                                 <img src={m.photo} alt={m.name} className="h-full w-full object-cover object-center" />
                                             </div>
                                             <h3 className="mt-6 text-sm text-gray-500">
-                                                <div onClick={() => navigate(`/menu/${m.name.toLowerCase()}`)}>
+                                                <a href={`/menu/${m.name.toLowerCase()}`}>
                                                     <span className="absolute inset-0"></span>
                                                     {m.name}
-                                                </div>
+                                                </a>
                                             </h3>
                                             <p className="text-base font-semibold text-gray-900">{m.description}</p>
                                         </div>
