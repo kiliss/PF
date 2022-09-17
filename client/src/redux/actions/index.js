@@ -128,7 +128,7 @@ export function postFood(data){
 export function addFoodToMenu(payload){
     return async function(dispatch){
         try {
-            var json = await axios.post("http://localhost:3001/foods/tomenu"+payload)
+            var json = await axios.post("http://localhost:3001/foods/tomenu", payload)
             return json
         } catch (error) {
             console.log(error)
@@ -143,7 +143,7 @@ export function deleteFood(id){
             var json = await axios.delete("http://localhost:3001/foods/"+id)
             return dispatch({
                 type: "DELETE_FOOD",
-                payload: json.data === "food borrada" ? id : ''
+                payload: json.data === "Food deleted" ? id : ''
             })
         } catch (error) {
             console.log(error)
