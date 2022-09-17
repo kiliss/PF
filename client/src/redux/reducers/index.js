@@ -1,34 +1,34 @@
 const initialState = {
-    menus : [],
+    menus: [],
     menu: {},
     foods: [],
     food: {},
     users: [],
-    user: [],
+    user: {},
     reservations: [],
     reservation: [],
-    table:[],
-    tables:[],
+    table: [],
+    tables: [],
 };
 
-function rootReducer (state= initialState, action) {
-    switch(action.type){
+function rootReducer(state = initialState, action) {
+    switch (action.type) {
         case "GET_MENUS":
-            return{
+            return {
                 ...state,
                 menus: action.payload
             }
         case "GET_MENU":
-            return{
+            return {
                 ...state,
                 menu: action.payload
             }
         case "CREATE_MENU":
-            return{
+            return {
                 ...state
             }
         case "DELETE_MENU":
-            return{
+            return {
                 ...state.menus.filter((m) => m.name !== action.payload)
             }
         case "UPDATE_MENU":
@@ -36,63 +36,73 @@ function rootReducer (state= initialState, action) {
                 ...state.menus.map((m) => m.name === action.payload.name ? action.payload : m.name)
             }
         case "GET_FOODS":
-            return{
+            return {
                 ...state,
                 foods: action.payload
             }
         case "GET_FOOD":
-            return{
+            return {
                 ...state,
                 food: action.payload
             }
         case "ADD_FOOD_TO_MENU":
-            return{
+            return {
                 ...state
             }
         case "DELETE_FOOD":
-            return{
+            return {
                 ...state.foods.filter((f) => f.id !== action.payload)
             }
         case "GET_USERS":
-            return{
+            return {
                 ...state,
                 users: action.payload
             }
         case "GET_USER":
-            return{
+            return {
                 ...state,
                 user: action.payload
             }
         case "CREATE_USER":
-            return{
+            return {
                 ...state
             }
         case "GET_RESERVATIONS":
-            return{
+            return {
                 ...state,
                 reservations: action.payload
             }
         case "GET_RESERVATION":
-            return{
+            return {
                 ...state,
                 reservation: action.payload
             }
         case "CREATE_RESERVATION":
-            return{
+            return {
                 ...state
             }
         case "GET_TABLE":
-            return{
+            return {
                 ...state,
-                table:action.payload
+                table: action.payload
             }
         case "GET_TABLES":
-            return{
+            return {
                 ...state,
                 tables: action.payload
             }
+        case "GET_BILLS":
+            return {
+                ...state,
+                bills: action.payload
+            }
+        case "GET_BILL":
+            return {
+                ...state,
+                bill: action.payload
+            }
         default:
-        return state;
+            return state;
     }
 }
 

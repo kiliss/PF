@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "^1.11.0",
     "@headlessui/react": "^1.7.1",
     "@heroicons/react": "^2.0.11",
     "@reduxjs/toolkit": "^1.8.5",
