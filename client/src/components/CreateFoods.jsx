@@ -81,15 +81,18 @@ export default function CreateFoods() {
 
   useEffect(() => {
     dispatch(getMenus());
-    dispatch(getFoods());
+    dispatch(getFoods({}));
   }, [dispatch]);
 
 
   const findName = (name) => {
     if(foods.find((food) => food.name.toLowerCase() === name.toLowerCase())){
       return true
+    } else {
+      return false
     }
   }
+
   
   const handleInputChange = function (e) {
     setInput({
