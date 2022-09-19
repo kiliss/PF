@@ -160,7 +160,7 @@ export default function CreateFoods() {
                       <div className="col-span-3 sm:col-span-2 ">
                       <div className="col-span-6 sm:col-span-3 ">
           <div className="mb-3">
-            <h1 className="text-2xl font-bold text-gray-900">Crear Comida</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Crear Producto</h1>
         </div>
         <div className="mb-3">
             <label className="block text-sm font-medium text-gray-700">Nombre</label>
