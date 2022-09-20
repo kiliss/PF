@@ -72,8 +72,7 @@ export default function CreateFoods() {
     vegetarian: false,
     stock: true
   });
-  const [error, setError] = useState();
-
+  const [error, setError] = useState({});
 
   const menus = useSelector((state) => state.menus);
   const foods = useSelector((state) => state.foods);
