@@ -173,6 +173,23 @@ export function getUserDetail(id){
     };
 };
 
+export function getProfile(){
+    return async function(dispatch){
+        try {
+            var json = await axios.get("/users/user", {headers: {'Authorization': localStorage.getItem('user') 
+            ? localStorage.getItem('user')
+            : {}}})
+            console.log(json);
+                return dispatch({
+                    type: "GET_USER",
+                    payload: json.data
+                })
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
 // CREAR UN USUARIO (*SE DEBE PROBAR*)
 export function createUser(payload){
     return async function(dispatch){
