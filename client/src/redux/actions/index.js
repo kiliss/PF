@@ -1,5 +1,15 @@
 import axios from "axios";
 
+// CONVIERTE UN OBJETO EN UN STRING DE QUERIES
+const objectToQueries = (data) => {
+    let string = '';
+    Object.getOwnPropertyNames(data).forEach((p, i) => {
+        if(i === 0) string += `?${p}=${data[p]}`;
+        else string += `&${p}=${data[p]}`;
+    });
+    return string;
+};
+
 // OBTENER MENUS
 export function getMenus(){
     return async function(dispatch){
@@ -15,7 +25,7 @@ export function getMenus(){
 export function getMenu(data){
     return async function(dispatch){
         try {
-            var json = await axios.get(`http://localhost:3001/menus?name=${data.name}${data.filter ? `&filter=${data.filter}` : ''}${data.price ? `&price=${data.price}` : ''}${data.vegetarian ? `&vegetarian=${data.vegetarian}` : ''}`);
+            var json = await axios.get(`http://localhost:3001/menus${objectToQueries(data)}`);
             return dispatch({
                 type: "GET_MENU",
                 payload: json.data
@@ -68,21 +78,6 @@ export function updateMenu(name){
     }
 }
 
-// OBTENER COMIDAS (*SE DEBE PROBAR*)
-export function getFoods(){
-    return async function(dispatch){
-        try {
-            var json = await axios.get("http://localhost:3001/foods");
-            return dispatch({
-                type: "GET_FOODS",
-                payload: json.data
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    };
-};
-
 // OBTENER DETALLES DE COMIDAS POR ID (*SE DEBE PROBAR)
 export function getFood(id){
     return async function(dispatch){
@@ -99,19 +94,20 @@ export function getFood(id){
 };
 
 // FILTRAR COMIDAS (*SE DEBE PROBAR*)
-export function getFoodsFilters(name, order, filter){
+export function getFoods(data){
     return async function(dispatch){
         try {
-            var json = await axios.get(`http://localhost:3001/foods?${name ? `name=${name}`: ''}${order ? `&order=${order}` : ''}${filter ? `&filter=${filter}` : ''}`)
+            var json = await axios.get(`http://localhost:3001/foods${objectToQueries(data)}`);
             return dispatch({
-                type: "GET_FOOD",
-                payload: json.data.length > 0 ? json.data[0] : {}
+                type: "GET_FOODS",
+                payload: json.data
             })
         } catch (error) {
             console.log(error)
         }
     };
 };
+
  // agregar comida a menu (*SE DEBE PROBAR*)
 export function postFood(data){
     return async function(){
@@ -128,7 +124,7 @@ export function postFood(data){
 export function addFoodToMenu(payload){
     return async function(dispatch){
         try {
-            var json = await axios.post("http://localhost:3001/foods/tomenu"+payload)
+            var json = await axios.post("http://localhost:3001/foods/tomenu", payload)
             return json
         } catch (error) {
             console.log(error)
@@ -143,7 +139,7 @@ export function deleteFood(id){
             var json = await axios.delete("http://localhost:3001/foods/"+id)
             return dispatch({
                 type: "DELETE_FOOD",
-                payload: json.data === "food borrada" ? id : ''
+                payload: json.data === "Food deleted" ? id : ''
             })
         } catch (error) {
             console.log(error)
