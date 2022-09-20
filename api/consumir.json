@@ -1,0 +1,164 @@
+{
+    "menu": [
+        {
+            "id": 1,
+            "name": "Desayuno",
+            "description": "Obtén la suficiente energía que necesitaras para empezar el día.",
+            "photo": "https://images.hola.com/imagenes/cocina/noticiaslibros/20200213160483/dia-nacional-desayuno/0-782-593/portada-desayuno-adobe-m.jpg"
+        },
+        {
+            "id": 2,
+            "name": "Almuerzo",
+            "description": "Reabastece tu estomago con nuestra diversa selección para el almuerzo.",
+            "photo": "https://recetasespecialesdecocina.files.wordpress.com/2018/10/asado.jpg"
+        },
+        {
+            "id": 3,
+            "name": "Cena",
+            "description": "Finaliza el día comiendo con nosotros recibiendo nuestra hospitalidad.",
+            "photo": "https://cdn7.kiwilimon.com/ss_secreto/3010/640x426/3010.jpg.webp"
+        }
+    ],
+    "food": [
+        {
+            "id": 1,
+            "name": "Café",
+            "rating": 4.5,
+            "photo": "https://www.webconsultas.com/sites/default/files/styles/wch_image_schema/public/temas/cafe.jpg",
+            "summary": "Es la bebida que se obtiene a partir de los granos tostados y molidos de los frutos de la planta del café.",
+            "price": 300,
+            "stock": true,
+            "drinkable": true,
+            "vegetarian": false
+        },
+        {
+            "id": 2,
+            "name": "Panqueque",
+            "rating": 3.5,
+            "photo": "https://www.laurafuentes.soy/wp-content/uploads/2020/07/Pancakes-without-Milk-post-1.jpg",
+            "summary": "Es una torta plana, redonda y salada o dulce, cuya masa contiene leche y está levadurizada.",
+            "price": 240,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
+        },
+        {
+            "id": 3,
+            "name": "Buñuelo Colombiano",
+            "rating": 3,
+            "photo": "https://www.196flavors.com/wp-content/uploads/2021/07/bunuelos-colombianos-4fp.jpg",
+            "summary": "No son dulces, y la mezcla para su preparación incluye queso costeño, huevos, almidón de maíz (o maicena) con un poco de almidón de yuca, se forman bolas con la mezcla y se fríen en abundante aceite caliente.",
+            "price": 100,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
+        },
+        {
+            "id": 4,
+            "name": "Omelet",
+            "rating": 3.9,
+            "photo": "https://assets.unileversolutions.com/recipes-v2/231048.jpg",
+            "summary": "Es un plato elaborado con huevo batido y cocinado con mantequilla o aceite.",
+            "price": 180,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
+        },
+        {
+            "id": 5,
+            "name": "Batido de Chocolate",
+            "rating": 4,
+            "photo": "https://www.gastrolabweb.com/u/fotografias/m/2021/7/26/f638x638-16725_74892_6524.jpg",
+            "summary": "Es una bebida elaborada a base de leche o helado, que puede llevar frutas o turrón.",
+            "price": 290,
+            "stock": true,
+            "drinkable": true,
+            "vegetarian": false
+        },
+        {
+            "id": 6,
+            "name": "Té",
+            "rating": 3.5,
+            "photo": "https://www.cafe-mx.com/blog/app/assets/media/2021/01/datos_curiosos_sobre_el_te.jpg",
+            "summary": "Es la infusión de las hojas y brotes de la planta del té.",
+            "price": 250,
+            "stock": true,
+            "drinkable": true,
+            "vegetarian": false
+        },
+        {
+            "id": 7,
+            "name": "Batido Picante de Remolacha",
+            "rating": 4,
+            "photo": "https://blog.oxfamintermon.org/wp-content/uploads/2017/01/batido-vegano-remolacha.jpg",
+            "summary": "¿Quieres probar con algo atrevido? Este es uno de los batidos veganos más idóneos para una fiesta o una ocasión especial, y seguro que te acaba encantando.",
+            "price": 290,
+            "stock": true,
+            "drinkable": true,
+            "vegetarian": true
+        },
+        {
+            "id": 8,
+            "name": "Avena Cocida",
+            "rating": 4,
+            "photo": "https://img-global.cpcdn.com/recipes/9dde7a1dd9412396/680x482cq70/avena-cocida-a-fuego-bajo-con-leche-fit-y-rico-foto-principal.webp",
+            "summary": "Estas gachas de avena, conocidas como porridge en el Reino Unido, son ideales para niños y personas mayores por su digestibilidad.",
+            "price": 100,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": true
+        }
+    ],
+    "menu_food": [
+        {
+            "id": 1,
+            "foodId": 1,
+            "menuId": 1
+        },
+        {
+            "id": 2,
+            "foodId": 2,
+            "menuId": 1
+        },
+        {
+            "id": 3,
+            "foodId": 3,
+            "menuId": 1
+        },
+        {
+            "id": 4,
+            "foodId": 4,
+            "menuId": 1
+        },
+        {
+            "id": 5,
+            "foodId": 5,
+            "menuId": 1
+        },
+        {
+            "id": 6,
+            "foodId": 6,
+            "menuId": 1
+        },
+        {
+            "id": 7,
+            "foodId": 7,
+            "menuId": 1
+        },
+        {
+            "id": 8,
+            "foodId": 8,
+            "menuId": 1
+        },
+        {
+            "id": 9,
+            "foodId": 8,
+            "menuId": 2
+        },
+        {
+            "id": 10,
+            "foodId": 8,
+            "menuId": 3
+        }
+    ]
+}

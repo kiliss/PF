@@ -1,24 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Home from "./components/Home";
+import Menu from "./components/Menu";
+import Profile from "./components/Profile";
+import Login from "./components/Login";
+import Tables from "./components/Tables";
+import Table from "./components/Tables";
+//import Reservation from "./components/Reservation";
+import Navbar from "./components/Navbar";
+import CreateFoods from './components/CreateFoods';
+import Register from './components/Register';
+import TableAdmin from './components/TableAdmin';
+import Products from './components/Products';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <Routes>
+        <Route exact path='/' element={<Home />} />
+        <Route exact path='/menu/:name' element={<Menu />} />
+        <Route exact path='/products' element={<Products />} />
+        <Route exact path='/profile/:id' element={<Profile />} />
+        <Route exact path='/login' element={<Login />} />
+        <Route exact path='/tables' element={<Tables />} />
+        <Route exact path='/tables/:id' element={<Table />} />
+        {/*<Route exact path='/reservation' element={<Reservation />} />*/}
+        <Route exact path='/register' element={<Register />} />
+        <Route exact path='/tableadmin' element={<TableAdmin />} />
+        <Route exact path='/product/create' element={<CreateFoods />} />
+        <Route exact path='*' element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 }
 

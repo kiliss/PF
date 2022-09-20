@@ -1,18 +1,21 @@
-const express = require('express');
-const morgan = require('morgan');
-const foods = require('./routes/foods');
+const server = require('./src/app.js');
+const { conn, Menu, Food, Menu_food } = require('./src/db.js');
+// const { conn } = require('./src/db.js');
 
-const server = express();
+async function loadMenus() {
+  const consumir = require('./consumir.json');
+  Menu.bulkCreate(consumir.menu);
+  Food.bulkCreate(consumir.food);
+  Menu_food.bulkCreate(consumir.menu_food);
+  await conn.query("SELECT setval('public.menus_id_seq', 1000, true)");
+  await conn.query("SELECT setval('public.food_id_seq', 1000, true)");
+  await conn.query("SELECT setval('public.menu_foods_id_seq', 1000, true)");
+};
 
 
-server.use(morgan('dev'));
-server.use(express.json());
-
-server.use('/foods', foods);
-
-
-server.listen(3000, () => {
-    console.log('Server is running on port 3000');
+conn.sync({ force: true }).then(async () => {
+  loadMenus();
+  server.listen(process.env.PORT, () => {
+    console.log("%s listening at 3001");
+  });
 });
-
-module.exports = server;
