@@ -149,6 +149,16 @@
             "id": 8,
             "foodId": 8,
             "menuId": 1
+        },
+        {
+            "id": 9,
+            "foodId": 8,
+            "menuId": 2
+        },
+        {
+            "id": 10,
+            "foodId": 8,
+            "menuId": 3
         }
     ]
 }
