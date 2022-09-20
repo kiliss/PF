@@ -38,7 +38,7 @@ const Products = () => {
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
-        dispatch(getFoods({}));
+        dispatch(getFoods());
         // eslint-disable-next-line
     }, [])
 
