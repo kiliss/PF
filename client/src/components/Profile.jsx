@@ -3,17 +3,16 @@ import React from 'react';
 import { useParams, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
-import { getUserDetail, getUsers } from '../redux/actions';
+import { getProfile, getUserDetail, getUsers } from '../redux/actions';
 
 const Profile = () => {
     const dispatch = useDispatch();
     // traer datos de user
     const navigate = useNavigate()
-    const {id} = useParams()
 
     useEffect(() => {
-        dispatch(getUserDetail(id))
-    }, [dispatch, id])
+        dispatch(getProfile())
+    }, [dispatch])
     
     const usuario = useSelector((state) => state.user)
 

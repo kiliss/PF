@@ -17,8 +17,8 @@ router.post('/', async (req, res) => {
         //console.log('math: ',match)
         
         if(match){
-            const jwtToken = jwt.sign(JSON.stringify(userEmail),process.env.JWT_SECRET); 
-            return res.json({message: `bienvenido!, ${userEmail.user}`,username:userEmail.user, id: userEmail.id ,token: jwtToken});
+            const jwtToken = jwt.sign(JSON.stringify({id: userEmail.id, email: userEmail.email}),process.env.JWT_SECRET); 
+            return res.json(jwtToken);
 
         } else {
             return res.json({ message: "Email o contraseña incorrecto!" });

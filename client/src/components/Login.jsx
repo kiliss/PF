@@ -41,12 +41,12 @@ const Login = () => {
       // console.log(user)
       let data = await dispatch(login(user))
       console.log(data)
-      if (data.token) {
-        window.localStorage.setItem('user',JSON.stringify(data));
-          alert(`${data.message}`)
+      if (data) {
+        window.localStorage.setItem('user',data);
+          alert("Bienvenido")
           navigate('/')
         }else{
-          alert(`${data.message}`)
+          alert("Lo siento no eres usuario")
         }
       } 
 

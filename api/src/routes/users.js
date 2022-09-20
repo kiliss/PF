@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const {User,Feedback} = require('../db.js');
 const bcrypt = require('bcrypt');
+const verifyToken = require("../auth/verifyJWT.js");
+const auth = require("../middleware/auth.js");
 
 const getDbUsers=async()=>{
     return await User.findAll({
@@ -17,9 +19,10 @@ router.get("/",async (req,res)=>{
     res.json(await getDbUsers())
 })
 
-router.get("/:id", async (req,res)=>{
-    const {id}=req.params;
-    try{
+router.get("/user", auth, async (req,res)=>{
+const id = req.userId;
+console.log(req.userId);    
+try{
         const users=await User.findByPk(id,{
             include:{
                 model:Feedback,
