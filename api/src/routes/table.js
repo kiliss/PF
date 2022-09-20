@@ -5,7 +5,7 @@ const {Table,User} = require('../db.js');
 
 
 const getTable=async()=>{
-    return await Table.findAll({
+    return await Table.findAll(/*{
         include:{
             model:User,
             attributes:['user','password','email','photo','admin'],
@@ -13,7 +13,7 @@ const getTable=async()=>{
                 attributes:['num_Table','state','chairs']
             }
         }
-    })
+    }*/)
 }
 
 router.get("/table",async (req,res)=>{
@@ -41,17 +41,19 @@ router.get("/:id",async(req,res)=>{
         }
 })
 
-router.post('/table', async (req,res)=>{
+router.post('/', async (req,res)=>{
     const {num_Table,state,chairs}=req.body;
     try{
+        
         const table=await Table.create({
             num_Table:num_Table,
             state:state,
             chairs:chairs
-        }
+        }        
         )
-        ?res.status(200).json("La mesa ha sido creado correctamente", table)
-           :res.status(403).json("La mesa no se ha creado");
+       // console.log(table)
+        res.status(200).json("La mesa ha sido creado correctamente")
+           
     }catch(error){
         res.status(403).json(error)
     }
