@@ -2,15 +2,27 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/actions';
+import { useEffect } from 'react';
+
 
 const Login = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [user, setUser] = useState({
         email: "",
         password: ""
     })
 
+  // useEffect(()=>{
+  //   const loggedUser = window.localStorage.getItem('user')
+  //   if(loggedUser){
+  //     const localUser = JSON.parse(loggedUser)
+  //     setUser(localUser)
+  //   }
+  // },[])
 
 
     const handleChange = (e) => {
@@ -20,15 +32,24 @@ const Login = () => {
     }
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!e.target.checkValidity()) {
-            console.log('no enviar');
-        } else {
-            let res = await axios.post("http://localhost:3001/login", user);
-            navigate(`/`);
-            console.log(res.data);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!user.email || !user.password) {
+      console.log('no enviar');
+    } else {
+      // console.log(user)
+      let data = await dispatch(login(user))
+      console.log(data)
+      if (data.token) {
+        window.localStorage.setItem('user',JSON.stringify(data));
+          alert(`${data.message}`)
+          navigate('/')
+        }else{
+          alert(`${data.message}`)
         }
+      } 
+
 
     // const handleGoogle = () =>{
     //     window.open('http://localhost:3001/auth/google','_self')

@@ -18,8 +18,7 @@ router.post('/', async (req, res) => {
         
         if(match){
             const jwtToken = jwt.sign(JSON.stringify(userEmail),process.env.JWT_SECRET); 
-            localStorage.setItem('user',JSON.stringify(jwtToken));
-            return res.json({message: `bienvenido!, ${userEmail.user}`, token: jwtToken});
+            return res.json({message: `bienvenido!, ${userEmail.user}`,username:userEmail.user, id: userEmail.id ,token: jwtToken});
 
         } else {
             return res.json({ message: "Email o contraseña incorrecto!" });
