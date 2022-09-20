@@ -292,11 +292,11 @@ export function createReservation(payload){
 };
 
 // LOGIN SUCCESS (*SE DEBE PROBAR(nunca hice una función para esto(agustín))*)
-export function loginSuccess(){
-    return async function(dispatch){
+export function login(user){
+    return async function(){
         try {
-            var loginn = await axios.get("/auth/login/success")
-            return loginn.data
+            let login = await axios.post("/login", user);
+            return login.data;
         } catch (error) {
             console.log(error)
         }
@@ -317,8 +317,9 @@ export function loginFail(){
 
 // LOGOUT (*SE DEBE PROBAR(nunca hice una función para esto(agustín))*)
 export function logout(){
-    return async function(dispatch){
+    return async function(){
         try {
+            localStorage.removeItem('user')
             var logoutt = await axios.get("/auth/logout")
             return logoutt
         } catch (error) {
