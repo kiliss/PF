@@ -4,11 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/actions';
+import { useEffect } from 'react';
 
 
 const Login = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [user, setUser] = useState({
         email: "",
         password: ""
@@ -28,6 +30,7 @@ const Login = () => {
         let newDatos = { ...user, [name]: value };
         setUser(newDatos);
     }
+
 
 
   const handleSubmit = async (e) => {
@@ -54,6 +57,7 @@ const Login = () => {
           password: ""
         })
       }
+
 
     // const handleGoogle = () =>{
     //     window.open('http://localhost:3001/auth/google','_self')
