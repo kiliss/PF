@@ -49,8 +49,9 @@ router.post ('/', async(req,res)=>{
         const order=await Order.create({
             observation:observation,
             state:state
-        })  ?res.status(200).json("La order ha sido creado correctamente", order)
-        :res.status(403).json("La order no se ha creado");
+        }) 
+         res.status(200).json("La order ha sido creado correctamente")
+        
      }catch(error){
         res.status(403).json(error)
 }})

@@ -13,7 +13,7 @@ const users = require('./routes/users');
 const reservation = require('./routes/reservation');
 const authRoute = require('./routes/auth');
 const feedbacks = require('./routes/feedbacks');
-
+const table=require('./routes/table')
 
 
 const server = express();
@@ -60,7 +60,7 @@ server.use(express.json());
 
 
 
-
+server.use('/table',table);
 server.use('/foods', foods);
 server.use('/menus', menus);
 // server.use('/auth',auth);
