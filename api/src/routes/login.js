@@ -18,7 +18,6 @@ router.post('/', async (req, res) => {
         
         if(match){
             const jwtToken = jwt.sign(JSON.stringify(userEmail),process.env.JWT_SECRET); 
-            localStorage.setItem('user',JSON.stringify(jwtToken));
             return res.json({message: `bienvenido!, ${userEmail.user}`, token: jwtToken});
 
         } else {

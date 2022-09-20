@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/actions';
+import { useEffect } from 'react';
 
 
 const Login = () => {
@@ -15,6 +16,13 @@ const Login = () => {
     password: ""
   })
 
+  // useEffect(()=>{
+  //   const loggedUser = window.localStorage.getItem('user')
+  //   if(loggedUser){
+  //     const localUser = JSON.parse(loggedUser)
+  //     setUser(localUser)
+  //   }
+  // },[])
 
 
   const handleChange = (e) => {
@@ -33,11 +41,20 @@ const Login = () => {
       let data = await dispatch(login(user))
       console.log(data)
       if (data.token) {
+        window.localStorage.setItem('user',JSON.stringify(data));
           alert(`${data.message}`)
+          resect()
           navigate('/')
         }else{
           alert(`${data.message}`)
         }
+      } 
+
+      const resect = () =>{
+        setUser({
+          email: "",
+          password: ""
+        })
       }
 
     // const handleGoogle = () =>{
