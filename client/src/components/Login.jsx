@@ -38,25 +38,17 @@ const Login = () => {
     if (!user.email || !user.password) {
       console.log('no enviar');
     } else {
-      console.log(user)
+      // console.log(user)
       let data = await dispatch(login(user))
       console.log(data)
       if (data.token) {
         window.localStorage.setItem('user',JSON.stringify(data));
           alert(`${data.message}`)
-          resect()
           navigate('/')
         }else{
           alert(`${data.message}`)
         }
       } 
-
-      const resect = () =>{
-        setUser({
-          email: "",
-          password: ""
-        })
-      }
 
 
     // const handleGoogle = () =>{
