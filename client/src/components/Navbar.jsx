@@ -142,7 +142,7 @@ const Navbar = () => {
                                             <div className="flex space-x-4">
                                                     <a
                                                         href={'/login'}
-                                                        className={'bg-red-700 text-white px-3 py-2 rounded-md text-sm font-medium'}
+                                                        className={'bg-red-700 hover:bg-red-900 text-white px-3 py-2 rounded-md text-sm font-medium'}
                                                         aria-current={undefined}
                                                     >
                                                         {'Iniciar Sesión'}
