@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // CONVIERTE UN OBJETO EN UN STRING DE QUERIES
-const objectToQueries = (data) => {
+const objectToQueries = (data = {}) => {
     let string = '';
     Object.getOwnPropertyNames(data).forEach((p, i) => {
         if(i === 0) string += `?${p}=${data[p]}`;
@@ -13,7 +13,7 @@ const objectToQueries = (data) => {
 // OBTENER MENUS
 export function getMenus(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/menus");
+        var json = await axios.get("/menus");
         return dispatch({
             type: "GET_MENUS",
             payload: json.data
@@ -25,7 +25,7 @@ export function getMenus(){
 export function getMenu(data){
     return async function(dispatch){
         try {
-            var json = await axios.get(`http://localhost:3001/menus${objectToQueries(data)}`);
+            var json = await axios.get(`/menus${objectToQueries(data)}`);
             return dispatch({
                 type: "GET_MENU",
                 payload: json.data
@@ -40,7 +40,7 @@ export function getMenu(data){
 export function createMenu(payload){
     return async function(dispatch){
         try {
-            var json = await axios.post("http://localhost:3001/menus", payload)
+            var json = await axios.post("/menus", payload)
             return json;
         } catch (error) {
             console.log(error)
@@ -52,7 +52,7 @@ export function createMenu(payload){
 export function deleteMenu(name){
     return async function(dispatch){
         try {
-            var json = await axios.delete("http://localhost:3001/menus/"+name)
+            var json = await axios.delete("/menus/"+name)
             return dispatch({
                 type: "DELETE_MENU",
                 payload: json.data === "Menu deleted" ? name : ''
@@ -67,7 +67,7 @@ export function deleteMenu(name){
 export function updateMenu(name){
     return async function(dispatch){
         try {
-            var json = await axios.put("http://localhost:3001/menus/"+name)
+            var json = await axios.put("/menus/"+name)
             return dispatch({
                 type: "UPDATE_MENU",
                 payload: json.data
@@ -82,7 +82,7 @@ export function updateMenu(name){
 export function getFood(id){
     return async function(dispatch){
         try {
-            var json = await axios.get("http://localhost:3001/foods/"+id)
+            var json = await axios.get("/foods/"+id)
                 return dispatch({
                     type: "GET_FOOD",
                     payload: json.data
@@ -97,7 +97,7 @@ export function getFood(id){
 export function getFoods(data){
     return async function(dispatch){
         try {
-            var json = await axios.get(`http://localhost:3001/foods${objectToQueries(data)}`);
+            var json = await axios.get(`/foods${objectToQueries(data)}`);
             return dispatch({
                 type: "GET_FOODS",
                 payload: json.data
@@ -112,7 +112,7 @@ export function getFoods(data){
 export function postFood(data){
     return async function(){
         try {
-            var json = await axios.post("http://localhost:3001/foods", data)
+            var json = await axios.post("/foods", data)
             return json
         } catch (error) {
             console.log(error)
@@ -124,7 +124,7 @@ export function postFood(data){
 export function addFoodToMenu(payload){
     return async function(dispatch){
         try {
-            var json = await axios.post("http://localhost:3001/foods/tomenu", payload)
+            var json = await axios.post("/foods/tomenu", payload)
             return json
         } catch (error) {
             console.log(error)
@@ -136,7 +136,7 @@ export function addFoodToMenu(payload){
 export function deleteFood(id){
     return async function(dispatch){
         try {
-            var json = await axios.delete("http://localhost:3001/foods/"+id)
+            var json = await axios.delete("/foods/"+id)
             return dispatch({
                 type: "DELETE_FOOD",
                 payload: json.data === "Food deleted" ? id : ''
@@ -150,7 +150,7 @@ export function deleteFood(id){
 // OBTENER USERS (*SE DEBE PROBAR*)
 export function getUsers(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/users");
+        var json = await axios.get("/users");
         return dispatch({
             type: "GET_USERS",
             payload: json.data
@@ -162,7 +162,24 @@ export function getUsers(){
 export function getUserDetail(id){
     return async function(dispatch){
         try {
-            var json = await axios.get("http://localhost:3001/users/"+id)
+            var json = await axios.get("/users/"+id)
+                return dispatch({
+                    type: "GET_USER",
+                    payload: json.data
+                })
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
+export function getProfile(){
+    return async function(dispatch){
+        try {
+            var json = await axios.get("/users/user", {headers: {'Authorization': localStorage.getItem('user') 
+            ? localStorage.getItem('user')
+            : {}}})
+            console.log(json);
                 return dispatch({
                     type: "GET_USER",
                     payload: json.data
@@ -177,7 +194,7 @@ export function getUserDetail(id){
 export function createUser(payload){
     return async function(dispatch){
         try {
-            var json = await axios.post("http://localhost:3001/users", payload)
+            var json = await axios.post("/users", payload)
             return json;
         } catch (error) {
             console.log(error)
@@ -188,7 +205,7 @@ export function createUser(payload){
 export function getTableDetail(id){
     return async function(dispatch){
         try {
-            var json = await axios.get("http://localhost:3001/table/"+id)
+            var json = await axios.get("/table/"+id)
                 return dispatch({
                     type: "GET_TABLE",
                     payload: json.data
@@ -201,7 +218,7 @@ export function getTableDetail(id){
 // OBTENER tables (*SE DEBE PROBAR*)
 export function getTable(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/table/table");
+        var json = await axios.get("/table/table");
         return dispatch({
             type: "GET_TABLES",
             payload: json.data
@@ -212,7 +229,7 @@ export function getTable(){
 export function createTable(payload){
     return async function(dispatch){
         try {
-            var json =await axios.post("http://localhost:3001/table", payload)
+            var json =await axios.post("/table", payload)
             return json;
         } catch (error) {
             console.log (error)
@@ -222,7 +239,7 @@ export function createTable(payload){
 // OBTENER BILLS (*SE DEBE PROBAR*)
 export function getBill(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/bill/");
+        var json = await axios.get("/bill/");
         return dispatch({
             type: "GET_BILLS",
             payload: json.data
@@ -232,7 +249,7 @@ export function getBill(){
 export function getBillDetail(id){
     return async function(dispatch){
         try {
-            var json = await axios.get("http://localhost:3001/bill/"+id)
+            var json = await axios.get("/bill/"+id)
                 return dispatch({
                     type: "GET_BILL",
                     payload: json.data
@@ -246,7 +263,7 @@ export function getBillDetail(id){
 export function createBill(payload){
     return async function(dispatch){
         try {
-            var json =await axios.post("http://localhost:3001/bill", payload)
+            var json =await axios.post("/bill", payload)
             return json;
         } catch (error) {
             console.log (error)
@@ -256,7 +273,7 @@ export function createBill(payload){
 // OBTENER RESERVAS (*SE DEBE PROBAR*)
 export function getReservations(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/reservation/users");
+        var json = await axios.get("/reservation/users");
         return dispatch({
             type: "GET_RESERVATIONS",
             payload: json.data
@@ -268,7 +285,7 @@ export function getReservations(){
 export function getReservationDetail(id){
     return async function(dispatch){
         try {
-            var json = await axios.get("http://localhost:3001/reservation/"+id)
+            var json = await axios.get("/reservation/"+id)
                 return dispatch({
                     type: "GET_RESERVATION",
                     payload: json.data
@@ -283,7 +300,7 @@ export function getReservationDetail(id){
 export function createReservation(payload){
     return async function(dispatch){
         try {
-            var json = await axios.post("http://localhost:3001/reservation", payload)
+            var json = await axios.post("/reservation", payload)
             return json;
         } catch (error) {
             console.log(error)
@@ -292,11 +309,11 @@ export function createReservation(payload){
 };
 
 // LOGIN SUCCESS (*SE DEBE PROBAR(nunca hice una función para esto(agustín))*)
-export function loginSuccess(){
-    return async function(dispatch){
+export function login(user){
+    return async function(){
         try {
-            var loginn = await axios.get("http://localhost:3001/auth/login/success")
-            return loginn.data
+            let login = await axios.post("/login", user);
+            return login.data;
         } catch (error) {
             console.log(error)
         }
@@ -307,7 +324,7 @@ export function loginSuccess(){
 export function loginFail(){
     return async function(dispatch){
         try {
-            var loginx = await axios.get("http://localhost:3001/auth/login/failed")
+            var loginx = await axios.get("/auth/login/failed")
             return loginx.data
         } catch (error) {
             console.log(error)
@@ -317,9 +334,10 @@ export function loginFail(){
 
 // LOGOUT (*SE DEBE PROBAR(nunca hice una función para esto(agustín))*)
 export function logout(){
-    return async function(dispatch){
+    return async function(){
         try {
-            var logoutt = await axios.get("http://localhost:3001/auth/logout")
+            localStorage.removeItem('user')
+            var logoutt = await axios.get("/auth/logout")
             return logoutt
         } catch (error) {
             console.log(error)

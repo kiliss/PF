@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const {User,Feedback} = require('../db.js');
-
+const bcrypt = require('bcrypt');
+const verifyToken = require("../auth/verifyJWT.js");
+const auth = require("../middleware/auth.js");
 
 const getDbUsers=async()=>{
     return await User.findAll({
@@ -17,9 +19,10 @@ router.get("/",async (req,res)=>{
     res.json(await getDbUsers())
 })
 
-router.get("/:id", async (req,res)=>{
-    const {id}=req.params;
-    try{
+router.get("/user", auth, async (req,res)=>{
+const id = req.userId;
+console.log(req.userId);    
+try{
         const users=await User.findByPk(id,{
             include:{
                 model:Feedback,
@@ -40,14 +43,15 @@ router.get("/:id", async (req,res)=>{
 router.post('/', async (req, res) => {
     const {user, password, email, photo, admin} = req.body;
     try {
+        const hashedPassword = await bcrypt.hash(password, 10);
         const usser = await User.create({
             user: user,
-            password: password,
+            password: hashedPassword,
             email: email,
             photo: photo,
             admin: admin
             })
-            ?res.status(200).json("El usuario ha sido creado correctamente")
+            ?res.status(200).json("El usuario ha sido creado correctamente", usser)
            :res.status(403).json("El usuario no se ha creado");
     }catch (error) {
         res.status(403).json(error)

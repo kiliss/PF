@@ -74,14 +74,13 @@ export default function CreateFoods() {
   });
   const [error, setError] = useState({});
 
-
   const menus = useSelector((state) => state.menus);
   const foods = useSelector((state) => state.foods);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(getMenus());
-    dispatch(getFoods({}));
+    dispatch(getFoods());
   }, [dispatch]);
 
 
