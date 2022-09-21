@@ -208,7 +208,7 @@ export function createUser(payload) {
 export function getTableDetail(id) {
     return async function (dispatch) {
         try {
-            var json = await axios.get("/table/" + id)
+            var json = await axios.get("/table/:" + id)
             return dispatch({
                 type: "GET_TABLE",
                 payload: json.data

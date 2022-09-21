@@ -1,17 +1,29 @@
 import React from 'react';
-/*import style from "./style/Table.module.css";
-import { Link } from "react-router-dom";
-import { createTable,getTable,getTableDetail } from '../redux/actions';
-import { useDispatch, useSelector } from "react-redux";*/
+import style from "./style/Table.module.css";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getTable,getTableDetail } from '../redux/actions';
+import { useEffect } from 'react';
 
-
-export default function Table({id,num_Table,state,chairs}){
+export default function Table(){
+    const {id}=useParams()
+    navigate=useNavigate()
+    const dispatch = useDispatch();
+    let details = useSelector((state)=>state.details)
+    useEffect(()=>{
+      dispatch(getTableDetail(id))  
+    },[dispatch,id])
+   console.log(details)
     return (
-        <div key={id}>
+        <div >
             <div>
-                <h3>{num_Table}</h3>
-                <h5>{state}</h5>
-                <p>{chairs}</p>
+                <div className='details'>
+                <h3 className='numTable'>{details.num_Table}</h3>
+                <img src="" alt="mesa" />
+                <h5 className='state'>{details.state}</h5>
+                <p className='chairs'>{details.chairs}</p>
+                </div>          
+                
             </div>
         </div>
     )
