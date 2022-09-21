@@ -90,7 +90,7 @@ const Products = () => {
                                             </button>
                                         </div>
                                         {/* Filters */}
-                                        <form className="mt-4 border-t border-gray-200">
+                                        <div className="mt-4 border-t border-gray-200">
                                             <div className="flex items-center px-4 py-6">
                                                 <div className="relative w-full">
                                                     <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5" placeholder="Buscar" value={searchBar} onChange={(e) => setSearchBar(e.target.value)} />
@@ -154,7 +154,7 @@ const Products = () => {
                                                     </>
                                                 )}
                                             </Disclosure>
-                                        </form>
+                                        </div>
                                     </Dialog.Panel>
                                 </Transition.Child>
                             </div>
@@ -225,7 +225,7 @@ const Products = () => {
 
                             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                                 {/* Filters */}
-                                <form className="hidden lg:block">
+                                <div className="hidden lg:block">
                                     <div className="flex items-center border-b border-gray-200 pb-6">
                                         <div className="relative w-full">
                                             <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5" placeholder="Buscar" value={searchBar} onChange={(e) => setSearchBar(e.target.value)} />
@@ -285,7 +285,7 @@ const Products = () => {
                                             </>
                                         )}
                                     </Disclosure>
-                                </form>
+                                </div>
 
                                 {/* Product grid */}
                                 <div className="lg:col-span-3">

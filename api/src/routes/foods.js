@@ -124,12 +124,13 @@ router.post('/tomenu', async (req, res) => {  // Agrega comidas existentes a men
 
 router.delete("/:id", async (req, res) => {
     try {
-        const id = req.params;
-        const foodToDelete = await Food.findByPk(id)
-        if (foodToDelete !== null) {
-            await foodToDelete.destroy();
+        const {id} = req.params;
+            await Food.destroy({
+                where: {
+                    id: id
+                }
+            });
             res.json("food borrada")
-        }
     } catch (e) {
         return res.status(404).json("error " + e.message)
     }
