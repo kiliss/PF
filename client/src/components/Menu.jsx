@@ -91,7 +91,7 @@ const Menu = () => {
                                             </button>
                                         </div>
                                         {/* Filters */}
-                                        <form className="mt-4 border-t border-gray-200">
+                                        <div className="mt-4 border-t border-gray-200">
                                             <h3 className="sr-only">Categories</h3>
                                             <ul className="px-2 py-3 font-medium text-gray-900">
                                                 {filterOptions.map((category) => (
@@ -147,7 +147,7 @@ const Menu = () => {
                                                     </>
                                                 )}
                                             </Disclosure>
-                                        </form>
+                                        </div>
                                     </Dialog.Panel>
                                 </Transition.Child>
                             </div>
@@ -218,7 +218,7 @@ const Menu = () => {
 
                             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                                 {/* Filters */}
-                                <form className="hidden lg:block">
+                                <div className="hidden lg:block">
                                     <h3 className="sr-only">Categories</h3>
                                     <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                                         {filterOptions.map((category) => (
@@ -270,7 +270,7 @@ const Menu = () => {
                                             </>
                                         )}
                                     </Disclosure>
-                                </form>
+                                </div>
 
                                 {/* Product grid */}
                                 <div className="lg:col-span-3">
