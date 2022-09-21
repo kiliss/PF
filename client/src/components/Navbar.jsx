@@ -1,21 +1,28 @@
 import React, { Fragment } from 'react';
 import { useLocation } from "react-router-dom"
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, /*BellIcon,*/ XMarkIcon } from '@heroicons/react/24/outline'
+import jwt_decode from "jwt-decode";
 
-const navigation = [
-    { name: 'Productos', href: '/products' },
+const visitorNavigation = [
+    { name: 'Productos', href: '/products' }
+];
+
+const userNavigation = [];
+
+const adminNavigation = [
     { name: 'Crear Producto', href: '/product/create' }
-]
+];
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const login = false;
-
 const Navbar = () => {
     const location = useLocation();
+
+    const { admin, photo } = localStorage.getItem('user') ? jwt_decode(localStorage.getItem('user')) : { 'admin': false, 'photo': '' };
+
     return (
         <Disclosure as="nav" className="bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200">
             {({ open }) => (
@@ -53,7 +60,33 @@ const Navbar = () => {
                                 </div>
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex space-x-4">
-                                        {navigation.map((item) => (
+                                        {visitorNavigation.map((item) => (
+                                            <a
+                                                key={item.name}
+                                                href={item.href}
+                                                className={classNames(
+                                                    location.pathname === item.href ? 'bg-red-700 text-white' : 'text-black hover:bg-gray-500 hover:text-white',
+                                                    'px-3 py-2 rounded-md text-sm font-medium'
+                                                )}
+                                                aria-current={location.pathname === item.href ? 'page' : undefined}
+                                            >
+                                                {item.name}
+                                            </a>
+                                        ))}
+                                        {localStorage.getItem('user') && userNavigation.map((item) => (
+                                            <a
+                                                key={item.name}
+                                                href={item.href}
+                                                className={classNames(
+                                                    location.pathname === item.href ? 'bg-red-700 text-white' : 'text-black hover:bg-gray-500 hover:text-white',
+                                                    'px-3 py-2 rounded-md text-sm font-medium'
+                                                )}
+                                                aria-current={location.pathname === item.href ? 'page' : undefined}
+                                            >
+                                                {item.name}
+                                            </a>
+                                        ))}
+                                        {admin && adminNavigation.map((item) => (
                                             <a
                                                 key={item.name}
                                                 href={item.href}
@@ -71,24 +104,26 @@ const Navbar = () => {
                             </div>
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                 {
-                                    login === true ?
+                                    localStorage.getItem('user') ?
                                         <>
-                                            <button
-                                                type="button"
-                                                className="rounded-full bg-red-700 p-1 text-white hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                                            >
-                                                <span className="sr-only">View notifications</span>
-                                                <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                            </button>
+                                            {
+                                                /*<button
+                                                    type="button"
+                                                    className="rounded-full bg-red-700 p-1 text-white hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                                                >
+                                                    <span className="sr-only">View notifications</span>
+                                                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                                    </button>*/
+                                            }
 
                                             {/* Profile dropdown */}
                                             <Menu as="div" className="relative ml-3">
                                                 <div>
-                                                    <Menu.Button className="flex rounded-full bg-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                                    <Menu.Button className="flex rounded-full bg-gray-200 text-sm focus:outline-none ring-2 ring-gray-200 hover:ring-red-900">
                                                         <span className="sr-only">Open user menu</span>
                                                         <img
                                                             className="h-8 w-8 rounded-full"
-                                                            src="https://cdn-icons-png.flaticon.com/512/860/860733.png?w=360"
+                                                            src={photo}
                                                             alt=""
                                                         />
                                                     </Menu.Button>
@@ -106,30 +141,21 @@ const Navbar = () => {
                                                         <Menu.Item>
                                                             {({ active }) => (
                                                                 <a
-                                                                    href="!#"
-                                                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-black')}
+                                                                    href="/profile"
+                                                                    className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black')}
                                                                 >
-                                                                    Your Profile
+                                                                    Ver Perfíl
                                                                 </a>
                                                             )}
                                                         </Menu.Item>
                                                         <Menu.Item>
                                                             {({ active }) => (
                                                                 <a
-                                                                    href="!#"
-                                                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-black')}
+                                                                    href="/"
+                                                                    className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black')}
+                                                                    onClick={() => localStorage.removeItem('user')}
                                                                 >
-                                                                    Settings
-                                                                </a>
-                                                            )}
-                                                        </Menu.Item>
-                                                        <Menu.Item>
-                                                            {({ active }) => (
-                                                                <a
-                                                                    href="!#"
-                                                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-black')}
-                                                                >
-                                                                    Sign out
+                                                                    Cerrar Sesión
                                                                 </a>
                                                             )}
                                                         </Menu.Item>
@@ -140,13 +166,13 @@ const Navbar = () => {
                                         :
                                         <div className="sm:ml-6 sm:block">
                                             <div className="flex space-x-4">
-                                                    <a
-                                                        href={'/login'}
-                                                        className={'bg-red-700 hover:bg-red-900 text-white px-3 py-2 rounded-md text-sm font-medium'}
-                                                        aria-current={undefined}
-                                                    >
-                                                        {'Iniciar Sesión'}
-                                                    </a>
+                                                <a
+                                                    href={'/login'}
+                                                    className={'bg-red-700 hover:bg-red-900 text-white px-3 py-2 rounded-md text-sm font-medium'}
+                                                    aria-current={undefined}
+                                                >
+                                                    {'Iniciar Sesión'}
+                                                </a>
                                             </div>
                                         </div>
                                 }
@@ -157,7 +183,7 @@ const Navbar = () => {
 
                     <Disclosure.Panel className="sm:hidden">
                         <div className="space-y-1 px-2 pt-2 pb-3">
-                            {navigation.map((item) => (
+                            {visitorNavigation.map((item) => (
                                 <Disclosure.Button
                                     key={item.name}
                                     as="a"
