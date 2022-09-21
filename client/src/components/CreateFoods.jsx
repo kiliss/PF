@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import swal from "sweetalert";
 import { postFood, getMenus, getFoods } from "../redux/actions";
 
 
@@ -122,10 +123,20 @@ export default function CreateFoods() {
     setError(aux);
     if(Object.keys(aux).length === 0){
       dispatch(postFood({...input, photo: photo}));
-      alert("Food created");
+      swal({
+        title: "¡Éxito!",
+        text: "Se ha creado el alimento",
+        icon: "success",
+        button: "Aceptar",
+      })
       navigate("/");
     } else {
-      alert("Complete todos los campos");
+      swal({
+        title: "¡Error!",
+        text: "No se ha podido crear el alimento",
+        icon: "error",
+        button: "Aceptar",
+      })
     }
   };
 

@@ -46,8 +46,8 @@ router.post('/', async (req,res)=>{
             price:price,
             Cant_User:Cant_User}
         )
-        ?res.status(200).json("La reservación ha sido creado correctamente", reservation)
-           :res.status(403).json("La reservación no se ha creado");
+        res.status(200).json("La reservación ha sido creado correctamente")
+           
     }catch(error){
         res.status(403).json(error)
     }

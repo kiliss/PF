@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { createUser, getUsers } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import  ProfileImages from "../assets/register/ProfileImages.js"
+import swal from 'sweetalert';
+
+const regexPasswd = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/
+const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
 function validate(input, findedUser="", findedEmail="",photo, state1, state2){
     const errors = {}
@@ -16,27 +20,31 @@ function validate(input, findedUser="", findedEmail="",photo, state1, state2){
         if(input.user.length > 12){
             errors.user = "El nombre de usuario no debe superar los 12 caracteres"
         }
-        if(input.user.charAt(0) === " ")
+        if(input.user.charAt(0) === " "){
             errors.user = "No se permiten espacios al inicio"
+        }
+        if(findedEmail === true){
+            errors.email = "El email ya esta registrado"
+        }
     }
     if(state2 === "validate2"){
         if(!input.user){
             errors.user = "Se requiere un nombre de usuario"
         }
-        if(input.password.length < 6){
-            errors.password = "La contraseña debe tener al menos 6 caracteres"
-        }
         if(!input.password){
             errors.password = "Se requiere contraseña"
         }
+        if(input.password && !regexPasswd.test(input.password)){
+          errors.password = "La contraseña debe tener al menos 6 caracteres, un una letra mayúscula y una letra minúscula"
+        }
         if(!input.email){
-            errors.email = "Se requiere email"
+          errors.email = "Se requiere email"
+        }
+        if(input.email && !regexEmail.test(input.email)){
+          errors.email = "Email invalido"
         }
         if(!photo){
             errors.photo = "Se requiere una foto"
-        }
-        if(findedEmail === true){
-            errors.email = "El email ya esta registrado"
         }
     }
     return errors
@@ -47,6 +55,7 @@ const dispatch = useDispatch();
 const navigate = useNavigate();
 
 const userss = useSelector((state) => state.users);
+
 
 const findUser = (user) => {
     if(userss.find((u) => u.user.toLowerCase() === user.toLowerCase())){
@@ -75,7 +84,6 @@ const [input, setInput] = useState({
     photo: "",
     admin: false,
 });
-
 
 function handleChange(e){
     setInput({
@@ -119,13 +127,24 @@ function handleSubmit(e){
     let findedEmail = findEmail(input.email)
     const aux = validate(input, findedUser, findedEmail, photo, "validate1", "validate2")
     setError(aux);
-    console.log(input);
     if(Object.keys(aux).length === 0){
         dispatch(createUser({...input, photo: photo}));
-        alert("Felicidades, te has registrado exitosamente!");
+        // alert("Felicidades, te has registrado exitosamente!");
+        swal({
+            title: "Felicidades!",
+            text: "Te has registrado exitosamente!",
+            icon: "success",
+            button: "Aceptar",
+        })
         navigate("/login")
     } else {
-        alert("Complete correctamente todos los campos")
+        // alert("Complete correctamente todos los campos")
+        swal({
+            title: "Error!",
+            text: "Complete correctamente todos los campos",
+            icon: "error",
+            button: "Aceptar",
+        })
     }
 };
 

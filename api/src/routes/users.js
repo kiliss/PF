@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
             photo: photo,
             admin: admin
         })
-            ? res.status(200).json("El usuario ha sido creado correctamente", usser)
+            usser ? res.status(200).json("El usuario ha sido creado correctamente")
             : res.status(403).json("El usuario no se ha creado");
     } catch (error) {
         res.status(403).json(error)
