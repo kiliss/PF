@@ -40,7 +40,6 @@ const Login = () => {
     } else {
       // console.log(user)
       let data = await dispatch(login(user))
-      console.log(data)
       if (data) {
         window.localStorage.setItem('user',data);
           alert("Bienvenido")
