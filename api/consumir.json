@@ -14,7 +14,7 @@
             "password": "$2b$10$hsFalj0znEGudkzZbpuyGOfihs7o3pLtzTSjcUDfnuHnwZ0eRER4S",
             "email": "agustin@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663678154/Foodss/qyqs558rinx4oaaorqoh.png",
-            "admin": false
+            "admin": true
         },
         {
             "id": 3,
@@ -22,7 +22,7 @@
             "password": "$2b$10$nUOj2353hZw1YIbcLzTYR.RphXh6YYUnqOUGCXV7l/MbcS.KbM4LW",
             "email": "alejandro@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663678301/Foodss/jmfnbhvken93pbcsouz1.png",
-            "admin": false
+            "admin": true
         },
         {
             "id": 4,
@@ -30,7 +30,7 @@
             "password": "$2b$10$07pg/7wQtPctHO9iUwpm8uO2liEdyl5mfBwOHkJiQRr8NuTr/F.j.",
             "email": "anderson@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663678378/Foodss/xohytkga1zt2lhyqzjfn.png",
-            "admin": false
+            "admin": true
         },
         {
             "id": 5,
@@ -38,7 +38,7 @@
             "password": "$2b$10$VJXhvw4aG6Cx9BLdR7Sb6.QHyn7wfQNf6VJyeyWuGyitsvIwYAyeO",
             "email": "fabricio@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663678200/Foodss/v6bjh4axscaozsfrlt6v.png",
-            "admin": false
+            "admin": true
         },
         {
             "id": 6,
@@ -46,7 +46,7 @@
             "password": "$2b$10$Rae44iIRBGi43pOaYmgSL.zESJVh6bjLZkmx.ZStIuJdfpHNcwUK6",
             "email": "gabriel@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663678254/Foodss/nwul9da8rhoowpchplxw.png",
-            "admin": false
+            "admin": true
         },
         {
             "id": 7,
@@ -54,7 +54,7 @@
             "password": "$2b$10$KLulf4gW/djyqZ.USSWMLOLYprcMM7J6RAJbmKd.p7rC02il1vUCW",
             "email": "sebastian@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663678330/Foodss/kyu689fx8stw8pijffgn.png",
-            "admin": false
+            "admin": true
         }
     ],
     "menu": [
