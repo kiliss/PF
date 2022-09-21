@@ -218,5 +218,19 @@
             "foodId": 8,
             "menuId": 3
         }
+    ],
+    "table": [
+        {
+            "id": 1,
+            "num_Table": 1,
+            "state": false,
+            "chairs": 4
+        },
+        {
+            "id": 2,
+            "num_Table": 2,
+            "state": false,
+            "chairs": 2
+        }
     ]
 }

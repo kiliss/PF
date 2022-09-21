@@ -23,11 +23,11 @@ router.get("/table",async (req,res)=>{
 router.get("/:id",async(req,res)=>{
     const {id}=req.params;
     try{
-        const table=await Table.findByPk(id,{
+        const table=await Table.findByPk(id/*,{
             include:{
                 model:User
             }
-        })
+        }*/)
         if(table===null){
             res.status(404).json("Error in user by id")
         }
