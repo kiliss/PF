@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/actions';
 import { useEffect } from 'react';
+import swal from 'sweetalert';
 
 
 const Login = () => {
@@ -42,10 +43,13 @@ const Login = () => {
       let data = await dispatch(login(user))
       if (data) {
         window.localStorage.setItem('user',data);
-          alert("Bienvenido")
           navigate('/')
         }else{
-          alert("Lo siento no eres usuario")
+          swal({
+            title: "Usuario o contraseña incorrectos",
+            icon: "warning",
+            button: "Aceptar",
+          })
         }
       } 
 

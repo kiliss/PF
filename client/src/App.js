@@ -6,7 +6,6 @@ import Profile from "./components/Profile";
 import Login from "./components/Login";
 import Tables from "./components/Tables";
 import Table from "./components/Tables";
-//import Reservation from "./components/Reservation";
 import Navbar from "./components/Navbar";
 import CreateFoods from './components/CreateFoods';
 import Register from './components/Register';
@@ -34,7 +33,6 @@ function App() {
           <Route exact path='/profile' element={<Profile />} />
           <Route exact path='/tables' element={<Tables />} />
           <Route exact path='/tables/:id' element={<Table />} />
-          {/*<Route exact path='/reservation' element={<Reservation />} />*/}
         </Route>
         <Route element={<AdminRoutes />}>
           <Route exact path="/tableadmin" element={<TableAdmin />} />

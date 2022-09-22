@@ -35,7 +35,7 @@ const Products = () => {
         'vegetarian': false
     });
     const [menuSort, setMenuSort] = useState('');
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         dispatch(getFoods());

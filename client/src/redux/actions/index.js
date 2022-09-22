@@ -134,17 +134,17 @@ export function addFoodToMenu(payload) {
 
 // BORRAR COMIDA (*SE DEBE PROBAR*)
 export function deleteFood(id) {
-    return async function (dispatch) {
+    return async function(dispatch){
         try {
-            var json = await axios.delete("/foods/" + id)
-            return dispatch({
-                type: "DELETE_FOOD",
-                payload: json.data === "Food deleted" ? id : ''
-            })
+        const response = await axios.delete(`/foods/${id}`)
+        return dispatch({
+            type: "DELETE_FOOD",
+            payload: response.data
+        })
         } catch (error) {
             console.log(error)
         }
-    };
+    }
 };
 
 // OBTENER USERS (*SE DEBE PROBAR*)
@@ -208,7 +208,7 @@ export function createUser(payload) {
 export function getTableDetail(id) {
     return async function (dispatch) {
         try {
-            var json = await axios.get("/table/" + id)
+            var json = await axios.get("/table/:" + id)
             return dispatch({
                 type: "GET_TABLE",
                 payload: json.data
