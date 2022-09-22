@@ -5,13 +5,13 @@ const {Reservation,User} = require('../db.js');
 
 const getReservation=async()=>{
     return await Reservation.findAll({
-        include:{
+       /* include:{
             model:User,
             attributes:['user','password','email','photo','admin'],
-            through:{
+            */through:{
                 attributes:['id_User','id_Table','date','hour','price','Cant_User']
             }
-        }
+        
     })
 }
 
@@ -22,11 +22,11 @@ router.get("/users",async (req,res)=>{
 router.get("/:id",async(req,res)=>{
     const {id}=req.params;
     try{
-        const reservations=await Reservation.findByPk(id,{
+        const reservations=await Reservation.findByPk(id/*,{
             include:{
                 model:User
             }
-        })
+        }*/)
         ?res.status(200).json(reservations)
         :res.status(404).json("Error in user by id")
     }catch(error){
@@ -39,12 +39,13 @@ router.post('/', async (req,res)=>{
     const {id_User,id_Table,date,hour,price,Cant_User}=req.body;
     try{
         const reservation=await Reservation.create({
-            id_User:id_User,
-            id_Table:id_Table,
+            //id_User:id_User,
+            //id_Table:id_Table,
             date:date,
             hour:hour,
             price:price,
-            Cant_User:Cant_User}
+            //Cant_User:Cant_User
+        }
         )
         res.status(200).json("La reservación ha sido creado correctamente")
            

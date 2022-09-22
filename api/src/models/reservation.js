@@ -30,10 +30,7 @@ module.exports = (sequilize) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        Cant_User: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        }
+        
 
     },
         {
