@@ -15,6 +15,7 @@ import Products from './components/Products';
 import VisitorRoutes from './utils/VisitorRoutes';
 import UserRoutes from './utils/UserRoutes';
 import AdminRoutes from './utils/AdminRoutes';
+import PruebaPago from './components/pruebapago';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route exact path='/' element={<Home />} />
         <Route exact path='/menu/:name' element={<Menu />} />
         <Route exact path='/products' element={<Products />} />
+        <Route exact path='/pruebapago' element={<PruebaPago />}/>
         <Route element={<VisitorRoutes />}>
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/register' element={<Register />} />

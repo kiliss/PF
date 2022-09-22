@@ -15,6 +15,7 @@ const authRoute = require('./routes/auth');
 const feedbacks = require('./routes/feedbacks');
 const table=require('./routes/table')
 
+const pruebapay=require('./routes/pruebapay')
 
 const server = express();
 const cors = require('cors');
@@ -68,6 +69,7 @@ server.use('/users', users);
 server.use('/reservation', reservation);
 server.use('/login', login);
 server.use('/feedbacks',feedbacks);
+server.use('/pay', pruebapay);
 
 module.exports = server;
 
