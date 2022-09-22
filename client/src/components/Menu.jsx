@@ -50,7 +50,9 @@ const Menu = () => {
 
     return (
         <>
-            <Food open={open} setOpen={setOpen} />
+            {
+                open && <Food setOpen={setOpen} />
+            }
             <div className="bg-gray-100 min-h-screen">
                 <div>
                     {/* Mobile filter dialog */}
