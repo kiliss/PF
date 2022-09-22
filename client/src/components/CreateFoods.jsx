@@ -84,6 +84,14 @@ export default function CreateFoods(props) {
     dispatch(getFoods());
   }, [dispatch]);
 
+  // guardar menus en un array
+  let menusArray = [];
+  menus.forEach((menu) => {
+    menusArray.push(menu.name);
+  });
+  const [menusState, setMenusState] = useState(menusArray);
+
+
 
   const findName = (name) => {
     if(foods.find((food) => food.name.toLowerCase() === name.toLowerCase())){
@@ -107,7 +115,9 @@ export default function CreateFoods(props) {
   };
   function handleSelect(e) {
     const menus = e.target.value;
+    // quitar del array lo seleccionado
     if(!input.menu.includes(menus)){
+      setMenusState(menusState.filter((menu) => menu !== menus));
             setInput({
         ...input,
         menu: [...input.menu, menus]
@@ -115,6 +125,9 @@ export default function CreateFoods(props) {
     }
  }
  function handleDelete(el) {
+  //al borrar algregar al array de select
+  setMenusState([...menusState, el]);
+
   setInput({
       ...input,
       menu: input.menu.filter(t => t !== el)
@@ -314,17 +327,19 @@ export default function CreateFoods(props) {
                     <label className="block text-sm font-medium text-gray-700">
                           Menu
                         </label>
-                        <select
+                        {
+                          menusState.length > 0 ?                         <select
                           onChange={(e) => handleSelect(e)}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         >
                           <option value="0" hidden>Seleccione un menu</option>
                           {
-                            menus?.map((menu) => (
-                              <option key={menu.id} value={menu.name}>{menu.name}</option>
+                            menusState?.map((menu) => (
+                              <option key= {menu+Math.random()} value={menu}>{menu}</option>
                             ))
                           }
-                        </select>
+                        </select> : <p className="text-gray-500">Se acabaron los menus</p>
+                        }
                         {error.menu && <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {error.menu} </span>}
                     </div>
   
