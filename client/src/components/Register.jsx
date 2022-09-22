@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createUser, getUsers } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import  ProfileImages from "../assets/register/ProfileImages.js"
@@ -209,6 +209,7 @@ useEffect(() => {
         <div className="container mx-auto px-2">
           <div className="flex flex-wrap items-center md:justify-between justify-center">
             <div className="w-full md:w-6/12 px-4 mx-auto text-center">
+              <Link to="/login">Ya tienes cuenta?</Link>
             </div>
           </div>
         </div>

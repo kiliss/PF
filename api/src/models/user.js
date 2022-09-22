@@ -19,7 +19,9 @@ module.exports = (sequilize) => {
         },
         email: {
             type: DataTypes.STRING,
-            allowNull: false
+        },
+        googleId:{
+            type: DataTypes.STRING, 
         },
         photo: {
             type: DataTypes.STRING,
