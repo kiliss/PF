@@ -77,6 +77,20 @@ export function updateMenu(name) {
         }
     }
 }
+// DELETE FOOD FROM MENU (*SE DEBE PROBAR*)
+export function deleteFoodFromMenu({menu, food}) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.delete("/menus/" + menu + "/" + food)
+            return dispatch({
+                type: "DELETE_FOOD_FROM_MENU",
+                payload: json.data === "Food deleted" ? food : ''
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    };
+}
 
 // OBTENER DETALLES DE COMIDAS POR ID (*SE DEBE PROBAR)
 export function getFood(id) {
@@ -125,6 +139,17 @@ export function addFoodToMenu(payload) {
     return async function (dispatch) {
         try {
             var json = await axios.post("/foods/tomenu", payload)
+            return json
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+// MODIFICAR COMIDA POR ID
+export function updateFood(payload) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/foods/" + payload.id, payload)
             return json
         } catch (error) {
             console.log(error)

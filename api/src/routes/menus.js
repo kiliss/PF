@@ -107,6 +107,30 @@ router.delete('/:name', async (req, res) => {
         return res.status(400).json("error " + error.message)
     }
 })
+//delete food menu
+router.delete('/:name/:food', async (req, res) => {
+    try {
+        let menu = await Menu.findOne({
+            where: {
+                name: req.params.name
+            }
+        });
+        let food = await Food.findOne({
+            where: {
+                name: req.params.food
+            }
+        });
+        if (menu && food) {
+            await menu.removeFood(food);
+            res.status(200).send("Food deleted");
+        } else {
+            res.status(404).send("Menu or food not found");
+        }
+    }
+    catch (error) {
+        return res.status(400).json("error " + error.message)
+    }
+})
 
 router.put('/:name', async (req, res) => {
     try {
