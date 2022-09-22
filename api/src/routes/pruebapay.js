@@ -11,7 +11,7 @@ router.post('/', async (req, res) =>{
 
     const payment = await stripe.paymentIntents.create({
         amount,
-        currency: "USD",
+        currency: "ARS",
         description: "Auriculares HyperX Cloud Flight",
         payment_method: id,
         confirm: true
