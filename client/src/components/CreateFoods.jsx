@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from "react";
+import { Fragment } from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import swal from "sweetalert";
 import { postFood, getMenus, getFoods } from "../redux/actions";
-
+import { Dialog, Transition } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 function validate(input, findedName="", photo, state, state2){
   const errors = {}
@@ -60,7 +62,7 @@ function validate(input, findedName="", photo, state, state2){
 
 
 
-export default function CreateFoods() {
+export default function CreateFoods(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [photo, setPhoto] = useState("");
@@ -128,8 +130,10 @@ export default function CreateFoods() {
         text: "Se ha creado el alimento",
         icon: "success",
         button: "Aceptar",
-      })
-      navigate("/");
+      }).then(() => {
+      // navigate("/");
+      window.location.reload(false)
+      });
     } else {
       swal({
         title: "¡Error!",
@@ -160,9 +164,52 @@ export default function CreateFoods() {
 
 
     return (
-        <div className= "mt-20 mb-10" >
-          <div className="flex justify-center">
-            <div className="mt-5 md:col-span-2 md:mt-0 ml-4 w-3/6">
+      <Transition.Root show={props.open} as={Fragment}>
+      <Dialog as="div" className="relative z-20" onClose={props.setOpen}>
+          <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+          >
+              <div className="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 z-10 overflow-y-auto">
+              <div className="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
+                  <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                      enterTo="opacity-100 translate-y-0 md:scale-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100 translate-y-0 md:scale-100"
+                      leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                  >
+                      <Dialog.Panel className=" flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
+                          <div className="rounded-2xl relative flex w-full items-center overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                              <button
+                                  type="button"
+                                  className="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8"
+                                  onClick={() => props.setOpen(false)}
+                              >
+                                  <span className="sr-only">Close</span>
+                                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                              </button>
+
+
+
+
+
+
+
+
+        <div className="w-full">
+          <div>
+            <div>
               <form onSubmit={(e) => handleSubmit(e)}>
                 <div className="shadow sm:overflow-hidden sm:rounded-md ">
                   <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
@@ -319,7 +366,15 @@ export default function CreateFoods() {
               </form>
             </div>
           </div>
-        </div>  
+        </div>
+      </div>
+        </Dialog.Panel>
+                        </Transition.Child>
+                    </div>
+
+                </div>
+            </Dialog>
+        </Transition.Root>  
     )
   }
   

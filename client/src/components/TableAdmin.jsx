@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import {getFoods, getMenus, addFoodToMenu, deleteFood, getFood, deleteFoodFromMenu} from "../redux/actions";
 import FoodEdit from "./FoodEdit";
 import swal from 'sweetalert';
+import CreateFoods from './CreateFoods';
 
 
 const TableAdmin = () => {
@@ -12,6 +13,7 @@ const TableAdmin = () => {
     const menuus = useSelector((state) => state.menus);
     const [menu, setMenu] = useState("")
     const [open, setOpen] = useState(false)
+    const [openEdit, setOpenEdit] = useState(false)
     const [charge, setCharge] = useState(false)
 
     useEffect(() => {
@@ -46,8 +48,6 @@ const TableAdmin = () => {
                 icon: "success",
                 button: "Aceptar",
             })
-                window.location.reload(true);
-         
         } 
      } else {
             swal({
@@ -118,8 +118,10 @@ const TableAdmin = () => {
     }}
     }
     return (
-        <div className="text-gray-900 bg-gray-200 mt-14">
+        <div className="text-gray-900 min-h-screen bg-gray-200 mt-14">
             <FoodEdit open={open} setOpen={setOpen}/>
+            <CreateFoods open={openEdit} setOpen={setOpenEdit}/>
+            <button onClick={() => setOpenEdit(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Crear comida</button>
             <div className="px-3 py-4 flex justify-center">
                 <table className="w-full text-md bg-white shadow-md rounded mb-4">
                     <tbody>

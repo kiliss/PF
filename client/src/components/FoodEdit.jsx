@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import React, { useState, useEffect } from 'react';
-import { updateFood, getFood } from "../redux/actions";
+import { updateFood } from "../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -57,8 +57,8 @@ function validate(comida, findedName="", state, state2, food){
 
 export default function Food(props) {
     const dispatch = useDispatch();
-    const food = useSelector((state) => state.food);
-    const foods = useSelector((state) => state.foods);
+    let food = useSelector((state) => state.food);
+    let foods = useSelector((state) => state.foods);
 
     const [comida, setComida] = useState({
         name: "",
@@ -100,12 +100,11 @@ export default function Food(props) {
                 let findedName = findName(name2)
                 const aux = validate(comida, findedName, "validate4", "validate2")
                 setError(aux);
-                console.log(Object.keys(aux).length)
                 if(Object.keys(aux).length === 0){
             dispatch(updateFood({
                 id: id,
                 name: name2 !== "" ? name2 : name,
-                price: price2 !== "" ? price2 : price,
+                price: price2 !== 0 ? price2 : price,
                 summary: summary2 !== "" ? summary2 : summary,
             }));
             swal("Comida editada", {
@@ -115,7 +114,6 @@ export default function Food(props) {
             window.location.reload(false)
             });
             } else {
-                console.log(error)
                 swal("Error al editar la comida", {
                     icon: "error",
                 });
@@ -125,6 +123,26 @@ export default function Food(props) {
             }
         })
     };
+
+    const [photo, setPhoto] = useState("");
+    const [loading, setLoading] = useState(false);
+    const uploadImage = async (e) => {
+        const files = e.target.files;
+        const data = new FormData();
+        data.append("file", files[0]);
+        data.append("upload_preset", "Foodss");
+        setLoading(true);
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dzvqedesg/image/upload",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+        const file = await res.json();
+        setPhoto(file.secure_url);
+        setLoading(false);
+      };
 
 
 
@@ -174,7 +192,7 @@ export default function Food(props) {
                                             <input
                                                 type="text"
                                                 name="name"
-                                                defaultValue={food?.name}
+                                                placeholder={food.name}
                                                 className="text-2xl font-bold text-gray-900 sm:pr-1"
                                                 onChange={(e) => handleInputChange(e)}
                                                 />
@@ -188,7 +206,7 @@ export default function Food(props) {
                                                 <input
                                                 type="number"
                                                 name="price"
-                                                defaultValue= {food?.price}
+                                                placeholder= {food?.price}
                                                 className="text-2xl text-gray-900"
                                                 onChange={(e) => handleInputChange(e)}
                                                 />
@@ -249,7 +267,7 @@ export default function Food(props) {
                                                         </div>
                                                             
                                                         <div>
-                                                        <textarea className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="description" defaultValue={food?.summary} onChange={(e) => handleInputChange(e)} />
+                                                        <textarea className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="description" placeholder={food?.summary} onChange={(e) => handleInputChange(e)} />
                                                         {error.description && <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {error.description} </span>}
                                                         </div>
                                                     </div>
@@ -258,10 +276,12 @@ export default function Food(props) {
                                             </section>
                                         </div>
                                     </div>
+
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>
                     </div>
+
                 </div>
             </Dialog>
         </Transition.Root>
