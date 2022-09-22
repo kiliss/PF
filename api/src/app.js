@@ -1,3 +1,4 @@
+
 const express = require("express");
 require("dotenv").config();
 const bodyParser = require("body-parser");
@@ -16,6 +17,8 @@ const reservation = require("./routes/reservation");
 const auth = require("./routes/auth");
 const feedbacks = require("./routes/feedbacks");
 const table = require("./routes/table");
+
+const pruebapay=require('./routes/pruebapay')
 
 const cors = require("cors");
 const server = express();
@@ -65,5 +68,6 @@ server.use("/users", users);
 server.use("/reservation", reservation);
 server.use("/login", login);
 server.use("/feedbacks", feedbacks);
+server.use('/pay', pruebapay);
 
 module.exports = server;
