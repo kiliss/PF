@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { User } = require("../db.js");
 
-const CLIENT_URL = "http://localhost:3000/";
+const CLIENT_URL = "http://localhost:3000";
 
 function passwordRandom() {
   return "secret";
@@ -85,7 +85,7 @@ router.get(
         }),
         process.env.JWT_SECRET
       );
-      res.redirect("/").json(jwtToken);
+      res.redirect(`${CLIENT_URL}`).json(jwtToken);
     } catch (error) {
       res.status(404).json(error);
     }
