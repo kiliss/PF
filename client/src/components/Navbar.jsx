@@ -28,7 +28,7 @@ const Navbar = () => {
     return (
         <>
             {
-                localStorage.getItem('user') && !admin && <Reservation open={openReservation} setOpen={setOpenReservation} />
+                localStorage.getItem('user') && !admin && openReservation && <Reservation setOpen={setOpenReservation} />
             }
             <Disclosure as="nav" className="bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200">
                 {({ open }) => (

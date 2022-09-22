@@ -12,7 +12,7 @@ export default function Food(props) {
     const food = useSelector((state) => state.food);
 
     return (
-        <Transition.Root show={props.open} as={Fragment}>
+        <Transition.Root show={true} as={Fragment}>
             <Dialog as="div" className="relative z-20" onClose={props.setOpen}>
                 <Transition.Child
                     as={Fragment}

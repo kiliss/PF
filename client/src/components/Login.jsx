@@ -47,6 +47,7 @@ const Login = () => {
           window.localStorage.setItem("user", data);
           navigate("/");
         }
+        
       } else {
         swal({
           title: "Usuario o contraseña incorrectos",
@@ -163,7 +164,9 @@ const Login = () => {
         <footer className="relative pt-8 pb-6 mt-2">
           <div className="container mx-auto px-2">
             <div className="flex flex-wrap items-center md:justify-between justify-center">
-              <div className="w-full md:w-6/12 px-4 mx-auto text-center"></div>
+              <div className="w-full md:w-6/12 px-4 mx-auto text-center">
+                <Link to="/register">No tienes cuenta?</Link>
+              </div>
             </div>
           </div>
         </footer>
