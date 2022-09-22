@@ -43,39 +43,35 @@ const Reservation = (props) => {
         //dispatch(createReservation())
         dispatch(getReservations())
     }, [dispatch])
-    function handleSubmit(e) {
-        e.preventDefault();
+    function handleSubmit() {
+        // e.preventDefault();
         setErrors(validationForm(input))
         const errors = validationForm(input)
-        swal({
-            title: "Confirm reservation",
-            text: "$300 table",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-          }).then((willReservate) => {
-            if (willReservate) {
-                if (Object.values(errors).length === 0) {
-                    dispatch(createReservation(input));
-              swal("reservation confirmed, we are waiting for you soon", {
-                icon: "success",
-              });
-              
+        console.log(errors);
+        if(Object.values(errors).length){
+            swal({
+                title: "Por favor complete los campos a llenar",
+                icon: "warning",
+                buttons: "aceptar",
+              })
+        }else {
+            swal({
+                title: "Confirm reservation",
+                text: "$300 table",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+              }).then((willReservate) => {
+                if (willReservate) {
+                        dispatch(createReservation(input));
+                  swal("reservation confirmed, we are waiting for you soon", {
+                    icon: "success",
+                  });      
             }
-              else {
-                alert("Please complete all the entries before creating an reservation")
-            }
-            } /*/else {
-              swal("reservation cancel");
-              
-            }*/
-          });
-       
-             
-        }
-
-        
-    
+        });
+    }
+}
+   
     function handleChange(e) {
         setInput({
             ...input,
@@ -114,7 +110,7 @@ const Reservation = (props) => {
                             leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
                         >
                             <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
-                                <form onSubmit={(e) => handleSubmit(e)}>
+                                {/* <form onSubmit={(e) => handleSubmit(e)}> */}
                                     <div className="relative flex w-full items-center overflow-hidden bg-white rounded-lg">
                                         <div className="flex w-full items-center justify-center">
 
@@ -225,7 +221,7 @@ const Reservation = (props) => {
                                                         <button
                                                             className="hover:shadow-form w-full rounded-md bg-red-700 hover:bg-red-900 py-3 px-8 text-center text-base font-semibold text-white outline-none"
                                                             type='submit'
-                                                           // onClick={() => { }}
+                                                            onClick={() => handleSubmit()}
                                                         >
                                                             Reservar
                                                         </button>
@@ -236,7 +232,7 @@ const Reservation = (props) => {
                                         </div>
                                     </div>
                                     
-                                </form>
+                                {/* </form> */}
 
 
                             </Dialog.Panel>
