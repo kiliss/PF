@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createUser, getUsers } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import  ProfileImages from "../assets/register/ProfileImages.js"
+import swal from 'sweetalert';
 
 const regexPasswd = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/
 const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
@@ -128,10 +129,22 @@ function handleSubmit(e){
     setError(aux);
     if(Object.keys(aux).length === 0){
         dispatch(createUser({...input, photo: photo}));
-        alert("Felicidades, te has registrado exitosamente!");
+        // alert("Felicidades, te has registrado exitosamente!");
+        swal({
+            title: "Felicidades!",
+            text: "Te has registrado exitosamente!",
+            icon: "success",
+            button: "Aceptar",
+        })
         navigate("/login")
     } else {
-        alert("Complete correctamente todos los campos")
+        // alert("Complete correctamente todos los campos")
+        swal({
+            title: "Error!",
+            text: "Complete correctamente todos los campos",
+            icon: "error",
+            button: "Aceptar",
+        })
     }
 };
 
