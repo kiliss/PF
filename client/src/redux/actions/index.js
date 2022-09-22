@@ -372,3 +372,14 @@ export function logout() {
         }
     };
 };
+
+export function loginWithFacebook() {
+    return async function () {
+        try {
+            var login = await axios.get("/auth/facebook");
+            return login;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
