@@ -70,12 +70,14 @@ router.post('/', async (req, res) => {          // crear comida
             vegetarian,
             drinkable: false || drinkable,
         });
-        let meenu = await Menu.findOne({
-            where: {
-                name: menu
-            }
-        });
-        meenu.addFood(food);
+        menu?.map(async (m) => {
+            let meenu = await Menu.findOne({
+                where: {
+                    name: m
+                }
+            });
+            food.addMenu(meenu);
+        })
         res.status(201).send("Food created");
     } catch (error) {
 

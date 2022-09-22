@@ -118,9 +118,15 @@ const TableAdmin = () => {
     }}
     }
     return (
-        <div className="text-gray-900 min-h-screen bg-gray-200 mt-14">
-            <FoodEdit open={open} setOpen={setOpen}/>
-            <CreateFoods open={openEdit} setOpen={setOpenEdit}/>
+        <div className="text-gray-900 min-h-screen bg-gray-200 mt-14">´
+        {
+
+            open && <FoodEdit open={open} setOpen={setOpen}/>
+        }
+        {
+
+            openEdit && <CreateFoods open={openEdit} setOpen={setOpenEdit}/>
+        }
             <button onClick={() => setOpenEdit(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Crear comida</button>
             <div className="px-3 py-4 flex justify-center">
                 <table className="w-full text-md bg-white shadow-md rounded mb-4">
