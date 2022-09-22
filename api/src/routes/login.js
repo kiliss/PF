@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
         const userEmail = await User.findOne({ where: { email } }).catch((err) => { console.log("Error: ", err) });
         // console.log('bd user :',userEmail)
         if (!userEmail) {
-            return res.json({ message: "Email o contraseña incorrecto!" })
+            return res.json({ message: "!Email o contraseña incorrecto!" })
         }
     
         const match = await bcrypt.compare(password, userEmail.password);
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
             return res.json(jwtToken);
 
         } else {
-            return res.json({ message: "Email o contraseña incorrecto!" });
+            return res.json({ message: "!Email o contraseña incorrecto!" });
         }
     } catch (error) {
         res.status(404).json(error)
