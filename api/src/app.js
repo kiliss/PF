@@ -24,22 +24,24 @@ const server = express();
 
 // }));
 
-server.use(cookieSession({
-    name: "user",
-    keys:["pgrestaurant"],
-    maxAge: 24*60*60*1000
-}));
+// server.use(cookieSession({
+//     name: "user",
+//     keys:["pgrestaurant"],
+//     maxAge: 24*60*60*1000
+// }));
 
-server.use(cors({
-    origin:'http://localhost:3000',
-    methods: 'GET,POST,PUT,DELETE',
-    credentials: true,
-}));
-server.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+// server.cookieParser()
+// {
+//     origin:'http://localhost:3000',
+//     methods: 'GET,POST,PUT,DELETE',
+//     credentials: true,
+// }
+server.use(cors());
+// server.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+//   });
 
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 server.use(bodyParser.json({ limit: "50mb" }));
