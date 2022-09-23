@@ -221,14 +221,14 @@ export default function Food(props) {
                                                                 <StarIcon
                                                                     key={rating}
                                                                     className={classNames(
-                                                                        food?.rating > rating ? 'text-gray-900' : 'text-gray-300',
+                                                                        food?.stars > rating ? 'text-gray-900' : 'text-gray-300',
                                                                         'h-5 w-5 flex-shrink-0'
                                                                     )}
                                                                     aria-hidden="true"
                                                                 />
                                                             ))}
                                                         </div>
-                                                        <p className="sr-only">{food?.rating} out of 5 stars</p>
+                                                        <p className="sr-only">{food?.stars} out of 5 stars</p>
                                                     </div>
                                                 </div>
                                             </section>
@@ -244,8 +244,8 @@ export default function Food(props) {
 
                                                         <span className="flex items-center space-x-3 text-white mt-5">
                                                             {
-                                                                food?.menus?.map((m, i) => {
-                                                                    return <a className='bg-gray-900 p-1 rounded-lg text-xs font-medium' key={`food-menu-${m.name.toLowerCase()}`} href={`/menu/${m.name.toLowerCase()}`}>{m.name}</a>
+                                                                food?.menus?.map((menu, i) => {
+                                                                    return <a className='bg-gray-900 p-1 rounded-lg text-xs font-medium' key={`food-menu-${menu.toLowerCase()}`} href={`/menu/${menu.toLowerCase()}`}>{menu}</a>
                                                                 })
                                                             }
                                                         </span>
