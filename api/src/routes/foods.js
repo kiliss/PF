@@ -134,6 +134,7 @@ router.put("/:id", async (req, res) => {  // modificar comida
             name,
             summary,
             price,
+            photo
         }, {
             where: {
                 id: id
