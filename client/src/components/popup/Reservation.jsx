@@ -5,7 +5,11 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import { createReservation, getReservations, getTable } from '../../redux/actions/index';
 import { useEffect } from "react";
 import { useState } from "react";
+import {loadStripe} from "@stripe/stripe-js"
+import {Elements, CardElement, useStripe, useElements} from '@stripe/react-stripe-js'
+import axios from 'axios';
 import swal from "sweetalert";
+import PruebaPago from "../pruebapago";
 
 
 const validationForm = (input) => {
@@ -26,9 +30,12 @@ const validationForm = (input) => {
     return errors
 };
 
+// console.log(PruebaPago().props)
+
 const Reservation = (props) => {
     const dispatch = useDispatch();
     const tables = useSelector((state) => state.tables);
+    const [open, setOpen] = useState(false)
     const [input, setInput] = useState({
         date: "",
         hour: "",
@@ -53,21 +60,19 @@ const Reservation = (props) => {
                 buttons: "aceptar",
             })
         } else {
-            swal({
-                title: "Confirm reservation",
-                text: "$300 table",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willReservate) => {
-                if (willReservate) {
-                    dispatch(createReservation(input));
-                    swal("reservation confirmed, we are waiting for you soon", {
-                        icon: "success",
-                    });
-                }
-            });
+            {
+                dispatch(createReservation(input));
+                // swal("reservation confirmed, we are waiting for you soon", {
+                //     icon: "success",
+                // });
+            }
+            
         }
+        
+    }
+
+    function nexttt()  {
+        setOpen(true)
     }
 
     function handleChange(e) {
@@ -122,7 +127,12 @@ const Reservation = (props) => {
                                                     <XMarkIcon className="h-8 w-8" aria-hidden="true" />
                                                 </button>
                                             </div>
-
+                                                {
+                                                    open && <PruebaPago open={open} setOpen={setOpen}/> 
+                                                }
+                                                {
+                                                    
+                                                }
                                             <div
                                                 className="px-4 pt-8 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8"
                                             >
@@ -219,11 +229,11 @@ const Reservation = (props) => {
                                                     <button
                                                         className="hover:shadow-form w-full rounded-md bg-red-700 hover:bg-red-900 py-3 px-8 text-center text-base font-semibold text-white outline-none"
                                                         type='submit'
-                                                        onClick={() => handleSubmit()}
+                                                        // onClick={() => handleSubmit()}
+                                                        onClick={() => nexttt()}
                                                     >
                                                         Reservar
                                                     </button>
-
                                                 </div>
                                             </div>
                                         </div>
