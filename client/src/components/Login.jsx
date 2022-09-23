@@ -11,7 +11,7 @@ import { gapi } from 'gapi-script';
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const clientId = '190740947494-n7h845rcrjrso9p60eupmu0ik74eui2e.apps.googleusercontent.com';
+  const clientId = process.env.REACT_APP_CLIENT_ID_GOOGLE;
   const [user, setUser] = useState({
     email: "",
     password: "",
