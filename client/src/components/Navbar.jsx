@@ -12,7 +12,7 @@ const visitorNavigation = [
 const userNavigation = [];
 
 const adminNavigation = [
-    { name: 'Crear Producto', href: '/product/create' }
+    { name: 'Tabla Admin', href: '/tableadmin' }
 ];
 
 function classNames(...classes) {
