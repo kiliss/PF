@@ -183,6 +183,18 @@ export function getUsers() {
     };
 };
 
+// PUT USER
+export function editUser(payload) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/users", payload)
+            return json
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
 // OBTENER DETALLE DE USER POR ID (*SE DEBE PROBAR*)
 export function getUserDetail(id) {
     return async function (dispatch) {
