@@ -32,6 +32,10 @@ function rootReducer(state = initialState, action) {
                 ...state,
                 menus: state.menus.filter(e => e.name !== action.payload)
             }
+        case "DELETE_FOOD_FROM_MENU":
+            return {
+                ...state,
+            }
         case "UPDATE_MENU":
             return{
                 ...state.menus.map((m) => m.name === action.payload.name ? action.payload : m.name)

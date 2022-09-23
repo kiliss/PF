@@ -3,22 +3,6 @@ const { Op } = require('sequelize');
 const router = express.Router();
 const { Food, Menu, User_food, conn } = require('../db.js');
 
-const allFoods = async () => {
-    const foods = await Food.findAll();
-
-    const newFood = await foods.map((e) => {
-        return {
-            id: e.id,
-            name: e.name,
-            photo: e.photo,
-            summary: e.summary,
-            price: e.price,
-            stock: e.stock,
-            drinkable: e.drinkable,
-        }
-    })
-    return newFood;
-}
 
 router.get('/', async (req, res) => {
     const { name = '', filter = '', price = '', vegetarian = '' } = req.query;
@@ -105,12 +89,14 @@ router.post('/', async (req, res) => {          // crear comida
             vegetarian,
             drinkable: false || drinkable,
         });
-        let meenu = await Menu.findOne({
-            where: {
-                name: menu
-            }
-        });
-        meenu.addFood(food);
+        menu?.map(async (m) => {
+            let meenu = await Menu.findOne({
+                where: {
+                    name: m
+                }
+            });
+            food.addMenu(meenu);
+        })
         res.status(201).send("Food created");
     } catch (error) {
 
@@ -138,6 +124,24 @@ router.post('/tomenu', async (req, res) => {  // Agrega comidas existentes a men
         res.status(201).send("Food added");
     } catch (error) {
         return res.status(400).json("error " + error.message)
+    }
+});
+router.put("/:id", async (req, res) => {  // modificar comida
+    const { id } = req.params;
+    const { name, photo, summary, price, stock, drinkable, vegetarian } = req.body;
+    try {
+        await Food.update({
+            name,
+            summary,
+            price,
+        }, {
+            where: {
+                id: id
+            }
+        });
+        res.json("food modificada")
+    } catch (e) {
+        return res.status(404).json("error " + e.message)
     }
 });
 
