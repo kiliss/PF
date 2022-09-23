@@ -33,9 +33,7 @@ const Login = () => {
     if (!user.email || !user.password) {
       console.log("no enviar");
     } else {
-      // console.log(user)
       let data = await dispatch(login(user));
-      console.log(data);
       if (data) {
         if (data.hasOwnProperty("message")) {
           swal({

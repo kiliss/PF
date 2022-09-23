@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
-import {getFoods, getMenus, addFoodToMenu, deleteFood, getFood} from "../redux/actions";
-import Food from "./Food";
+import { getFoods, getMenus, addFoodToMenu, deleteFood, getFood} from "../redux/actions";
+import Food from "./popup/Food";
 import swal from 'sweetalert';
 
 const TableAdmin = () => {

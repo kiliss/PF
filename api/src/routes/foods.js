@@ -1,7 +1,7 @@
 const express = require('express');
 const { Op } = require('sequelize');
 const router = express.Router();
-const { Food, Menu } = require('../db.js');
+const { Food, Menu, User_food, conn } = require('../db.js');
 
 const allFoods = async () => {
     const foods = await Food.findAll();
@@ -51,15 +51,34 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        let food = await Food.findByPk(id, {
-            include: [{
-                model: Menu
-            }],
-            order: [
-                [Menu, 'name', 'ASC']
-            ]
+        const food = await Food.findByPk(id,
+            {
+                include: [
+                    {
+                        model: Menu,
+                        attributes: ['name']
+                    },
+                    {
+                        model: User_food,
+                        attributes: ['stars']
+                    }
+                ],
+                order: [
+                    [Menu, 'name', 'ASC']
+                ],
+            });
+        if (food) return res.status(201).send({
+            id: food.id,
+            name: food.name,
+            photo: food.photo,
+            summary: food.summary,
+            price: food.price,
+            drinkable: food.drinkable,
+            vegetarian: food.vegetarian,
+            menus: food.menus.map(menu => menu.name),
+            stars: food.user_foods.length ? food.user_foods.reduce((prev, curr) => prev + curr.stars, 0) / food.user_foods.length : 0
         });
-        return res.status(201).send(food);
+        else return res.status(201).send(food);
     } catch (err) {
         return res.status(400).json("error " + err.message)
     }
@@ -124,17 +143,52 @@ router.post('/tomenu', async (req, res) => {  // Agrega comidas existentes a men
 
 router.delete("/:id", async (req, res) => {
     try {
-        const {id} = req.params;
-            await Food.destroy({
-                where: {
-                    id: id
-                }
-            });
-            res.json("food borrada")
+        const { id } = req.params;
+        await Food.destroy({
+            where: {
+                id: id
+            }
+        });
+        res.json("food borrada")
     } catch (e) {
         return res.status(404).json("error " + e.message)
     }
 })
+
+router.post('/:id', async (req, res) => {          // crear feedback
+    const { id: foodId = 0 } = req.params;
+    const { user: userId = 0, valoration: stars = 0 } = req.query;
+
+    try {
+        const feedback = await User_food.findOne({
+            where: {
+                userId,
+                foodId
+            }
+        });
+        if (feedback) {
+            await User_food.update(
+                {
+                    stars
+                },
+                {
+                    where: {
+                        userId,
+                        foodId
+                    }
+                });
+            return res.status(201).send("La valoración fue cambiada");
+        }
+        await User_food.create({
+            userId,
+            foodId,
+            stars
+        });
+        res.status(201).send("La valoración fue enviada");
+    } catch (err) {
+        return res.status(400).json("error " + err.message)
+    }
+});
 
 
 

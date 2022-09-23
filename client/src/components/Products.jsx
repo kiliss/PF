@@ -4,7 +4,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { useDispatch, useSelector } from "react-redux"
 import { getFoods, getFood } from "../redux/actions";
-import Food from "./Food";
+import Food from "./popup/Food";
 
 const sortOptions = [
     { name: 'Más Nuevo', sort: '' },
