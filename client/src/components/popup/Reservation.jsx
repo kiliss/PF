@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { createReservation, getReservations, getTable } from '../redux/actions/index'
+import { createReservation, getReservations, getTable } from '../../redux/actions/index';
 import { useEffect } from "react";
 import { useState } from "react";
 import swal from "sweetalert";

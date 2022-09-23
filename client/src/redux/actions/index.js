@@ -159,13 +159,13 @@ export function updateFood(payload) {
 
 // BORRAR COMIDA (*SE DEBE PROBAR*)
 export function deleteFood(id) {
-    return async function(dispatch){
+    return async function (dispatch) {
         try {
-        const response = await axios.delete(`/foods/${id}`)
-        return dispatch({
-            type: "DELETE_FOOD",
-            payload: response.data
-        })
+            const response = await axios.delete(`/foods/${id}`)
+            return dispatch({
+                type: "DELETE_FOOD",
+                payload: response.data
+            })
         } catch (error) {
             console.log(error)
         }
@@ -394,4 +394,15 @@ export function loginWithFacebook() {
             console.log(error)
         }
     }
-}
+};
+
+export function giveFoodValoration(foodId, userId, stars) {
+    return async function () {
+        try {
+            const { data } = await axios.post(`/foods/${foodId}?user=${userId}&valoration=${stars}`);
+            return data;
+        } catch (err) {
+            console.log(err);
+        }
+    };
+};

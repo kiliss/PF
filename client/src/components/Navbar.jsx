@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, /*BellIcon,*/ XMarkIcon } from '@heroicons/react/24/outline';
-import Reservation from './Reservation';
+import Reservation from './popup/Reservation';
 import jwt_decode from "jwt-decode";
 
 const visitorNavigation = [
