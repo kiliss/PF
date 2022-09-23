@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { User, Feedback } = require('../db.js');
 const bcrypt = require('bcrypt');
-const verifyToken = require("../auth/verifyJWT.js");
 const auth = require("../middleware/auth.js");
+const { sendWelcome } = require("../auth/mailer.js")
 
 const getDbUsers = async () => {
     return await User.findAll({
@@ -48,8 +48,11 @@ router.post('/', async (req, res) => {
             photo: photo,
             admin: admin
         })
-            usser ? res.status(200).json("El usuario ha sido creado correctamente")
-            : res.status(403).json("El usuario no se ha creado");
+        if (usser) {
+            sendWelcome(email);
+            res.status(200).json("El usuario ha sido creado correctamente");
+        }
+        else res.status(403).json("El usuario no se ha creado");
     } catch (error) {
         res.status(403).json(error)
     }
