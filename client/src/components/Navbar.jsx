@@ -23,8 +23,8 @@ const Navbar = () => {
     const location = useLocation();
     const [openReservation, setOpenReservation] = useState(false);
 
-    const { admin, photo } = localStorage.getItem('user') ? jwt_decode(localStorage.getItem('user')) : { 'admin': false, 'photo': '' };
-
+    const { admin, photo } = localStorage.getItem('user') ? jwt_decode(localStorage.getItem('user')) : { 'admin': false, 'photo': '.jpg' };
+    // console.log(photo);
     return (
         <>
             {
