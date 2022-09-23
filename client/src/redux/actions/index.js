@@ -77,6 +77,20 @@ export function updateMenu(name) {
         }
     }
 }
+// DELETE FOOD FROM MENU (*SE DEBE PROBAR*)
+export function deleteFoodFromMenu({menu, food}) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.delete("/menus/" + menu + "/" + food)
+            return dispatch({
+                type: "DELETE_FOOD_FROM_MENU",
+                payload: json.data === "Food deleted" ? food : ''
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    };
+}
 
 // OBTENER DETALLES DE COMIDAS POR ID (*SE DEBE PROBAR)
 export function getFood(id) {
@@ -131,16 +145,27 @@ export function addFoodToMenu(payload) {
         }
     }
 }
+// MODIFICAR COMIDA POR ID
+export function updateFood(payload) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/foods/" + payload.id, payload)
+            return json
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
 
 // BORRAR COMIDA (*SE DEBE PROBAR*)
 export function deleteFood(id) {
-    return async function(dispatch){
+    return async function (dispatch) {
         try {
-        const response = await axios.delete(`/foods/${id}`)
-        return dispatch({
-            type: "DELETE_FOOD",
-            payload: response.data
-        })
+            const response = await axios.delete(`/foods/${id}`)
+            return dispatch({
+                type: "DELETE_FOOD",
+                payload: response.data
+            })
         } catch (error) {
             console.log(error)
         }
@@ -198,6 +223,18 @@ export function createUser(payload) {
     return async function (dispatch) {
         try {
             var json = await axios.post("/users", payload)
+            return json;
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
+//V1-login-google
+export function loginGoogle(user) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.post("/users/google", user)
             return json;
         } catch (error) {
             console.log(error)
@@ -357,4 +394,15 @@ export function loginWithFacebook() {
             console.log(error)
         }
     }
-}
+};
+
+export function giveFoodValoration(foodId, userId, stars) {
+    return async function () {
+        try {
+            const { data } = await axios.post(`/foods/${foodId}?user=${userId}&valoration=${stars}`);
+            return data;
+        } catch (err) {
+            console.log(err);
+        }
+    };
+};

@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, /*BellIcon,*/ XMarkIcon } from '@heroicons/react/24/outline';
-import Reservation from './Reservation';
+import Reservation from './popup/Reservation';
 import jwt_decode from "jwt-decode";
 
 const visitorNavigation = [
@@ -12,7 +12,7 @@ const visitorNavigation = [
 const userNavigation = [];
 
 const adminNavigation = [
-    { name: 'Crear Producto', href: '/product/create' }
+    { name: 'Tabla Admin', href: '/tableadmin' }
 ];
 
 function classNames(...classes) {
@@ -28,7 +28,7 @@ const Navbar = () => {
     return (
         <>
             {
-                localStorage.getItem('user') && !admin && <Reservation open={openReservation} setOpen={setOpenReservation} />
+                localStorage.getItem('user') && !admin && openReservation && <Reservation setOpen={setOpenReservation} />
             }
             <Disclosure as="nav" className="bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200">
                 {({ open }) => (

@@ -4,7 +4,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { useDispatch, useSelector } from "react-redux"
 import { getFoods, getFood } from "../redux/actions";
-import Food from "./Food";
+import Food from "./popup/Food";
 
 const sortOptions = [
     { name: 'Más Nuevo', sort: '' },
@@ -49,7 +49,9 @@ const Products = () => {
 
     return (
         <>
-            <Food open={open} setOpen={setOpen} />
+            {
+                open && <Food setOpen={setOpen} />
+            }
             <div className="bg-gray-100 min-h-screen">
                 <div>
                     {/* Mobile filter dialog */}
@@ -93,7 +95,7 @@ const Products = () => {
                                         <div className="mt-4 border-t border-gray-200">
                                             <div className="flex items-center px-4 py-6">
                                                 <div className="relative w-full">
-                                                    <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5" placeholder="Buscar" value={searchBar} onChange={(e) => setSearchBar(e.target.value)} />
+                                                    <input type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 " placeholder="Buscar" value={searchBar} onChange={(e) => setSearchBar(e.target.value)} />
                                                 </div>
                                                 <button type="button" className="p-2.5 ml-2 text-sm font-medium text-white bg-red-700 rounded-lg border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" onClick={() => setName(searchBar)}>
                                                     <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />

@@ -5,7 +5,7 @@ import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/rea
 import { useDispatch, useSelector } from "react-redux"
 import { getMenu, getFood } from "../redux/actions";
 import { useParams } from 'react-router-dom';
-import Food from "./Food";
+import Food from "./popup/Food";
 //import style from "./style/Menu.module.css";
 
 const sortOptions = [
@@ -50,7 +50,9 @@ const Menu = () => {
 
     return (
         <>
-            <Food open={open} setOpen={setOpen} />
+            {
+                open && <Food setOpen={setOpen} />
+            }
             <div className="bg-gray-100 min-h-screen">
                 <div>
                     {/* Mobile filter dialog */}
