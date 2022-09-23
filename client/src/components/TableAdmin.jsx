@@ -135,7 +135,7 @@ const TableAdmin = () => {
                             <th className="text-left p-3 px-5">Food</th>
                             <th className="text-left p-3 px-5">Detail</th>
                             <th className="text-left p-3 px-5">
-                            <select className="bg-transparent bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" onChange={(e)=> handleChange(e)} defaultValue="Menu"  >
+                            <select className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" onChange={(e)=> handleChange(e)} defaultValue="Menu"  >
                                             <option hidden>Select Menu</option>
                                                 {
                                                     menuus?.map((menu) => {

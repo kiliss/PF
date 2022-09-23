@@ -59,25 +59,30 @@ const Login = () => {
       }
     }
   };
+  const passwordRandom = () =>{
+    let random = Math.floor(Math.random() * 10 + 1);
+    return random,'';
+  }
 
   const googleSuccess = async (res) => {
     const result = res?.profileObj;
-   
+    const pass = passwordRandom(); 
+    console.log(pass)
     const user = {
       user: result.name,
-      password: '123',
+      password: pass,
       email: result.email,
       photo: result.imageUrl,
       googleId: result.googleId,
     }
     let data = await dispatch(loginGoogle(user));
-    
+    console.log(data)
     window.localStorage.setItem('user', data.data);
     navigate('/');
   };
 
   const googleFailure = (err) => {
-    console.log(err)
+    console.log('error inicio, ',err)
     console.log('Fallo inicio de sesión con google, intenta más tarde!')
   };
   return (
