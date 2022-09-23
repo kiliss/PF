@@ -1,26 +1,30 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useDispatch } from "react-redux";
-import { login, loginWithFacebook } from "../redux/actions";
+import { loginGoogle, login } from "../redux/actions";
 import { useEffect } from "react";
+import { GoogleLogin } from 'react-google-login';
 import swal from "sweetalert";
+import { gapi } from 'gapi-script';
+
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const clientId = '190740947494-n7h845rcrjrso9p60eupmu0ik74eui2e.apps.googleusercontent.com';
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
 
-  // useEffect(()=>{
-  //   const loggedUser = window.localStorage.getItem('user')
-  //   if(loggedUser){
-  //     const localUser = JSON.parse(loggedUser)
-  //     setUser(localUser)
-  //   }
-  // },[])
+
+  useEffect(() => {
+    const initClient = () => {
+      gapi.client.init({ clientId: clientId, scope: '' });
+    };
+    gapi.load('client:auth2', initClient);
+  });
+
 
   const handleChange = (e) => {
     let { name, value } = e.target;
@@ -33,9 +37,9 @@ const Login = () => {
     if (!user.email || !user.password) {
       console.log("no enviar");
     } else {
-      // console.log(user)
+   
       let data = await dispatch(login(user));
-      console.log(data);
+   
       if (data) {
         if (data.hasOwnProperty("message")) {
           swal({
@@ -47,7 +51,7 @@ const Login = () => {
           window.localStorage.setItem("user", data);
           navigate("/");
         }
-        
+
       } else {
         swal({
           title: "Usuario o contraseña incorrectos",
@@ -58,14 +62,26 @@ const Login = () => {
     }
   };
 
-  const handleGoogle = () => {
-    window.open("http://localhost:3001/auth/google", "_self");
+  const googleSuccess = async (res) => {
+    const result = res?.profileObj;
+   
+    const user = {
+      user: result.name,
+      password: '123',
+      email: result.email,
+      photo: result.imageUrl,
+      googleId: result.googleId,
+    }
+    let data = await dispatch(loginGoogle(user));
+    
+    window.localStorage.setItem('user', data.data);
+    navigate('/');
   };
 
-  // const handleFacebook = ()=>{
-  //   window.open('http://localhost:3001/auth/facebook','_self');
-  // }
-
+  const googleFailure = (err) => {
+    console.log(err)
+    console.log('Fallo inicio de sesión con google, intenta más tarde!')
+  };
   return (
     <div className="mt-11">
       <section className="bg-blueGray-50">
@@ -123,29 +139,27 @@ const Login = () => {
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
-                  <button
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <img
-                      alt="..."
-                      className="w-5 mr-1"
-                      src="https://demos.creative-tim.com/notus-js/assets/img/github.svg"
-                    />
-                    Facebook
-                  </button>
-                  <button
-                    onClick={handleGoogle}
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <img
-                      alt="..."
-                      className="w-5 mr-1"
-                      src="https://demos.creative-tim.com/notus-js/assets/img/google.svg"
-                    />
-                    Google{" "}
-                  </button>
+                  <GoogleLogin
+                    clientId={clientId}
+                    render={(renderPros) => (
+                      <button
+                        onClick={renderPros.onClick}
+                        disabled={renderPros.disabled}
+                        className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                        type="button"
+                      >
+                        <img
+                          alt="..."
+                          className="w-5 mr-1"
+                          src="https://demos.creative-tim.com/notus-js/assets/img/google.svg"
+                        />
+                        Google{" "}
+                      </button>
+                    )}
+                    onSuccess={googleSuccess}
+                    onFailure={googleFailure}
+                    cookiePolicy={'single_host_origin'}
+                  />
                 </div>
                 <div className="text-center mt-6">
                   <button
