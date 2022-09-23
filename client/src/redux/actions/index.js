@@ -229,6 +229,18 @@ export function createUser(payload) {
         }
     };
 };
+
+//V1-login-google
+export function loginGoogle(user) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.post("/users/google", user)
+            return json;
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
 // OBTENER DETALLE DE USER POR ID (*SE DEBE PROBAR*)
 export function getTableDetail(id) {
     return async function (dispatch) {

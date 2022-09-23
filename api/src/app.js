@@ -6,8 +6,8 @@ const morgan = require("morgan");
 const foods = require("./routes/foods");
 const menus = require("./routes/menus");
 const passport = require("passport");
-require("./auth/passport")(passport);
-const session = require("express-session");
+require("./auth/passport.js");
+ const session = require("express-session");
 
 const cookieSession = require('cookie-session');
 
@@ -63,7 +63,7 @@ server.use(passport.session());
 server.use("/table", table);
 server.use("/foods", foods);
 server.use("/menus", menus);
-server.use("/auth", auth);
+// server.use("/auth", auth);
 server.use("/users", users);
 server.use("/reservation", reservation);
 server.use("/login", login);
