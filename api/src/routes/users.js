@@ -67,8 +67,18 @@ router.post('/google', async (req, res) => {
     const { user, password, email, photo, googleId } = req.body;
     // console.log("req-body:" ,user, password, email, photo, googleId)
     try {
-        const userEmail = await User.findOne({ where: { googleId } }).catch((err) => { console.log("Error: ", err) });
+        const userEmail = await User.findOne({ where: { email } }).catch((err) => { console.log("Error: ", err) });
 
+        if (userEmail && !userEmail.googleId) {
+            await User.update({
+                googleId
+            },
+                {
+                    where: {
+                        email
+                    }
+                });
+            }else{
         if (!userEmail) {
             const hashedPassword = await bcrypt.hash(password, 10);
             const usser = await User.create({
@@ -79,22 +89,13 @@ router.post('/google', async (req, res) => {
                 googleId: googleId,
             })
             const jwtToken = jwt.sign(JSON.stringify({ id: usser.id, email: usser.email, googleId: usser.googleId, photo: usser.photo }), process.env.JWT_SECRET);
-            sendWelcome(user.email);
+            sendWelcome(usser.email);
             return res.send(jwtToken);
-        } else {
-            if (!userEmail.googleId) {
-                await User.update({
-                    googleId
-                },
-                    {
-                        where: {
-                            email
-                        }
-                    });
-            }
+        } 
+    }
             const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, googleId: userEmail.googleId, photo: userEmail.photo }), process.env.JWT_SECRET);
             return res.send(jwtToken);
-        }
+        
     } catch (error) {
         res.status(403).json(error)
     }
