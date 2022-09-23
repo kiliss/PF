@@ -37,7 +37,7 @@ export function getMenu(data) {
 };
 
 // CREAR MENU (*SE DEBE PROBAR*)
-export function createMenu(payload) {
+export function createMenus(payload) {
     return async function (dispatch) {
         try {
             var json = await axios.post("/menus", payload)
