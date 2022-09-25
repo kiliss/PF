@@ -59,18 +59,12 @@ const Login = () => {
       }
     }
   };
-  const passwordRandom = () =>{
-    let random = Math.floor(Math.random() * 10 + 1);
-    return random,'';
-  }
 
   const googleSuccess = async (res) => {
     const result = res?.profileObj;
-    const pass = passwordRandom(); 
-    console.log(pass)
+  
     const user = {
       user: result.name,
-      password: pass,
       email: result.email,
       photo: result.imageUrl,
       googleId: result.googleId,
