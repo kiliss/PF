@@ -106,7 +106,7 @@ router.post('/google', async (req, res) => {
                 photo: photo,
                 googleId: googleId,
             })
-            const jwtToken = jwt.sign(JSON.stringify({ id: usser.id, email: usser.email, googleId: usser.googleId, photo: usser.photo }), process.env.JWT_SECRET);
+            const jwtToken = jwt.sign(JSON.stringify({ id: usser.id, email: usser.email, googleId: usser.googleId, photo: usser.photo, admin: usser.admin }), process.env.JWT_SECRET);
             // sendWelcome(usser.email);
             sendEmail(
                 usser.email,
@@ -116,7 +116,7 @@ router.post('/google', async (req, res) => {
             return res.send(jwtToken);
         } 
     }
-            const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, googleId: userEmail.googleId, photo: userEmail.photo }), process.env.JWT_SECRET);
+            const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, googleId: userEmail.googleId, photo: userEmail.photo, admin: userEmail.admin }), process.env.JWT_SECRET);
             return res.send(jwtToken);
         
     } catch (error) {
