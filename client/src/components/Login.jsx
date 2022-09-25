@@ -70,7 +70,7 @@ const Login = () => {
       googleId: result.googleId,
     }
     let data = await dispatch(loginGoogle(user));
-    console.log(data)
+    // console.log(data)
     window.localStorage.setItem('user', data.data);
     navigate('/');
   };
@@ -118,7 +118,7 @@ const Login = () => {
                     onChange={(e) => handleChange(e)}
                   />
                 </div>
-                <div>
+                {/* <div>
                   <label className="inline-flex items-center cursor-pointer">
                     <input
                       id="customCheckLogin"
@@ -129,7 +129,7 @@ const Login = () => {
                       Remember me
                     </span>
                   </label>
-                </div>
+                </div> */}
                 <div className="text-center mb-3">
                   <h6 className="text-blueGray-500 text-sm font-bold">
                     Sing in with

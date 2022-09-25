@@ -4,6 +4,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, /*BellIcon,*/ XMarkIcon } from '@heroicons/react/24/outline';
 import Reservation from './popup/Reservation';
 import jwt_decode from "jwt-decode";
+import Image from 'react-async-image';
 
 const visitorNavigation = [
     { name: 'Productos', href: '/products' }
@@ -25,7 +26,7 @@ const Navbar = () => {
     const [openReservation, setOpenReservation] = useState(false);
 
     const { admin, photo } = localStorage.getItem('user') ? jwt_decode(localStorage.getItem('user')) : { 'admin': false, 'photo': '.jpg' };
-    // console.log(photo);
+    // console.log('navbar ',photo);
     return (
         <>
             {
@@ -125,10 +126,18 @@ const Navbar = () => {
                                                 <div>
                                                     <Menu.Button className="flex rounded-full bg-gray-200 text-sm focus:outline-none ring-2 ring-gray-200 hover:ring-red-900">
                                                         <span className="sr-only">Open user menu</span>
-                                                        <img
+                                                        {/* <img
+                                                            loading='eager'
                                                             className="h-8 w-8 rounded-full"
                                                             src={photo}
-                                                            alt="" />
+                                                            alt="" /> */}
+                                                        <Image
+                                                        
+                                                            decoding='async'
+                                                            loading='lazy'
+                                                            src={photo}
+                                                            className="h-8 w-8 rounded-full"
+                                                        />
                                                     </Menu.Button>
                                                 </div>
                                                 <Transition
