@@ -160,7 +160,7 @@ const Navbar = () => {
                                                                 </a>
                                                             )}
                                                         </Menu.Item>
-                                                        {
+                                                        {/* {
                                                             localStorage.getItem('user') && !admin && <Menu.Item>
                                                                 {({ active }) => (
                                                                     <div
@@ -171,6 +171,18 @@ const Navbar = () => {
                                                                     </div>
                                                                 )}
                                                             </Menu.Item>
+                                                        } */}
+                                                        {
+                                                            localStorage.getItem('user') && !admin && <Menu.Item>
+                                                            {({ active }) => (
+                                                                <a
+                                                                    href="/reservations2"
+                                                                    className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black')}
+                                                                >
+                                                                    Reservación
+                                                                </a>
+                                                            )}
+                                                        </Menu.Item>
                                                         }
                                                         <Menu.Item>
                                                             {({ active }) => (
