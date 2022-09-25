@@ -82,6 +82,7 @@ const CreateMenu = (props) => {
                 icon: "success",
                 button: "Aceptar",
             });
+            props.setOpen(false)
         } else {
             swal({
                 title: "Error al crear el menu",
