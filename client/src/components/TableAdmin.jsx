@@ -24,7 +24,7 @@ const TableAdmin = () => {
         dispatch(getFoods());
         dispatch(getMenus());
         setCharge(false)
-    }, [dispatch, charge]);
+    }, [dispatch, charge, openEdit, openCreateMenu, openDeleteMenu]);
   
     function handleChange(e) {
         setMenu(e.target.value);
