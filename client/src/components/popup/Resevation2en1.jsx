@@ -10,6 +10,7 @@ import {loadStripe} from "@stripe/stripe-js"
 import {Elements, CardElement, useStripe, useElements} from '@stripe/react-stripe-js'
 import axios from 'axios';
 import swal from "sweetalert";
+import jwt_decode from "jwt-decode"
 
 const validationForm = (input) => {
     let errors = {};
@@ -29,7 +30,6 @@ const validationForm = (input) => {
     return errors
 };
 
-// console.log(PruebaPago().props)
 const stripePromise = loadStripe("pk_test_51LkeM7HwicqFBY9CPHk3MavK9EF4OJ9ioOHqFe7qkgcUkFdIm5cXzJQSfCqpQui3wfeCsYRCzVL40sijRPLVXYa000iIVjrtba")
 
 const CheckoutForm = () => {
@@ -50,19 +50,20 @@ const CheckoutForm = () => {
   const tables = useSelector((state) => state.tables);
   const usuario = useSelector((state) => state.user);
   const reserva = useSelector((state) => state.reservations);
-//   console.log(reserva)
-  console.log(usuario.user)
+
+  const decode = window.localStorage.getItem("user");
+  const decodee = jwt_decode(localStorage.getItem('user'))
 
   const [input, setInput] = useState({
-    id_User: usuario.user,
+    id_User: decodee.id,
+    id_Table: "",
     date: "",
     hour: "",
     price: 300,
     num_Table: [],
+    email: decodee.email,
 })
   const [errors, setErrors] = useState({});
-
-  console.log(input)
 
   function handleChange(e) {
       setInput({
@@ -82,7 +83,6 @@ const CheckoutForm = () => {
 
     setErrors(validationForm(input))
       const errors = validationForm(input)
-      console.log(errors);
       if (Object.values(errors).length) {
           swal({
               title: "Por favor complete los campos a llenar",
@@ -100,13 +100,11 @@ const CheckoutForm = () => {
 
     if (!error) {
         const { id } = paymentMethod;
-          // console.log(paymentMethod)
         try {
             const data = await axios.post("/pay", {
                 id,
                 amount: input.price*100 // lo obtiene en centavos
               });
-              console.log(data.data.message)
         
               elements.getElement(CardElement).clear();
               if (data.data.message === "Successfull payment"){
@@ -119,6 +117,8 @@ const CheckoutForm = () => {
                 swal("Pago rechazado", "Código de seguridad invalido", "error");
               } else if(data.data.message === "Your card has insufficient funds."){
                 swal("Pago rechazado", "Fondos insuficientes", "error");
+              } else if(data.data.message === "Your card has expired."){
+                swal("Pago rechazado", "Tu tarjeta expiró", "error");
               }
         } catch (error) {
             console.log(error)
@@ -198,12 +198,17 @@ const CheckoutForm = () => {
                         </label>
                         <select
                             id="table"
+                            name="id_Table"
+                            value={input.id_Table}
                             onChange={handleChange}
                             className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" >
                             {
+                                <option disabled value="">Seleccione mesa</option>
+                            }
+                            {
                                 tables.length ?
                                     tables.map((table) => (
-                                        <option key={`reservation-${table.num_Table}`} value={table.num_Table}>{`Mesa ${table.num_Table}`}</option>
+                                        <option key={`reservation-${table.num_Table}`} value={table.id}>{`Mesa ${table.num_Table}`}</option>
                                     ))
                                     :
                                     <option value={0}>Intente Otro Horario</option>
