@@ -114,7 +114,7 @@ const CheckoutForm = () => {
                 dispatch(createReservation(input));
                 setTimeout(function(){
                     navigate("/")
-                }, 1500)
+                }, 2000)
               } else if(data.data.message === "Your card's security code is incorrect."){
                 swal("Pago rechazado", "Código de seguridad invalido", "error");
               } else if(data.data.message === "Your card has insufficient funds."){

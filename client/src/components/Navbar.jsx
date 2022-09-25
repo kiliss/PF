@@ -12,7 +12,8 @@ const visitorNavigation = [
 const userNavigation = [];
 
 const adminNavigation = [
-    { name: 'Tabla Admin', href: '/tableadmin' }
+    { name: 'Tabla Comidas', href: '/tableadmin' },
+    { name: 'Tabla Usuarios', href: '/allusers' }
 ];
 
 function classNames(...classes) {
