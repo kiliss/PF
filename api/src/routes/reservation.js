@@ -39,7 +39,7 @@ router.post('/', async (req,res)=>{
     const {id_User,id_Table,date,hour,price,Cant_User}=req.body;
     try{
         const reservation=await Reservation.create({
-            //id_User:id_User,
+            id_User:id_User,
             //id_Table:id_Table,
             date:date,
             hour:hour,

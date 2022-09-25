@@ -15,7 +15,7 @@ import VisitorRoutes from './utils/VisitorRoutes';
 import UserRoutes from './utils/UserRoutes';
 import AdminRoutes from './utils/AdminRoutes';
 import PruebaPago from './components/pruebapago';
-import Reservation from './components/popup/xd'
+import Reservation from './components/popup/Resevation2en1'
 
 function App() {
   return (
@@ -25,13 +25,13 @@ function App() {
         <Route exact path='/' element={<Home />} />
         <Route exact path='/menu/:name' element={<Menu />} />
         <Route exact path='/products' element={<Products />} />
-        <Route exact path='/pruebapago' element={<Reservation />}/>
         <Route element={<VisitorRoutes />}>
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/register' element={<Register />} />
         </Route>
         <Route element={<UserRoutes />}>
           <Route exact path='/profile' element={<Profile />} />
+          <Route exact path='/reservations2' element={<Reservation />}/>
           <Route exact path='/tables' element={<Tables />} />
           <Route exact path='/tables/:id' element={<Table />} />
         </Route>
