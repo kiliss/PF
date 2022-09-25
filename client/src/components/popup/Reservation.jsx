@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { createReservation, getReservations, getTable } from '../../redux/actions/index';
+import { createReservation, getProfile, getReservations, getTable } from '../../redux/actions/index';
 import { useEffect } from "react";
 import { useState } from "react";
 import {loadStripe} from "@stripe/stripe-js"
@@ -33,15 +33,26 @@ const validationForm = (input) => {
 // console.log(PruebaPago().props)
 
 const Reservation = (props) => {
+  /*console.log( window.localStorage.getItem("user"))*/
+    
     const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getProfile())
+    }, [dispatch])
+    
+    const usuario = useSelector((state) => state.user)
     const tables = useSelector((state) => state.tables);
     const [open, setOpen] = useState(false)
     const [input, setInput] = useState({
+        id_User:usuario.user,
         date: "",
         hour: "",
         price: 300,
         num_Table: [],
     })
+   
+
+    console.log(usuario.id)
     const [errors, setErrors] = useState({});
     useEffect(() => {
         dispatch(getTable())
@@ -61,7 +72,13 @@ const Reservation = (props) => {
             })
         } else {
             {
-                dispatch(createReservation(input));
+                setOpen(true)
+                dispatch (createReservation(input))
+               
+               /* if (setOpen(false)){
+                    dispatch(createReservation(input))
+                }*/
+                //dispatch(createReservation(input));
                 // swal("reservation confirmed, we are waiting for you soon", {
                 //     icon: "success",
                 // });
@@ -229,8 +246,8 @@ const Reservation = (props) => {
                                                     <button
                                                         className="hover:shadow-form w-full rounded-md bg-red-700 hover:bg-red-900 py-3 px-8 text-center text-base font-semibold text-white outline-none"
                                                         type='submit'
-                                                        // onClick={() => handleSubmit()}
-                                                        onClick={() => nexttt()}
+                                                        onClick={() => handleSubmit()}
+                                                        //onClick={() => nexttt()}
                                                     >
                                                         Reservar
                                                     </button>
