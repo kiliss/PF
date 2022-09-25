@@ -27,7 +27,7 @@ const Users = () => {
         dispatch(editUser({
             id : user.id,
             admin : !user.admin
-        }));
+        })).then(() => {
         // setCharge(true)
         swal({
             title: "Rol cambiado",
@@ -36,6 +36,7 @@ const Users = () => {
         });
         dispatch(getUsers());
             }
+        )}
         });
     }
 
