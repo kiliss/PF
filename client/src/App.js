@@ -15,7 +15,11 @@ import VisitorRoutes from './utils/VisitorRoutes';
 import UserRoutes from './utils/UserRoutes';
 import AdminRoutes from './utils/AdminRoutes';
 import PruebaPago from './components/pruebapago';
+
+import Users from './components/Users';
+
 import Reservation from './components/popup/xd'
+
 
 function App() {
   return (
@@ -37,6 +41,7 @@ function App() {
         </Route>
         <Route element={<AdminRoutes />}>
           <Route exact path="/tableadmin" element={<TableAdmin />} />
+          <Route exact path="/allusers" element={<Users />} />
           <Route exact path='/product/create' element={<CreateFoods />} />
         </Route>
         <Route exact path='*' element={<Navigate to="/" replace />} />

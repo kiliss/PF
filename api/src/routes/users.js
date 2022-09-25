@@ -101,4 +101,27 @@ router.post('/google', async (req, res) => {
     }
 });
 
+router.put('/', async (req, res) => {
+    const { id, admin } = req.body;
+    try {
+        const user = await User.findByPk(id);
+        if (user) {
+            await User.update({
+                admin : admin
+            },
+                {
+                    where: {
+                        id : id
+                    }
+                });
+            res.status(200).json("El usuario ha sido actualizado correctamente");
+        }
+        else res.status(403).json("El usuario no se ha actualizado");
+    } catch (error) {
+        res.status(403).json(error)
+    }
+});
+
+
+
 module.exports = router;

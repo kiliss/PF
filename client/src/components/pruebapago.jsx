@@ -34,7 +34,7 @@ const CheckoutForm = () => {
                 amount: 1000000 // lo obtiene en centavos
               });
               console.log(data.data.message)
-        
+              console.log(data.data)
               elements.getElement(CardElement).clear();
               if (data.data.message === "Successfull payment"){
                 swal("Pago aceptado", "", "success");
@@ -59,7 +59,7 @@ const CheckoutForm = () => {
         <div className="w-72">
         <CardElement/>
         </div>
-        <button className="bg-green-500 hover:bg-green-700 text-white font-bold w-32 py-2 px-4 border border-blue-700 rounded mx-10" disabled={!stripe}>
+        <button  className="bg-green-500 hover:bg-green-700 text-white font-bold w-32 py-2 px-4 border border-blue-700 rounded mx-10" disabled={!stripe}>
             {loading ? (
                 <span>Loading...</span>
             ): (
@@ -110,9 +110,9 @@ function PruebaPago(props) {
                                                 className="flex w-full items-center justify-between py-4 px-9 border-b border-gray-200"
                                             >
                                                 <h3 className="text-xl font-bold text-red-700">¿Desea reservar?</h3>
-                                                {/* <button onClick={() => props.setOpen(false)} className="text-gray-400 hover:text-gray-500">
+                                                { <button onClick={() => props.setOpen(false)} className="text-gray-400 hover:text-gray-500">
                                                     <XMarkIcon className="h-8 w-8" aria-hidden="true" />
-                                                </button> */}
+                                                </button> }
                                             </div>
                                               <Elements stripe={stripePromise}>
                                                 <div className="flex justify-center"> 

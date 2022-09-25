@@ -37,7 +37,7 @@ export function getMenu(data) {
 };
 
 // CREAR MENU (*SE DEBE PROBAR*)
-export function createMenu(payload) {
+export function createMenus(payload) {
     return async function (dispatch) {
         try {
             var json = await axios.post("/menus", payload)
@@ -182,6 +182,18 @@ export function getUsers() {
         })
     };
 };
+
+// PUT USER
+export function editUser(payload) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/users", payload)
+            return json
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
 
 // OBTENER DETALLE DE USER POR ID (*SE DEBE PROBAR*)
 export function getUserDetail(id) {
