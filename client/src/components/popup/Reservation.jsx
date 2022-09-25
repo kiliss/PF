@@ -71,9 +71,9 @@ const Reservation = (props) => {
         
     }
 
-    function nexttt()  {
-        setOpen(true)
-    }
+    // function nexttt()  {
+    //     setOpen(true)
+    // }
 
     function handleChange(e) {
         setInput({
@@ -229,8 +229,8 @@ const Reservation = (props) => {
                                                     <button
                                                         className="hover:shadow-form w-full rounded-md bg-red-700 hover:bg-red-900 py-3 px-8 text-center text-base font-semibold text-white outline-none"
                                                         type='submit'
-                                                        // onClick={() => handleSubmit()}
-                                                        onClick={() => nexttt()}
+                                                        onClick={() => handleSubmit()}
+                                                        // onClick={() => nexttt()}
                                                     >
                                                         Reservar
                                                     </button>
