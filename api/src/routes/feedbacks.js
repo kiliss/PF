@@ -4,7 +4,7 @@ const { Feedback, User, Bill, Order } = require('../db.js');
 
 router.get('/', async (req, res) => {
     try {
-        const allFeedbacks = await Feedback.findAdll({
+        const allFeedbacks = await Feedback.findAll({
             attributes: ['id', 'valoration', 'comment'],
             include:{
                 model: User,

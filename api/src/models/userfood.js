@@ -1,37 +1,23 @@
 const { DataTypes } = require('sequelize')
-//exportamos una funcion que define el modelo
-//luego le injectamos la conexion a sequelize
 module.exports = (sequilize) => {
-    //defino el modelo
-    sequilize.define('reservation', {
+    sequilize.define('user_food', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        id_User: {
-            type: DataTypes.STRING,
-            ForeingKey: true
-        },
-        id_Table: {
-            type: DataTypes.INTEGER,
-            ForeingKey: true
-        },
-
-        date: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        hour: {
-            type: DataTypes.TIME,
-            allowNull: false
-        },
-        price: {
+        foodId: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        
-
+        userId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        stars: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        }
     },
         {
             timestamps: false,

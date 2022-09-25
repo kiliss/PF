@@ -21,6 +21,6 @@ module.exports = (sequilize) => {
     },
         {
             timestamps: false,
-            initialAutoIncrement: 1000
+           // initialAutoIncrement: 1000
         });
 }

@@ -1,18 +1,38 @@
-import { Fragment } from 'react'
-import { useSelector } from "react-redux"
-import { Dialog, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import { StarIcon } from '@heroicons/react/20/solid'
+import { Fragment } from 'react';
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { giveFoodValoration, getFood } from "../../redux/actions";
+import { Dialog, Transition } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { StarIcon } from '@heroicons/react/20/solid';
+import jwt_decode from "jwt-decode";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function Food(props) {
+    const dispatch = useDispatch();
     const food = useSelector((state) => state.food);
+    const [selectedStar, setSelectedStar] = useState(0);
+
+    const { admin, id: userId } = localStorage.getItem('user') ? jwt_decode(localStorage.getItem('user')) : { 'admin': false, 'id': 0 };
+
+    const notify = (msg) => toast.success(msg, {
+        closeButton: false // or MyCustomCloseButton
+      });
+
+    const sendValoration = async (stars) => {
+        const message = await dispatch(giveFoodValoration(food.id, userId, stars));
+        notify(message);
+        dispatch(getFood(food.id));
+    }
 
     return (
-        <Transition.Root show={props.open} as={Fragment}>
+        <Transition.Root show={true} as={Fragment}>
             <Dialog as="div" className="relative z-20" onClose={props.setOpen}>
                 <Transition.Child
                     as={Fragment}
@@ -38,7 +58,7 @@ export default function Food(props) {
                             leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
                         >
                             <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
-                                <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                                <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8 rounded-lg">
                                     <button
                                         type="button"
                                         className="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8"
@@ -64,21 +84,24 @@ export default function Food(props) {
 
                                                 {/* Reviews */}
                                                 <div className="mt-6">
-                                                    <h4 className="sr-only">Reviews</h4>
+                                                    <h4 className="sr-only text-red-900">Reviews</h4>
                                                     <div className="flex items-center">
                                                         <div className="flex items-center">
                                                             {[0, 1, 2, 3, 4].map((rating) => (
                                                                 <StarIcon
                                                                     key={rating}
                                                                     className={classNames(
-                                                                        food?.rating > rating ? 'text-gray-900' : 'text-gray-300',
+                                                                        selectedStar > rating ? 'text-red-900 cursor-pointer' :
+                                                                            selectedStar !== 0 ? 'text-gray-300' :
+                                                                                food?.stars > rating || !food.stars ? 'text-gray-900' : 'text-gray-300',
                                                                         'h-5 w-5 flex-shrink-0'
                                                                     )}
                                                                     aria-hidden="true"
-                                                                />
+                                                                    onMouseOver={() => userId && !admin && setSelectedStar(rating + 1)}
+                                                                    onMouseLeave={() => userId && !admin && setSelectedStar(0)}
+                                                                    onClick={() => userId && !admin && sendValoration(rating + 1)} />
                                                             ))}
                                                         </div>
-                                                        <p className="sr-only">{food?.rating} out of 5 stars</p>
                                                     </div>
                                                 </div>
                                             </section>
@@ -93,11 +116,9 @@ export default function Food(props) {
                                                     <div>
 
                                                         <span className="flex items-center space-x-3 text-white mt-5">
-                                                            {
-                                                                food?.menus?.map((m, i) => {
-                                                                    return <a className='bg-gray-900 p-1 rounded-lg text-xs font-medium' key={`food-menu-${m.name.toLowerCase()}`} href={`/menu/${m.name.toLowerCase()}`}>{m.name}</a>
-                                                                })
-                                                            }
+                                                            {food?.menus?.map((menu, i) => {
+                                                                return <a className='bg-gray-900 p-1 rounded-lg text-xs font-medium' key={`food-menu-${menu.toLowerCase()}`} href={`/menu/${menu.toLowerCase()}`}>{menu}</a>;
+                                                            })}
                                                         </span>
                                                     </div>
 
@@ -129,6 +150,7 @@ export default function Food(props) {
                         </Transition.Child>
                     </div>
                 </div>
+                <ToastContainer position="bottom-right" autoClose={5000} pauseOnHover={false} draggable={false} closeOnClick={false} rtl={false}/>
             </Dialog>
         </Transition.Root>
     )

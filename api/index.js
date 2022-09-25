@@ -1,5 +1,5 @@
 const server = require('./src/app.js');
-const { conn, Menu, Food, Menu_food } = require('./src/db.js');
+const { conn, Menu, Food, Menu_food, User,Table } = require('./src/db.js');
 // const { conn } = require('./src/db.js');
 
 async function loadMenus() {
@@ -7,9 +7,13 @@ async function loadMenus() {
   Menu.bulkCreate(consumir.menu);
   Food.bulkCreate(consumir.food);
   Menu_food.bulkCreate(consumir.menu_food);
-  await conn.query("SELECT setval('public.menus_id_seq', 1000, true)");
-  await conn.query("SELECT setval('public.food_id_seq', 1000, true)");
-  await conn.query("SELECT setval('public.menu_foods_id_seq', 1000, true)");
+  User.bulkCreate(consumir.user);
+  Table.bulkCreate(consumir.table);
+  await conn.query(`SELECT setval('public.menus_id_seq', ${consumir.menu.length}, true)`);
+  await conn.query(`SELECT setval('public.food_id_seq', ${consumir.food.length}, true)`);
+  await conn.query(`SELECT setval('public.menu_foods_id_seq', ${consumir.menu_food.length}, true)`);
+  await conn.query(`SELECT setval('public.users_id_seq', ${consumir.user.length}, true)`);
+  //await conn.query(`SELECT setval('public.table_id_seq', ${consumir.table.length}, true)`)
 };
 
 
