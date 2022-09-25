@@ -22,7 +22,6 @@ router.post('/', async (req, res) =>{
         
     } catch (error) {
         res.json({message: error.raw.message})
-        res.json({message: error.status})
     }
 })
 
