@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
 
 router.get("/user", auth, async (req, res) => {
     const id = req.userId;
-    console.log('id: ' + id)
+    // console.log('id: ' + id)
     try {
         const users = await User.findByPk(id, {
             include: {
