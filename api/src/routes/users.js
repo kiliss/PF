@@ -3,8 +3,9 @@ const router = express.Router();
 const { User, Feedback } = require('../db.js');
 const bcrypt = require('bcrypt');
 const auth = require("../middleware/auth.js");
-const { sendWelcome } = require("../auth/mailer.js")
+const { sendEmail } = require("../auth/mailer.js")
 const jwt = require('jsonwebtoken');
+
 
 
 
@@ -17,6 +18,20 @@ const getDbUsers = async () => {
         }
     })
 }
+const generateP = () => {
+    var pass = '';
+    var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' + 
+            'abcdefghijklmnopqrstuvwxyz0123456789@#$';
+      
+    for (i = 1; i <= 8; i++) {
+        var char = Math.floor(Math.random() * str.length + 1);
+          
+        pass += str.charAt(char)
+    }
+      
+    return pass;
+}
+
 
 router.get("/", async (req, res) => {
     res.json(await getDbUsers())
@@ -64,7 +79,8 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/google', async (req, res) => {
-    const { user, password, email, photo, googleId } = req.body;
+    const { user, email, photo, googleId } = req.body;
+    let password='';
     // console.log("req-body:" ,user, password, email, photo, googleId)
     try {
         const userEmail = await User.findOne({ where: { email } }).catch((err) => { console.log("Error: ", err) });
@@ -80,6 +96,8 @@ router.post('/google', async (req, res) => {
                 });
             }else{
         if (!userEmail) {
+            password = generateP();
+            // console.log(password)
             const hashedPassword = await bcrypt.hash(password, 10);
             const usser = await User.create({
                 user: user,
@@ -89,7 +107,12 @@ router.post('/google', async (req, res) => {
                 googleId: googleId,
             })
             const jwtToken = jwt.sign(JSON.stringify({ id: usser.id, email: usser.email, googleId: usser.googleId, photo: usser.photo }), process.env.JWT_SECRET);
-            sendWelcome(usser.email);
+            // sendWelcome(usser.email);
+            sendEmail(
+                usser.email,
+                '¡Gracias por registrarte en PFRestaurante!',
+            `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Tu contraseña temporal es: ${password}\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.`,
+            'welcome');
             return res.send(jwtToken);
         } 
     }
