@@ -51,7 +51,7 @@ router.post('/', async (req,res)=>{
         const table = await Table.findByPk(id_Table)
         const user = await User.findByPk(id_User)
         res.status(200).json("La reservación ha sido creado correctamente")
-        sendEmail(email, "Reserva PFRestaurante", `Estimado ${user.user},\n\xA0 te esperamos en PFRestaurante, te compartimos los datos de tu reserva: \n\xA0• Día: ${date} \n\xA0• Hora: ${hour} \n\xA0• Mesa: ${table.num_Table}`, "reservation")
+        sendEmail(email, "Reserva PFRestaurante", `Estimado ${user.user}, gracias por realizar una reserva.\n\xA0 Lo estaremos esperando el día ${date} a las ${hour}.\n\xA0 No olvide que su mesa reservada es la Nº ${table.num_Table}`, "reservation")
         
     }catch(error){
         res.status(403).json(error)

@@ -2,7 +2,8 @@ const express = require('express');
 const Stripe = require('stripe');
 const router = express.Router();
 
-const stripe = new Stripe('sk_test_51LkeM7HwicqFBY9CvhpW0ywidCWD2TzfZhtCDPpzcuGJNbltFpJ5R2AUKTQCbUzXMpQhyFffvClJFBX65CAw0j1Y00u7jKOQPs')
+// const stripe = new Stripe('sk_test_51LkeM7HwicqFBY9CvhpW0ywidCWD2TzfZhtCDPpzcuGJNbltFpJ5R2AUKTQCbUzXMpQhyFffvClJFBX65CAw0j1Y00u7jKOQPs')
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY)
 
 router.post('/', async (req, res) =>{
 
@@ -12,7 +13,7 @@ router.post('/', async (req, res) =>{
     const payment = await stripe.paymentIntents.create({
         amount,
         currency: "ARS",
-        description: "Auriculares HyperX Cloud Flight",
+        description: "Reserva en PFRestaurant",
         payment_method: id,
         confirm: true
     })

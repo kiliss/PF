@@ -7,7 +7,7 @@ import { createReservation, getProfile, getReservationDetail, getReservations, g
 import { useEffect } from "react";
 import { useState } from "react";
 import {loadStripe} from "@stripe/stripe-js"
-import {Elements, CardElement, useStripe, useElements} from '@stripe/react-stripe-js'
+import {Elements, CardElement, useStripe, useElements, CardNumberElement} from '@stripe/react-stripe-js'
 import axios from 'axios';
 import swal from "sweetalert";
 import jwt_decode from "jwt-decode"
@@ -27,13 +27,17 @@ const validationForm = (input) => {
     if (input.num_Table > 1) {
         errors.num_Table = "SELECT ONLY ONE TABLE PLEASE"
     }
+    if(input.chairs<2||input.chairs>4){
+        errors.chairs="PLEASE SELECT A VALID NUM OF CHAIRS (2-4)"
+    }
     return errors
 };
 
 const stripePromise = loadStripe("pk_test_51LkeM7HwicqFBY9CPHk3MavK9EF4OJ9ioOHqFe7qkgcUkFdIm5cXzJQSfCqpQui3wfeCsYRCzVL40sijRPLVXYa000iIVjrtba")
 
 const CheckoutForm = () => {
-
+    const fecha=new Date()
+    const actualFecha=`${fecha.getFullYear()}-0${fecha.getMonth()+1}-${fecha.getDate()}`
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false)
@@ -77,7 +81,7 @@ const CheckoutForm = () => {
       )
   }
 
-
+  
   const handleSubmit = async (e) =>{
     e.preventDefault();
 
@@ -96,15 +100,17 @@ const CheckoutForm = () => {
       type: 'card',
       card: elements.getElement(CardElement) // esto es como un getElementByID
     });
-    setLoading(true);
+    
 
     if (!error) {
+        setLoading(true);
         const { id } = paymentMethod;
         try {
             const data = await axios.post("/pay", {
                 id,
                 amount: input.price*100 // lo obtiene en centavos
               });
+              
         
               elements.getElement(CardElement).clear();
               if (data.data.message === "Successfull payment"){
@@ -143,7 +149,7 @@ const CheckoutForm = () => {
                             type="date"
                             name="date"
                             id="date"
-                            min="2022-09-21"
+                            min={actualFecha}
                             max="2025-04-30"
                             value={input.date}
                             onChange={handleChange}
@@ -163,6 +169,8 @@ const CheckoutForm = () => {
                             step="3600000"
                             name="hour"
                             id="hour"
+                            min="08.00" 
+                            max="23:59" 
                             value={input.hour}
                             onChange={handleChange}
                             className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -187,6 +195,7 @@ const CheckoutForm = () => {
                             max="4"
                             onChange={handleChange}
                             className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
+                            {errors.chairs && <p className='form-error'>{errors.chairs}</p>}
                     </div>
                 </div>
                 <div className="w-full px-3 sm:w-1/2">
@@ -208,6 +217,7 @@ const CheckoutForm = () => {
                             {
                                 tables.length ?
                                     tables.map((table) => (
+                                        
                                         <option key={`reservation-${table.num_Table}`} value={table.id}>{`Mesa ${table.num_Table}`}</option>
                                     ))
                                     :
@@ -221,12 +231,13 @@ const CheckoutForm = () => {
             <h3 className="text-center my-2">${input.price}</h3>
                 <CardElement/>
                 </div>
-                <button className="bg-green-500 hover:bg-green-700 text-white font-bold w-32 py-2 px-4 border border-blue-700 rounded mx-10" disabled={!stripe}>
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold w-32 py-2 px-4 border border-blue-700 rounded mx-10" disabled={!stripe || !input.id_Table || !input.guest}>
                     {loading ? (
                         <span>...</span>
                     ): (
                         "Reservar"
                     )}
+                    {/* Reservar */}
                 </button>
         </form>
     </div>
