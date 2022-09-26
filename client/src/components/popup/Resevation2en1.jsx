@@ -7,7 +7,7 @@ import { createReservation, getProfile, getReservationDetail, getReservations, g
 import { useEffect } from "react";
 import { useState } from "react";
 import {loadStripe} from "@stripe/stripe-js"
-import {Elements, CardElement, useStripe, useElements} from '@stripe/react-stripe-js'
+import {Elements, CardElement, useStripe, useElements, CardNumberElement} from '@stripe/react-stripe-js'
 import axios from 'axios';
 import swal from "sweetalert";
 import jwt_decode from "jwt-decode"
@@ -109,6 +109,7 @@ const CheckoutForm = () => {
                 id,
                 amount: input.price*100 // lo obtiene en centavos
               });
+              
         
               elements.getElement(CardElement).clear();
               if (data.data.message === "Successfull payment"){
@@ -229,12 +230,13 @@ const CheckoutForm = () => {
             <h3 className="text-center my-2">${input.price}</h3>
                 <CardElement/>
                 </div>
-                <button className="bg-green-500 hover:bg-green-700 text-white font-bold w-32 py-2 px-4 border border-blue-700 rounded mx-10" disabled={!stripe}>
-                    {loading ? (
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold w-32 py-2 px-4 border border-blue-700 rounded mx-10" disabled={!stripe || !input.id_Table || !input.guest}>
+                    {/* {loading ? (
                         <span>...</span>
                     ): (
-                        "Reservar"
-                    )}
+                        "Reservarr"
+                    )} */}
+                    Reservar
                 </button>
         </form>
     </div>
