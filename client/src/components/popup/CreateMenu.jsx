@@ -81,8 +81,9 @@ const CreateMenu = (props) => {
                 title: "Menu creado",
                 icon: "success",
                 button: "Aceptar",
-            });
+            }).then(() => {
             props.setOpen(false)
+            })
         } else {
             swal({
                 title: "Error al crear el menu",
