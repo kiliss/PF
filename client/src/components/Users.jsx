@@ -7,11 +7,12 @@ import swal from "sweetalert";
 const Users = () => {
     const dispatch = useDispatch();
     const users = useSelector((state) => state.users);
-    const [charge, setCharge] = useState(false)
+    // const [charge, setCharge] = useState(false)
     useEffect(() => {
-        setCharge(false)
+        // setCharge(false)
         dispatch(getUsers());
-    }, [dispatch, charge]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
 
     function handleAdmin(e, user) {
@@ -26,15 +27,16 @@ const Users = () => {
         dispatch(editUser({
             id : user.id,
             admin : !user.admin
-        }));
-        dispatch(getUsers());
-        setCharge(true)
+        })).then(() => {
+        // setCharge(true)
         swal({
             title: "Rol cambiado",
             icon: "success",
             button: "Aceptar",
         });
+        dispatch(getUsers());
             }
+        )}
         });
     }
 
