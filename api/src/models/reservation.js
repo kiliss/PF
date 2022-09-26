@@ -10,7 +10,7 @@ module.exports = (sequilize) => {
             primaryKey: true
         },
         id_User: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             ForeingKey: true
         },
         id_Table: {

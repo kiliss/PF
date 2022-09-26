@@ -73,10 +73,9 @@ router.get('/:name', async (req, res) => {
 
 
 router.post('/', async (req, res) => {   // Crea menu
-    const { id, name, photo, description } = req.body;
+    const { name, photo, description } = req.body;
     try {
         Menu.create({
-            id: id,
             name: name,
             photo: photo,
             description: description,

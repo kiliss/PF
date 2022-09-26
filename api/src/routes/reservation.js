@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {Reservation,User} = require('../db.js');
+const {Reservation,User,Table} = require('../db.js');
+const { sendEmail } = require('../auth/mailer');
 
 
 const getReservation=async()=>{
@@ -36,19 +37,22 @@ router.get("/:id",async(req,res)=>{
 })
 
 router.post('/', async (req,res)=>{
-    const {id_User,id_Table,date,hour,price,Cant_User}=req.body;
+    const {id_User,id_Table,date,hour,price,Cant_User, email}=req.body;
+    console.log(req.body)
     try{
         const reservation=await Reservation.create({
-            //id_User:id_User,
-            //id_Table:id_Table,
+            id_User:id_User,
+            id_Table:id_Table,
             date:date,
             hour:hour,
             price:price,
             //Cant_User:Cant_User
-        }
-        )
+        })
+        const table = await Table.findByPk(id_Table)
+        const user = await User.findByPk(id_User)
         res.status(200).json("La reservación ha sido creado correctamente")
-           
+        sendEmail(email, "Reserva PFRestaurante", `Estimado ${user.user},\n\xA0 te esperamos en PFRestaurante, te compartimos los datos de tu reserva: \n\xA0• Día: ${date} \n\xA0• Hora: ${hour} \n\xA0• Mesa: ${table.num_Table}`, "reservation")
+        
     }catch(error){
         res.status(403).json(error)
     }

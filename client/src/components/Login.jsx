@@ -62,22 +62,21 @@ const Login = () => {
 
   const googleSuccess = async (res) => {
     const result = res?.profileObj;
-   
+  
     const user = {
       user: result.name,
-      password: '123',
       email: result.email,
       photo: result.imageUrl,
       googleId: result.googleId,
     }
     let data = await dispatch(loginGoogle(user));
-    
+    // console.log(data)
     window.localStorage.setItem('user', data.data);
     navigate('/');
   };
 
   const googleFailure = (err) => {
-    console.log(err)
+    console.log('error inicio, ',err)
     console.log('Fallo inicio de sesión con google, intenta más tarde!')
   };
   return (
@@ -119,7 +118,7 @@ const Login = () => {
                     onChange={(e) => handleChange(e)}
                   />
                 </div>
-                <div>
+                {/* <div>
                   <label className="inline-flex items-center cursor-pointer">
                     <input
                       id="customCheckLogin"
@@ -130,7 +129,7 @@ const Login = () => {
                       Remember me
                     </span>
                   </label>
-                </div>
+                </div> */}
                 <div className="text-center mb-3">
                   <h6 className="text-blueGray-500 text-sm font-bold">
                     Sing in with

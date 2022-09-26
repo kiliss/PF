@@ -2,10 +2,14 @@ import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { createReservation, getReservations, getTable } from '../../redux/actions/index';
+import { createReservation, getProfile, getReservations, getTable } from '../../redux/actions/index';
 import { useEffect } from "react";
 import { useState } from "react";
+import {loadStripe} from "@stripe/stripe-js"
+import {Elements, CardElement, useStripe, useElements} from '@stripe/react-stripe-js'
+import axios from 'axios';
 import swal from "sweetalert";
+import PruebaPago from "../pruebapago";
 
 
 const validationForm = (input) => {
@@ -26,15 +30,29 @@ const validationForm = (input) => {
     return errors
 };
 
+// console.log(PruebaPago().props)
+
 const Reservation = (props) => {
+  /*console.log( window.localStorage.getItem("user"))*/
+    
     const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getProfile())
+    }, [dispatch])
+    
+    const usuario = useSelector((state) => state.user)
     const tables = useSelector((state) => state.tables);
+    const [open, setOpen] = useState(false)
     const [input, setInput] = useState({
+        id_User:usuario.user,
         date: "",
         hour: "",
         price: 300,
         num_Table: [],
     })
+   
+
+    console.log(usuario.id)
     const [errors, setErrors] = useState({});
     useEffect(() => {
         dispatch(getTable())
@@ -53,22 +71,26 @@ const Reservation = (props) => {
                 buttons: "aceptar",
             })
         } else {
-            swal({
-                title: "Confirm reservation",
-                text: "$300 table",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willReservate) => {
-                if (willReservate) {
-                    dispatch(createReservation(input));
-                    swal("reservation confirmed, we are waiting for you soon", {
-                        icon: "success",
-                    });
-                }
-            });
+            {
+                setOpen(true)
+                dispatch (createReservation(input))
+               
+               /* if (setOpen(false)){
+                    dispatch(createReservation(input))
+                }*/
+                //dispatch(createReservation(input));
+                // swal("reservation confirmed, we are waiting for you soon", {
+                //     icon: "success",
+                // });
+            }
+            
         }
+        
     }
+
+    // function nexttt()  {
+    //     setOpen(true)
+    // }
 
     function handleChange(e) {
         setInput({
@@ -122,7 +144,12 @@ const Reservation = (props) => {
                                                     <XMarkIcon className="h-8 w-8" aria-hidden="true" />
                                                 </button>
                                             </div>
-
+                                                {
+                                                    open && <PruebaPago open={open} setOpen={setOpen}/> 
+                                                }
+                                                {
+                                                    
+                                                }
                                             <div
                                                 className="px-4 pt-8 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8"
                                             >
@@ -223,7 +250,6 @@ const Reservation = (props) => {
                                                     >
                                                         Reservar
                                                     </button>
-
                                                 </div>
                                             </div>
                                         </div>

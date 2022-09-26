@@ -5,6 +5,8 @@ import {getFoods, getMenus, addFoodToMenu, deleteFood, getFood, deleteFoodFromMe
 import FoodEdit from "./FoodEdit";
 import swal from 'sweetalert';
 import CreateFoods from './CreateFoods';
+import CreateMenu from './popup/CreateMenu';
+import BorrarMenu from './popup/BorrarMenu';
 
 
 const TableAdmin = () => {
@@ -14,13 +16,15 @@ const TableAdmin = () => {
     const [menu, setMenu] = useState("")
     const [open, setOpen] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
+    const [openCreateMenu, setOpenCreateMenu] = useState(false)
+    const [openDeleteMenu, setOpenDeleteMenu] = useState(false)
     const [charge, setCharge] = useState(false)
 
     useEffect(() => {
         dispatch(getFoods());
         dispatch(getMenus());
         setCharge(false)
-    }, [dispatch, charge]);
+    }, [dispatch, charge, openEdit, openCreateMenu, openDeleteMenu]);
   
     function handleChange(e) {
         setMenu(e.target.value);
@@ -37,6 +41,15 @@ const TableAdmin = () => {
                     button: "Aceptar",
                 });
             } else {
+            //preguntar si agregar o no
+                swal({
+                    title: "¿Desea agregar la comida al menu?",
+                    icon: "warning",
+                    buttons: ["Cancelar", "Aceptar"],
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
             dispatch(addFoodToMenu({
                 menu : menu,
                 food : foood.name
@@ -48,7 +61,8 @@ const TableAdmin = () => {
                 icon: "success",
                 button: "Aceptar",
             })
-        } 
+        }});
+            }
      } else {
             swal({
                 title: "Debe seleccionar un menu",
@@ -127,7 +141,16 @@ const TableAdmin = () => {
 
             openEdit && <CreateFoods open={openEdit} setOpen={setOpenEdit}/>
         }
+        {
+            openCreateMenu && <CreateMenu open={openCreateMenu} setOpen={setOpenCreateMenu}/>
+        }
+        {
+            openDeleteMenu && <BorrarMenu open={openDeleteMenu} setOpen={setOpenDeleteMenu}/>
+        }
+
             <button onClick={() => setOpenEdit(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Crear comida</button>
+            <button onClick={() => setOpenCreateMenu(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Crear menu</button>
+            <button onClick={() => setOpenDeleteMenu(true)} className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Borrar menu</button>
             <div className="px-3 py-4 flex justify-center">
                 <table className="w-full text-md bg-white shadow-md rounded mb-4">
                     <tbody>
@@ -135,7 +158,7 @@ const TableAdmin = () => {
                             <th className="text-left p-3 px-5">Food</th>
                             <th className="text-left p-3 px-5">Detail</th>
                             <th className="text-left p-3 px-5">
-                            <select className="bg-transparent bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" onChange={(e)=> handleChange(e)} defaultValue="Menu"  >
+                            <select className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" onChange={(e)=> handleChange(e)} defaultValue="Menu"  >
                                             <option hidden>Select Menu</option>
                                                 {
                                                     menuus?.map((menu) => {
