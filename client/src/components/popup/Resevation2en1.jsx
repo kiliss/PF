@@ -100,9 +100,10 @@ const CheckoutForm = () => {
       type: 'card',
       card: elements.getElement(CardElement) // esto es como un getElementByID
     });
-    setLoading(true);
+    
 
     if (!error) {
+        setLoading(true);
         const { id } = paymentMethod;
         try {
             const data = await axios.post("/pay", {
@@ -231,12 +232,12 @@ const CheckoutForm = () => {
                 <CardElement/>
                 </div>
                 <button className="bg-green-500 hover:bg-green-700 text-white font-bold w-32 py-2 px-4 border border-blue-700 rounded mx-10" disabled={!stripe || !input.id_Table || !input.guest}>
-                    {/* {loading ? (
+                    {loading ? (
                         <span>...</span>
                     ): (
-                        "Reservarr"
-                    )} */}
-                    Reservar
+                        "Reservar"
+                    )}
+                    {/* Reservar */}
                 </button>
         </form>
     </div>
