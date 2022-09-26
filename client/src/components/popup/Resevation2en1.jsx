@@ -234,7 +234,7 @@ const CheckoutForm = () => {
                     {/* {loading ? (
                         <span>...</span>
                     ): (
-                        "Reservar"
+                        "Reservarr"
                     )} */}
                     Reservar
                 </button>
