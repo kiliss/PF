@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 
 const getDbUsers = async () => {
     return await User.findAll({
-        attributes: ['id', 'user', 'password', 'email', 'photo', 'admin'],
+        attributes: ['id', 'user', 'password', 'email', 'photo', 'admin', 'ban'],
         include: {
             model: Feedback,
             attributes: ['valoration', 'comment'],
@@ -125,12 +125,13 @@ router.post('/google', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
-    const { id, admin } = req.body;
+    const { id, admin, ban } = req.body;
     try {
         const user = await User.findByPk(id);
         if (user) {
             await User.update({
-                admin : admin
+                admin : admin,
+                ban: ban
             },
                 {
                     where: {

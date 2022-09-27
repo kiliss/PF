@@ -26,7 +26,8 @@ const Users = () => {
             if (willDelete) {
         dispatch(editUser({
             id : user.id,
-            admin : !user.admin
+            admin : !user.admin,
+            ban: user.ban
         })).then(() => {
         // setCharge(true)
         swal({
@@ -38,6 +39,57 @@ const Users = () => {
             }
         )}
         });
+    }
+    function banUser(e, user) {
+        e.preventDefault();
+        if(!user.ban){
+        swal({
+            title: "¿Desea banear al usuario?",
+            icon: "warning",
+            buttons: ["Cancelar", "Aceptar"],
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+        dispatch(editUser({
+            id : user.id,
+            admin : user.admin,
+            ban : !user.ban
+        })).then(() => {
+        // setCharge(true)
+        swal({
+            title: "Usuario banneado",
+            icon: "success",
+            button: "Aceptar",
+        });
+        dispatch(getUsers());
+            }
+        )}
+        });
+    }else{
+        swal({
+            title: "¿Desea desbanear al usuario?",
+            icon: "warning",
+            buttons: ["Cancelar", "Aceptar"],
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+        dispatch(editUser({
+            id : user.id,
+            admin : user.admin,
+            ban : !user.ban
+        })).then(() => {
+        // setCharge(true)
+        swal({
+            title: "Usuario desbanneado",
+            icon: "success",
+            button: "Aceptar",
+        });
+        dispatch(getUsers());
+            }
+        )}
+        });
+
+    }
     }
 
 
@@ -58,6 +110,7 @@ const Users = () => {
                     <th className="text-left p-3 px-5">Name</th>
                     <th className="text-left p-3 px-5">Email</th>
                     <th className="text-left p-3 px-5">Role</th>
+                    <th className="text-left p-3 px-5">Status</th>
                     
                 </tr>
                 {
@@ -76,6 +129,17 @@ const Users = () => {
                                             User</button>
                                     )
 
+                                }
+                            </td>
+                            <td className="p-3 px-5">
+                                {
+                                    user.ban ? (
+                                        <button onClick={(e) => banUser(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+                                            Banned</button>
+                                    ) : (
+                                        <button onClick={(e) => banUser(e, user)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                                            Active</button>
+                                    )
                                 }
                             </td>
                         </tr>

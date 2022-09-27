@@ -17,9 +17,12 @@ router.post('/', async (req, res) => {
         //console.log('math: ',match)
         
         if(match){
+            if(userEmail.ban === true){
+                return res.json({ message: "Usuario bloqueado!" })
+            } else {
             const jwtToken = jwt.sign(JSON.stringify({id: userEmail.id, email: userEmail.email, admin: userEmail.admin, photo: userEmail.photo}),process.env.JWT_SECRET); 
             return res.json(jwtToken);
-
+            }
         } else {
             return res.json({ message: "!Email o contraseña incorrecto!" });
         }
