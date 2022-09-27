@@ -22,6 +22,7 @@ const Home = () => {
             <div className="lg:h-screen bg-gradient-to-b from-red-900 to-gray-100 lg:grid lg:grid-cols-2 gap-x-6 pt-20 lg:pt-0">
                 <div className="flex">
                     <div className="text-center text-white m-auto text-3xl sm:text-5xl md:text-7xl font-['Cabin_Sketch']">PFRestaurante</div>
+                    
                 </div>
                 <div className="flex">
                     <img src={image} alt="" className="w-4/5 text-center m-auto" />

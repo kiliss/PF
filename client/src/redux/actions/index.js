@@ -380,6 +380,7 @@ export function login(user) {
     return async function () {
         try {
             let login = await axios.post("/login", user);
+            console.log(login)
             return login.data;
         } catch (error) {
             console.log(error)

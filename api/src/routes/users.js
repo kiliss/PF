@@ -141,12 +141,13 @@ router.post('/google', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
-    const { id, admin } = req.body;
+    const { id, admin, ban } = req.body;
     try {
         const user = await User.findByPk(id);
         if (user) {
             await User.update({
-                admin : admin
+                admin : admin,
+                ban: ban
             },
                 {
                     where: {
