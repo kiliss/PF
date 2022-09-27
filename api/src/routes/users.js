@@ -1,21 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const { User, Feedback } = require('../db.js');
+const { User, Feedback, Reservation, Table} = require('../db.js');
 const bcrypt = require('bcrypt');
 const auth = require("../middleware/auth.js");
 const { sendEmail } = require("../auth/mailer.js")
 const jwt = require('jsonwebtoken');
 
-
-
-
 const getDbUsers = async () => {
     return await User.findAll({
-        attributes: ['id', 'user', 'password', 'email', 'photo', 'admin', 'ban'],
-        include: {
-            model: Feedback,
-            attributes: ['valoration', 'comment'],
-        }
+        attributes: ['id', 'user', 'password', 'email', 'photo', 'admin'],
+        include: [
+            {
+                model: Reservation,
+                attributes:['date', 'hour', 'price'],
+                include:
+                        {
+                        model: Table
+                        }
+            },
+            {
+                model: Feedback,
+                attributes: ['valoration', 'comment'],
+            }
+        ]
     })
 }
 const generateP = () => {
@@ -42,9 +49,18 @@ router.get("/user", auth, async (req, res) => {
     // console.log('id: ' + id)
     try {
         const users = await User.findByPk(id, {
-            include: {
-                model: Feedback,
-            }
+            include: [
+                {
+                    model: Feedback,
+                },
+                {
+                    model: Reservation,
+                    include:
+                        {
+                        model: Table
+                        }
+                }
+            ]
         })
         if (users === null) {
             res.status(404).send("No se encontro usuario con ese ID")
@@ -145,6 +161,43 @@ router.put('/', async (req, res) => {
         res.status(403).json(error)
     }
 });
+
+router.put('/', async (req, res) => {
+    const { id, password} = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    try {
+        const user = await User.findByPk(id);
+        if(user){
+            await User.update(
+                {password: hashedPassword},
+                {where: {id: id}}
+            )
+            res.status(200).json("La contraseña ha sido actualizada correctamente")
+        }
+        else res.status(403).json("Error al actualizar la contraseña")
+    } catch (error) {
+        res.status(403).json(error)
+    }
+
+})
+
+router.put('/', async (req, res) => {
+    const { id, photo} = req.body;
+    try {
+        const user = await User.findByPk(id);
+        if(user){
+            await User.update(
+                {photo: photo},
+                {where: {id: id}}
+            )
+            res.status(200).json("La imagen de perfil se ha sido actualizado correctamente")
+        }
+        else res.status(403).json("Error al actualizar imagen de perfil")
+    } catch (error) {
+        res.status(403).json(error)
+    }
+
+})
 
 
 

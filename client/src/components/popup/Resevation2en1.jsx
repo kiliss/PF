@@ -7,7 +7,7 @@ import { createReservation, getProfile, getReservationDetail, getReservations, g
 import { useEffect } from "react";
 import { useState } from "react";
 import {loadStripe} from "@stripe/stripe-js"
-import {Elements, CardElement, useStripe, useElements, CardNumberElement} from '@stripe/react-stripe-js'
+import {Elements, CardElement, useStripe, useElements} from '@stripe/react-stripe-js'
 import axios from 'axios';
 import swal from "sweetalert";
 import jwt_decode from "jwt-decode"
@@ -52,10 +52,8 @@ const CheckoutForm = () => {
 
 
   const tables = useSelector((state) => state.tables);
-  const usuario = useSelector((state) => state.user);
-  const reserva = useSelector((state) => state.reservations);
 
-  const decode = window.localStorage.getItem("user");
+//   const decode = window.localStorage.getItem("user");
   const decodee = jwt_decode(localStorage.getItem('user'))
 
   const [input, setInput] = useState({
@@ -110,8 +108,6 @@ const CheckoutForm = () => {
                 id,
                 amount: input.price*100 // lo obtiene en centavos
               });
-              
-        
               elements.getElement(CardElement).clear();
               if (data.data.message === "Successfull payment"){
                 swal("Pago aceptado", "Tu reserva fue registrada con éxito", "success");
