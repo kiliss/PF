@@ -1,10 +1,13 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux"
+import { getMenus } from "../redux/actions";
 import { useLocation } from "react-router-dom";
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, /*BellIcon,*/ XMarkIcon } from '@heroicons/react/24/outline';
 import Reservation from './popup/Reservation';
 import jwt_decode from "jwt-decode";
 import Image from 'react-async-image';
+import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 
 const visitorNavigation = [
     { name: 'Productos', href: '/products' }
@@ -24,9 +27,19 @@ function classNames(...classes) {
 const Navbar = () => {
     const location = useLocation();
     const [openReservation, setOpenReservation] = useState(false);
+    const [onHover, setOnHover] = useState('');
+    const [onMobileMenu, setOnMobileMenu] = useState(false);
 
     const { admin, photo } = localStorage.getItem('user') ? jwt_decode(localStorage.getItem('user')) : { 'admin': false, 'photo': '.jpg' };
     // console.log('navbar ',photo);
+
+    const dispatch = useDispatch();
+    const menus = useSelector((state) => state.menus);
+
+    useEffect(() => {
+        dispatch(getMenus());
+        // eslint-disable-next-line
+    }, [])
     return (
         <>
             {
@@ -49,7 +62,7 @@ const Navbar = () => {
                                     </Disclosure.Button>
                                 </div>
                                 <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                                    <div className="flex flex-shrink-0 items-center">
+                                    <div className="flex flex-shrink-0 items-center" onMouseEnter={() => setOnHover('')}>
                                         <a href='/'>
                                             <img
                                                 className="block h-8 w-auto lg:hidden mr-1"
@@ -75,10 +88,21 @@ const Navbar = () => {
                                                         'px-3 py-2 rounded-md text-sm font-medium'
                                                     )}
                                                     aria-current={location.pathname === item.href ? 'page' : undefined}
+                                                    onMouseEnter={() => setOnHover(item.name)}
                                                 >
                                                     {item.name}
                                                 </a>
                                             ))}
+                                            <button
+                                                className={classNames(
+                                                    'peer text-black hover:bg-gray-500 hover:text-white',
+                                                    'px-3 py-2 rounded-md text-sm font-medium'
+                                                )}
+                                                aria-current={undefined}
+                                                onMouseEnter={() => setOnHover('menus')}
+                                            >
+                                                {'Menús'}
+                                            </button>
                                             {localStorage.getItem('user') && userNavigation.map((item) => (
                                                 <a
                                                     key={item.name}
@@ -88,6 +112,7 @@ const Navbar = () => {
                                                         'px-3 py-2 rounded-md text-sm font-medium'
                                                     )}
                                                     aria-current={location.pathname === item.href ? 'page' : undefined}
+                                                    onMouseEnter={() => setOnHover(item.name)}
                                                 >
                                                     {item.name}
                                                 </a>
@@ -101,6 +126,7 @@ const Navbar = () => {
                                                         'px-3 py-2 rounded-md text-sm font-medium'
                                                     )}
                                                     aria-current={location.pathname === item.href ? 'page' : undefined}
+                                                    onMouseEnter={() => setOnHover(item.name)}
                                                 >
                                                     {item.name}
                                                 </a>
@@ -122,7 +148,7 @@ const Navbar = () => {
                                             }
 
                                             {/* Profile dropdown */}
-                                            <Menu as="div" className="relative ml-3">
+                                            <Menu as="div" className="relative ml-3" onMouseEnter={() => setOnHover('')}>
                                                 <div>
                                                     <Menu.Button className="flex rounded-full bg-gray-200 text-sm focus:outline-none ring-2 ring-gray-200 hover:ring-red-900">
                                                         <span className="sr-only">Open user menu</span>
@@ -132,7 +158,7 @@ const Navbar = () => {
                                                             src={photo}
                                                             alt="" /> */}
                                                         <Image
-                                                        
+
                                                             decoding='async'
                                                             loading='lazy'
                                                             src={photo}
@@ -174,15 +200,15 @@ const Navbar = () => {
                                                         } */}
                                                         {
                                                             localStorage.getItem('user') && !admin && <Menu.Item>
-                                                            {({ active }) => (
-                                                                <a
-                                                                    href="/reservations2"
-                                                                    className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black')}
-                                                                >
-                                                                    Reservación
-                                                                </a>
-                                                            )}
-                                                        </Menu.Item>
+                                                                {({ active }) => (
+                                                                    <a
+                                                                        href="/reservations2"
+                                                                        className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black')}
+                                                                    >
+                                                                        Reservación
+                                                                    </a>
+                                                                )}
+                                                            </Menu.Item>
                                                         }
                                                         <Menu.Item>
                                                             {({ active }) => (
@@ -200,7 +226,7 @@ const Navbar = () => {
                                             </Menu>
                                         </>
                                         :
-                                        <div className="sm:ml-6 sm:block">
+                                        <div className="sm:ml-6 sm:block" onMouseEnter={() => setOnHover('')}>
                                             <div className="flex space-x-4">
                                                 <a
                                                     href={'/login'}
@@ -212,9 +238,29 @@ const Navbar = () => {
                                             </div>
                                         </div>}
                                 </div>
-
                             </div>
                         </div>
+                        {
+                            onHover === 'menus' && <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 border-t border-gray-300" onMouseLeave={() => setOnHover('')}>
+                                <div className="my-6 space-y-12 lg:grid lg:grid-cols-5 lg:gap-x-6 lg:gap-y-6 lg:space-y-0">
+                                    {
+                                        menus.map(m => {
+                                            return (
+                                                <a className="flex cursor-pointer" key={`navbar-menus-${m.name}`} href={`/menu/${m.name.toLowerCase()}`}>
+                                                    <div className="group flex w-8 h-8 overflow-hidden rounded-lg bg-white">
+                                                        <img src={m.photo} alt={m.name} className="h-full w-full object-cover object-center" />
+                                                    </div>
+                                                    <h3 className="text-lg text-gray-700 text-sm font-normal ml-2">
+                                                        {m.name}
+                                                    </h3>
+                                                </a>
+                                            );
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        }
+
 
                         <Disclosure.Panel className="sm:hidden">
                             <div className="space-y-1 px-2 pt-2 pb-3">
@@ -258,6 +304,33 @@ const Navbar = () => {
                                         aria-current={location.pathname === item.href ? 'page' : undefined}
                                     >
                                         {item.name}
+                                    </Disclosure.Button>
+                                ))}
+                                <div
+                                    className={'text-black hover:bg-gray-500 hover:text-white flex px-3 py-2 rounded-md text-base font-medium cursor-pointer justify-between items-center'}
+                                    onClick={() => setOnMobileMenu(!onMobileMenu)}
+                                >
+                                    <span className="font-medium">Menús</span>
+                                    <span className="ml-6 flex items-center">
+                                        {onMobileMenu ? (
+                                            <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                        ) : (
+                                            <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                        )}
+                                    </span>
+                                </div>
+                                {menus.map((m) => (
+                                    onMobileMenu && <Disclosure.Button
+                                        key={`mobile-navbar-${m.name}`}
+                                        as="a"
+                                        href={`/menu/${m.name.toLowerCase()}`}
+                                        className={classNames(
+                                            location.pathname === `/menu/${m.name.toLowerCase()}` ? 'bg-red-700 text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-white',
+                                            'block px-3 py-2 rounded-md text-base font-medium'
+                                        )}
+                                        aria-current={location.pathname === `/menu/${m.name.toLowerCase()}` ? 'page' : undefined}
+                                    >
+                                        {m.name}
                                     </Disclosure.Button>
                                 ))}
                             </div>
