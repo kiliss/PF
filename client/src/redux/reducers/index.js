@@ -106,6 +106,11 @@ function rootReducer(state = initialState, action) {
                 ...state,
                 bill: action.payload
             }
+        case "DELETE_RESERVATION":
+            return {
+                ...state,
+                reservation: action.payload
+                }
         default:
             return state;
     }

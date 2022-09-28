@@ -58,5 +58,18 @@ router.post('/', async (req,res)=>{
     }
 })
 
-
+router.delete("/delete/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+         let reserva= await Reservation.destroy({where:{
+            id
+         }})
+        
+        res.json("Reservation deleted correctly");
+      
+    } catch (e) {
+      return res.status(404).json("Error ---> " + e);
+    }
+  });
+  
 module.exports = router;

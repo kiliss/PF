@@ -434,3 +434,16 @@ export function giveFoodValoration(foodId, userId, stars) {
         }
     };
 };
+export function deleteReservation(id) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.delete("/reservation/delete/" + id)
+            return dispatch({
+                type: "DELETE_RESERVATION",
+                payload: json.data
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
