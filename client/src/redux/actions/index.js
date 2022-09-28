@@ -348,6 +348,21 @@ export function getReservationDetail(id) {
     };
 };
 
+// OBTENER DETALLE DE UNA RESERVA POR ID (*SE DEBE PROBAR*)
+export function getReservationByUser(id_User) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.get("/reservation/users/" + id_User)
+            return dispatch({
+                type: "GET_RESERVATION",
+                payload: json.data
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
 // CREAR UNA RESERV (*SE DEBE PROBAR*)
 export function createReservation(payload) {
     return async function (dispatch) {
@@ -365,6 +380,7 @@ export function login(user) {
     return async function () {
         try {
             let login = await axios.post("/login", user);
+            console.log(login)
             return login.data;
         } catch (error) {
             console.log(error)

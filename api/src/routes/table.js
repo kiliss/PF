@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const {Table,User} = require('../db.js');
+const {Table,User,Reservation} = require('../db.js');
 
 
 
 const getTable=async()=>{
     return await Table.findAll(/*{
-        include:{
-            model:User,
-            attributes:['user','password','email','photo','admin'],
-            through:{
-                attributes:['num_Table','state','chairs']
-            }
-        }
+        // include:{
+        //     model:Reservation,
+        //     attributes:['date','hour','price'],
+        //     through:{
+        //         attributes:['num_Table','state','chairs']
+        //     }
+        // }
     }*/)
 }
 

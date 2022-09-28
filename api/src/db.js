@@ -62,8 +62,8 @@ const { Bill, Foodcount, Food, Reservation, Table, User, Menu, Feedback, Order, 
 User.hasMany(Feedback);
 Feedback.belongsTo(User);
 
-Reservation.hasOne(User);
-User.belongsTo(Reservation);
+// Reservation.hasMany(User);
+// User.belongsTo(Reservation);
 
 User.hasMany(Bill);
 Bill.belongsTo(User);
@@ -82,6 +82,12 @@ Foodcount.belongsTo(Order);
 
 Food.hasMany(Foodcount);
 Foodcount.belongsTo(Food);
+
+User.belongsToMany(Reservation, { through: 'User_reservation' });
+Reservation.belongsToMany(User, { through: 'User_reservation' });
+
+Table.belongsToMany(Reservation, { through: 'Table_reservation' });
+Reservation.belongsToMany(Table, { through: 'Table_reservation' });
 
 Food.belongsToMany(Menu, { through: Menu_food });
 Menu.belongsToMany(Food, { through: Menu_food });
