@@ -3,9 +3,9 @@ import React from 'react';
 import { useParams, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
-import { getProfile, getReservationByUser, getReservations, getUserDetail, getUsers } from '../redux/actions';
+import { getProfile, getReservationByUser, getReservations, getUserDetail, getUsers,deleteReservation } from '../redux/actions';
 import jwt_decode from "jwt-decode";
-
+import swal from 'sweetalert';
 const Profile = () => {
     const dispatch = useDispatch();
     // traer datos de user
@@ -16,6 +16,25 @@ const Profile = () => {
     useEffect(() => {
         dispatch(getProfile())
     }, [dispatch])
+    
+    const handleDelete =async (e,id)=>{
+        e.preventDefault();
+        swal({
+            title: "Esta seguro que desea eliminar la reservacion?",
+            icon: "warning",
+            buttons: ["Cancelar", "Aceptar"],
+            dangerMode: true,
+        }).then((willDelete) => {
+        if(willDelete){
+            dispatch(deleteReservation(id))
+            dispatch(getProfile())
+            swal({
+                title: "reserva eliminada",
+                icon: "success",
+                button: "Aceptar",
+            });
+        }
+    })}
     
     const usuarioo = jwt_decode(localStorage.getItem('user'))
     const usuario = useSelector((state) => state.user)
@@ -52,16 +71,16 @@ const Profile = () => {
                                             usuario.hasOwnProperty("reservations") && usuario.reservations.length ? 
                                             usuario.reservations.map((el) => {
                                                 const date = el.date.slice(0,10) 
-                                                function reverse(str){
-                                                    return str.split("").reverse().join("");
-                                                }
-                                                const datee = reverse(date)
+                                                const anio = date.slice(0,4)
+                                                const mes = date.slice(4,8)
+                                                const dia = date.slice(8,10)
+                                                const fecha = dia+mes+anio
                                                 return (
                                                     <ul key={`reserva${el.id}`} className='flex flex-col bg-gray-300 rounded-[15px]'>
                                                     <li>
                                                         <div className='flex justify-between m-2'>
-                                                        <span className='max-w-xs'>Reserva el día {date} a las {el.hour.slice(0,5)} en la mesa {el.tables[0].num_Table}</span>
-                                                        <button className='bg-red-700 hover:bg-red-900 text-white rounded-full max-w-sm max-h-6 px-2'>Cancelar</button>
+                                                        <span className='max-w-xs'>Reserva el día {fecha} a las {el.hour.slice(0,5)} en la mesa {el.tables[0].num_Table}</span>
+                                                        <button onClick={(e)=>handleDelete(e,el.id)} className='bg-red-700 hover:bg-red-900 text-white rounded-full max-w-sm max-h-6 px-2'>Cancelar</button>
                                                         </div>
                                                     </li>
                                                     </ul>

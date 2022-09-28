@@ -380,6 +380,7 @@ export function login(user) {
     return async function () {
         try {
             let login = await axios.post("/login", user);
+            console.log(login)
             return login.data;
         } catch (error) {
             console.log(error)
@@ -430,6 +431,19 @@ export function giveFoodValoration(foodId, userId, stars) {
             return data;
         } catch (err) {
             console.log(err);
+        }
+    };
+};
+export function deleteReservation(id) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.delete("/reservation/delete/" + id)
+            return dispatch({
+                type: "DELETE_RESERVATION",
+                payload: json.data
+            });
+        } catch (error) {
+            console.log(error)
         }
     };
 };
