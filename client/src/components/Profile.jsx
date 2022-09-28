@@ -51,11 +51,16 @@ const Profile = () => {
                                         {
                                             usuario.hasOwnProperty("reservations") && usuario.reservations.length ? 
                                             usuario.reservations.map((el) => {
+                                                const date = el.date.slice(0,10) 
+                                                function reverse(str){
+                                                    return str.split("").reverse().join("");
+                                                }
+                                                const datee = reverse(date)
                                                 return (
                                                     <ul key={`reserva${el.id}`} className='flex flex-col bg-gray-300 rounded-[15px]'>
                                                     <li>
                                                         <div className='flex justify-between m-2'>
-                                                        <span className='max-w-xs'>Reserva el día {el.date.slice(0,10)} a las {el.hour.slice(0,5)} en la mesa {el.tables[0].num_Table}</span>
+                                                        <span className='max-w-xs'>Reserva el día {date} a las {el.hour.slice(0,5)} en la mesa {el.tables[0].num_Table}</span>
                                                         <button className='bg-red-700 hover:bg-red-900 text-white rounded-full max-w-sm max-h-6 px-2'>Cancelar</button>
                                                         </div>
                                                     </li>
