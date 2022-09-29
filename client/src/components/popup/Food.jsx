@@ -19,11 +19,11 @@ export default function Food(props) {
     const food = useSelector((state) => state.food);
     const [selectedStar, setSelectedStar] = useState(0);
 
-    const { admin, id: userId } = localStorage.getItem('user') ? jwt_decode(localStorage.getItem('user')) : { 'admin': false, 'id': 0 };
+    const { admin, id: userId } = localStorage.getItem('session') ? jwt_decode(localStorage.getItem('session')) : { 'admin': false, 'id': 0 };
 
     const notify = (msg) => toast.success(msg, {
         closeButton: false // or MyCustomCloseButton
-      });
+    });
 
     const sendValoration = async (stars) => {
         const message = await dispatch(giveFoodValoration(food.id, userId, stars));
@@ -69,8 +69,11 @@ export default function Food(props) {
                                     </button>
 
                                     <div className="grid w-full grid-cols-1 items-start gap-y-8 gap-x-6 sm:grid-cols-12 lg:gap-x-8">
-                                        <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5 lg:h-80">
-                                            <img src={food?.photo} alt={food?.name} className="h-full w-full object-cover object-center lg:h-full lg:w-full" />
+                                        <div className="w-full sm:col-span-4 lg:col-span-5">
+                                            <div className="h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-100">
+                                                <img src={food?.photo} alt={food?.name} className="h-full w-full object-cover object-center" />
+                                            </div>
+                                            <div className='bg-red-700 hover:bg-red-900 text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer'>Comentarios</div>
                                         </div>
                                         <div className="sm:col-span-8 lg:col-span-7">
                                             <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">{food?.name}</h2>
@@ -150,7 +153,7 @@ export default function Food(props) {
                         </Transition.Child>
                     </div>
                 </div>
-                <ToastContainer position="bottom-right" autoClose={5000} pauseOnHover={false} draggable={false} closeOnClick={false} rtl={false}/>
+                <ToastContainer position="bottom-right" autoClose={5000} pauseOnHover={false} draggable={false} closeOnClick={false} rtl={false} />
             </Dialog>
         </Transition.Root>
     )
