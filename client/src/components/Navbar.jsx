@@ -32,7 +32,7 @@ const Navbar = () => {
 
     const localS = localStorage.getItem('session');
 
-    const { admin } = typeof localS === 'object' && !Array.isArray(localS) && localS !== null ? jwt_decode(localS) : { 'admin': false };
+    const { admin } = localS ? jwt_decode(localS) : { 'admin': false };
     const photo = localStorage.getItem('photo') ? localStorage.getItem('photo') : '.png';
 
     const dispatch = useDispatch();
