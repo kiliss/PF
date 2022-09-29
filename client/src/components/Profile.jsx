@@ -41,9 +41,10 @@ const Profile = () => {
         }
     })}
     
-    const usuarioo = jwt_decode(localStorage.getItem('user'))
+    const usuarioo = jwt_decode(localStorage.getItem('session'))
+    const usuariooPhoto = localStorage.getItem('photo')
     const usuario = useSelector((state) => state.user)
-    console.log(usuarioo)
+    console.log(usuariooPhoto)
     
     // CAMBIO DE NOMBRE DE USUARIO
     const [inputUser, setInputUser] = useState({
@@ -138,7 +139,7 @@ const Profile = () => {
                 <div className="flex justify-center">
                     {
                         !photo ?
-                        <img src={usuarioo.photo} alt="" class="rounded-full mx-auto absolute -top-20 w-40 h-40 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"/>
+                        <img src={usuariooPhoto} alt="" class="rounded-full mx-auto absolute -top-20 w-40 h-40 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"/>
                         : <img src={photo} alt="" class="rounded-full mx-auto absolute -top-20 w-40 h-40 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"/>
                     }
                 </div>
