@@ -15,7 +15,7 @@ import VisitorRoutes from './utils/VisitorRoutes';
 import UserRoutes from './utils/UserRoutes';
 import AdminRoutes from './utils/AdminRoutes';
 import PruebaPago from './components/pruebapago';
-
+import Footer from './components/Footer';
 import Reservation from './components/popup/Resevation2en1'
 
 
@@ -26,6 +26,7 @@ import Users from './components/Users';
 function App() {
   return (
     <>
+      
       <Navbar />
       <Routes>
         <Route exact path='/' element={<Home />} />
@@ -48,6 +49,7 @@ function App() {
         </Route>
         <Route exact path='*' element={<Navigate to="/" replace />} />
       </Routes>
+      <Footer />
     </>
   );
 }

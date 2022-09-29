@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 
 const getDbUsers = async () => {
     return await User.findAll({
-        attributes: ['id', 'user', 'password', 'email', 'photo', 'admin'],
+        attributes: ['id', 'user', 'password', 'email', 'photo', 'admin', "ban"],
         include: [
             {
                 model: Reservation,
