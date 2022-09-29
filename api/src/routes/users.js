@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { User, Feedback, Reservation, Table} = require('../db.js');
+const { User, Feedback, Reservation, Table } = require('../db.js');
 const bcrypt = require('bcrypt');
 const auth = require("../middleware/auth.js");
 const { sendEmail } = require("../auth/mailer.js")
@@ -8,15 +8,15 @@ const jwt = require('jsonwebtoken');
 
 const getDbUsers = async () => {
     return await User.findAll({
-        attributes: ['id', 'user', 'password', 'email', 'photo', 'admin'],
+        attributes: ['id', 'user', 'password', 'email', 'photo', 'admin', "ban"],
         include: [
             {
                 model: Reservation,
-                attributes:['date', 'hour', 'price'],
+                attributes: ['date', 'hour', 'price'],
                 include:
-                        {
-                        model: Table
-                        }
+                {
+                    model: Table
+                }
             },
             {
                 model: Feedback,
@@ -27,15 +27,15 @@ const getDbUsers = async () => {
 }
 const generateP = () => {
     var pass = '';
-    var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' + 
-            'abcdefghijklmnopqrstuvwxyz0123456789@#$';
-      
+    var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+        'abcdefghijklmnopqrstuvwxyz0123456789@#$';
+
     for (i = 1; i <= 8; i++) {
         var char = Math.floor(Math.random() * str.length + 1);
-          
+
         pass += str.charAt(char)
     }
-      
+
     return pass;
 }
 
@@ -56,9 +56,9 @@ router.get("/user", auth, async (req, res) => {
                 {
                     model: Reservation,
                     include:
-                        {
+                    {
                         model: Table
-                        }
+                    }
                 }
             ]
         })
@@ -100,7 +100,7 @@ router.post('/', async (req, res) => {
 
 router.post('/google', async (req, res) => {
     const { user, email, photo, googleId } = req.body;
-    let password='';
+    let password = '';
     // console.log("req-body:" ,user, password, email, photo, googleId)
     try {
         const userEmail = await User.findOne({ where: { email } }).catch((err) => { console.log("Error: ", err) });
@@ -114,31 +114,31 @@ router.post('/google', async (req, res) => {
                         email
                     }
                 });
-            }else{
-        if (!userEmail) {
-            password = generateP();
-            // console.log(password)
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const usser = await User.create({
-                user: user,
-                password: hashedPassword,
-                email: email,
-                photo: photo,
-                googleId: googleId,
-            })
-            const jwtToken = jwt.sign(JSON.stringify({ id: usser.id, email: usser.email, googleId: usser.googleId, photo: usser.photo, admin: usser.admin }), process.env.JWT_SECRET);
-            // sendWelcome(usser.email);
-            sendEmail(
-                usser.email,
-                '¡Gracias por registrarte en PFRestaurante!',
-            `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Tu contraseña temporal es: ${password}\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.`,
-            'welcome');
-            return res.send(jwtToken);
-        } 
-    }
-            const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, googleId: userEmail.googleId, photo: userEmail.photo, admin: userEmail.admin }), process.env.JWT_SECRET);
-            return res.send(jwtToken);
-        
+        } else {
+            if (!userEmail) {
+                password = generateP();
+                // console.log(password)
+                const hashedPassword = await bcrypt.hash(password, 10);
+                const usser = await User.create({
+                    user: user,
+                    password: hashedPassword,
+                    email: email,
+                    photo: photo,
+                    googleId: googleId,
+                })
+                const jwtToken = jwt.sign(JSON.stringify({ id: usser.id, email: usser.email, googleId: usser.googleId, admin: usser.admin }), process.env.JWT_SECRET);
+                // sendWelcome(usser.email);
+                sendEmail(
+                    usser.email,
+                    '¡Gracias por registrarte en PFRestaurante!',
+                    `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Tu contraseña temporal es: ${password}\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.`,
+                    'welcome');
+                return res.send({ session: jwtToken, photo: usser.photo });
+            }
+        }
+        const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, googleId: userEmail.googleId, admin: userEmail.admin }), process.env.JWT_SECRET);
+        return res.send({ session: jwtToken, photo: userEmail.photo });
+
     } catch (error) {
         res.status(403).json(error)
     }
@@ -150,12 +150,12 @@ router.put('/', async (req, res) => {
         const user = await User.findByPk(id);
         if (user) {
             await User.update({
-                admin : admin,
+                admin: admin,
                 ban: ban
             },
                 {
                     where: {
-                        id : id
+                        id: id
                     }
                 });
             res.status(200).json("El usuario ha sido actualizado correctamente");
@@ -189,10 +189,10 @@ router.put('/passwd', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
         const user = await User.findByPk(id);
-        if(user){
+        if (user) {
             await User.update(
-                {password: hashedPassword},
-                {where: {id: id}}
+                { password: hashedPassword },
+                { where: { id: id } }
             )
             res.status(200).json("La contraseña ha sido actualizada correctamente")
         }
@@ -207,10 +207,10 @@ router.put('/photo', async (req, res) => {
     const { id, photo} = req.body;
     try {
         const user = await User.findByPk(id);
-        if(user){
+        if (user) {
             await User.update(
-                {photo: photo},
-                {where: {id: id}}
+                { photo: photo },
+                { where: { id: id } }
             )
             res.status(200).json("La imagen de perfil se ha sido actualizado correctamente")
         }

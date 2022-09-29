@@ -46,7 +46,8 @@ const Login = () => {
             button: "Aceptar",
           });
         } else {
-          window.localStorage.setItem("user", data);
+          window.localStorage.setItem('session', data.session);
+          window.localStorage.setItem('photo', data.photo);
           navigate("/");
         }
 
@@ -71,7 +72,8 @@ const Login = () => {
     }
     let data = await dispatch(loginGoogle(user));
     // console.log(data)
-    window.localStorage.setItem('user', data.data);
+    window.localStorage.setItem('session', data.data.session);
+    window.localStorage.setItem('photo', data.data.photo);
     navigate('/');
   };
 
