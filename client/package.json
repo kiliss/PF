@@ -16,7 +16,6 @@
     "gapi-script": "^1.2.0",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
-    "react-async-image": "^3.0.0",
     "react-dom": "^18.2.0",
     "react-google-login": "^5.2.2",
     "react-redux": "^8.0.2",
