@@ -26,10 +26,10 @@ module.exports = (sequilize) => {
             allowNull: false,
             defaultValue: false
         },
-        home: {
+        homeVisible:{
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: false
+            defaultValue: true
         }
     },
         {

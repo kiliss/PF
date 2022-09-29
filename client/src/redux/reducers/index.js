@@ -38,7 +38,7 @@ function rootReducer(state = initialState, action) {
             }
         case "UPDATE_MENU":
             return{
-                ...state.menus.map((m) => m.name === action.payload.name ? action.payload : m.name)
+                ...state,
             }
         case "GET_FOODS":
             return {

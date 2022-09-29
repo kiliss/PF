@@ -64,7 +64,7 @@
             "description": "Obtén la suficiente energía que necesitaras para empezar el día.",
             "photo": "https://images.hola.com/imagenes/cocina/noticiaslibros/20200213160483/dia-nacional-desayuno/0-782-593/portada-desayuno-adobe-m.jpg",
             "active": true,
-            "home": true
+            "homeVisible": true
         },
         {
             "id": 2,
@@ -72,7 +72,7 @@
             "description": "Reabastece tu estomago con nuestra diversa selección para el almuerzo.",
             "photo": "https://recetasespecialesdecocina.files.wordpress.com/2018/10/asado.jpg",
             "active": true,
-            "home": true
+            "homeVisible": true
         },
         {
             "id": 3,
@@ -80,7 +80,7 @@
             "description": "Finaliza el día comiendo con nosotros recibiendo nuestra hospitalidad.",
             "photo": "https://cdn7.kiwilimon.com/ss_secreto/3010/640x426/3010.jpg.webp",
             "active": true,
-            "home": true
+            "homeVisible": true
         }
     ],
     "food": [
