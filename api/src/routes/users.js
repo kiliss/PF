@@ -133,11 +133,11 @@ router.post('/google', async (req, res) => {
                     '¡Gracias por registrarte en PFRestaurante!',
                     `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Tu contraseña temporal es: ${password}\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.`,
                     'welcome');
-                return res.send({ session: jwtToken, photo: usser.photo });
+                return res.send({ session: jwtToken, photo: usser.photo, name: usser.user });
             }
         }
         const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, googleId: userEmail.googleId, admin: userEmail.admin }), process.env.JWT_SECRET);
-        return res.send({ session: jwtToken, photo: userEmail.photo });
+        return res.send({ session: jwtToken, photo: userEmail.photo, name: userEmail.user });
 
     } catch (error) {
         res.status(403).json(error)

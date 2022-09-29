@@ -296,7 +296,7 @@ const Products = () => {
                                         {foods.length ? foods.map(f => {
                                             return (
                                                 <div className="group relative cursor-pointer" key={f.name} onClick={() => { dispatch(getFood(f.id)); setOpen(true) }}>
-                                                    <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-white group-hover:opacity-75 lg:aspect-none lg:h-80">
+                                                    <div className="h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-white group-hover:opacity-75 lg:aspect-none">
                                                         <img src={f.photo} alt={f.name} className="h-full w-full object-cover object-center lg:h-full lg:w-full" />
                                                     </div>
                                                     <div className="mt-4 text-sm text-gray-700">{f.name}</div>

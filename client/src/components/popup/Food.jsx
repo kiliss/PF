@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { giveFoodValoration, getFood } from "../../redux/actions";
+import { giveFoodValoration, getFood, giveFoodCommentary } from "../../redux/actions";
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import { StarIcon, ChatBubbleOvalLeftIcon, InformationCircleIcon } from '@heroicons/react/20/solid';
@@ -14,74 +14,13 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const commentsTest = [
-    {
-        'name': 'Brad Adams',
-        'photo': 'https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-        'time': 'hace 22 horas',
-        'commentary': 'Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!'
-    },
-    {
-        'name': 'Brad Adams',
-        'photo': 'https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-        'time': 'hace 22 horas',
-        'commentary': 'Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!'
-    },
-    {
-        'name': 'Brad Adams',
-        'photo': 'https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-        'time': 'hace 22 horas',
-        'commentary': 'Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!'
-    },
-    {
-        'name': 'Brad Adams',
-        'photo': 'https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-        'time': 'hace 22 horas',
-        'commentary': 'Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!'
-    },
-    {
-        'name': 'Brad Adams',
-        'photo': 'https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-        'time': 'hace 22 horas',
-        'commentary': 'Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!'
-    },
-    {
-        'name': 'Brad Adams',
-        'photo': 'https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-        'time': 'hace 22 horas',
-        'commentary': 'Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!'
-    },
-    {
-        'name': 'Brad Adams',
-        'photo': 'https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-        'time': 'hace 22 horas',
-        'commentary': 'Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!'
-    },
-    {
-        'name': 'Brad Adams',
-        'photo': 'https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-        'time': 'hace 22 horas',
-        'commentary': 'Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!'
-    },
-    {
-        'name': 'Brad Adams',
-        'photo': 'https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-        'time': 'hace 22 horas',
-        'commentary': 'Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!'
-    },
-    {
-        'name': 'Brad Adams',
-        'photo': 'https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-        'time': 'hace 22 horas',
-        'commentary': 'Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!'
-    }
-]
-
 export default function Food(props) {
     const dispatch = useDispatch();
     const food = useSelector((state) => state.food);
+    const [comments, setComments] = useState([]);
     const [selectedStar, setSelectedStar] = useState(0);
     const [commentarySection, setCommentarySection] = useState(false);
+    const [comment, setComment] = useState('');
 
     const { admin, id: userId } = localStorage.getItem('session') ? jwt_decode(localStorage.getItem('session')) : { 'admin': false, 'id': 0 };
 
@@ -93,6 +32,51 @@ export default function Food(props) {
         const message = await dispatch(giveFoodValoration(food.id, userId, stars));
         notify(message);
         dispatch(getFood(food.id));
+    }
+
+    const timeSince = (stringDate) => {
+        var date = new Date(stringDate);
+
+        var seconds = Math.floor((new Date() - date) / 1000);
+
+        var interval = seconds / 31536000;
+
+        if (interval > 1) {
+            return `hace ${Math.floor(interval)} años`;
+        }
+        interval = seconds / 2592000;
+        if (interval > 1) {
+            return `hace ${Math.floor(interval)} meses`;
+        }
+        interval = seconds / 86400;
+        if (interval > 1) {
+            return `hace ${Math.floor(interval)} días`;
+        }
+        interval = seconds / 3600;
+        if (interval > 1) {
+            return `hace ${Math.floor(interval)} horas`;
+        }
+        interval = seconds / 60;
+        if (interval > 1) {
+            return `hace ${Math.floor(interval)} minutos`;
+        }
+        if (seconds === 0) {
+            return `justo ahora`
+        }
+        return Math.floor(seconds) + " seconds";
+    }
+
+    const sendCommentary = () => {
+        const time = new Date().toString();
+        const c = {
+            'name': localStorage.getItem('name'),
+            'photo': localStorage.getItem('photo'),
+            'time': time,
+            'comment': comment
+        }
+        setComments([c, ...comments]);
+        setComment('');
+        dispatch(giveFoodCommentary(food.id, userId, comment, time));
     }
 
     return (
@@ -150,31 +134,40 @@ export default function Food(props) {
                                                 <div className="sm:col-span-8 lg:col-span-7">
                                                     <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">{food?.name}</h2>
                                                     <div className="flex items-start mt-4">
-                                                        <img className="w-10 h-10 rounded-full object-cover mr-4 shadow" src={localStorage.getItem('photo')} alt="avatar" />
+                                                        {
+                                                            localStorage.getItem('session') && <img className="w-10 h-10 rounded-full object-cover mr-4 shadow" src={localStorage.getItem('photo')} alt="avatar" />
+                                                        }
                                                         <div className='flex w-full border-b border-gray-400 align-center'>
-                                                            <input
+                                                            <textarea
                                                                 type='text'
-                                                                className="w-full h-10 px-2 focus:outline-none"
-                                                                placeholder='Agrega un comentario...'
+                                                                className="w-full h-10 py-2 px-2 focus:outline-none resize-none overflow-hidden"
+                                                                placeholder={localStorage.getItem('session') ? 'Agrega un comentario...' : 'Registrate para comentar...'}
+                                                                value={comment}
+                                                                onChange={(e) => setComment(e.target.value)}
                                                             />
-                                                            <PaperAirplaneIcon className="h-8 w-8 my-1 cursor-pointer ml-2 text-gray-700 hover:text-gray-900" aria-hidden="true" />
+                                                            {
+                                                                localStorage.getItem('session') && <PaperAirplaneIcon
+                                                                    className="h-8 w-8 my-1 cursor-pointer ml-2 text-gray-700 hover:text-gray-900"
+                                                                    aria-hidden="true"
+                                                                    onClick={() => sendCommentary()}
+                                                                />
+                                                            }
                                                         </div>
-
                                                     </div>
 
-                                                    <ul className="h-full sm:h-72 sm:max-h-72 bg-white mt-6 sm:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-900 scrollbar-thumb-rounded-full">
+                                                    <ul className="h-full sm:h-72 sm:max-h-72 bg-white mt-6 overflow-x-hidden sm:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-900 scrollbar-thumb-rounded-full">
                                                         {
-                                                            commentsTest.map((m, i) => {
+                                                            [...comments, ...food?.comments].map((f, i) => {
                                                                 return (
                                                                     <li key={`commentary-${i}`} className="flex items-start py-2 first:pt-0 last:pb-0">
-                                                                        <img className="w-10 h-10 rounded-full object-cover mr-4 shadow" src={m.photo} alt="avatar" />
+                                                                        <img className="w-10 h-10 rounded-full object-cover mr-4 shadow" src={f.photo} alt="avatar" />
                                                                         <div className="">
                                                                             <div className="flex items-center">
-                                                                                <h2 className="text-sm font-semibold text-black">{m.name}</h2>
-                                                                                <small className="text-sm text-gray-500 ml-2">{m.time}</small>
+                                                                                <h2 className="text-sm font-semibold text-black">{f.name}</h2>
+                                                                                <small className="text-sm text-gray-500 ml-2">{timeSince(f.time)}</small>
                                                                             </div>
-                                                                            <p className="text-black text-sm">
-                                                                                {m.commentary}
+                                                                            <p className="w-full text-black text-sm break-all">
+                                                                                {f.comment}
                                                                             </p>
                                                                         </div>
                                                                     </li>

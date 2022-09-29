@@ -1,7 +1,7 @@
 const express = require('express');
 const { Op } = require('sequelize');
 const router = express.Router();
-const { Food, Menu, User_food, conn } = require('../db.js');
+const { Food, Menu, Score, User, Feedback, conn } = require('../db.js');
 
 
 router.get('/', async (req, res) => {
@@ -43,12 +43,20 @@ router.get('/:id', async (req, res) => {
                         attributes: ['name']
                     },
                     {
-                        model: User_food,
+                        model: Score,
                         attributes: ['stars']
+                    },
+                    {
+                        model: Feedback,
+                        include: {
+                            model: User,
+                            attribute: ['user', 'photo']
+                        }
                     }
                 ],
                 order: [
-                    [Menu, 'name', 'ASC']
+                    [Menu, 'name', 'ASC'],
+                    [Feedback, 'id', 'DESC']
                 ],
             });
         if (food) return res.status(201).send({
@@ -60,7 +68,8 @@ router.get('/:id', async (req, res) => {
             drinkable: food.drinkable,
             vegetarian: food.vegetarian,
             menus: food.menus.map(menu => menu.name),
-            stars: food.user_foods.length ? food.user_foods.reduce((prev, curr) => prev + curr.stars, 0) / food.user_foods.length : 0
+            stars: food.scores.length ? food.scores.reduce((prev, curr) => prev + curr.stars, 0) / food.scores.length : 0,
+            comments: food.feedbacks.length ? food.feedbacks.map(f => { return {id: f.id, name: f.user.user, photo: f.user.photo, comment: f.comment, time: f.time} }) : []
         });
         else return res.status(201).send(food);
     } catch (err) {
@@ -160,19 +169,19 @@ router.delete("/:id", async (req, res) => {
     }
 })
 
-router.post('/:id', async (req, res) => {          // crear feedback
+router.post('/score/:id', async (req, res) => {          // dar score
     const { id: foodId = 0 } = req.params;
     const { user: userId = 0, valoration: stars = 0 } = req.query;
 
     try {
-        const feedback = await User_food.findOne({
+        const feedback = await Score.findOne({
             where: {
                 userId,
                 foodId
             }
         });
         if (feedback) {
-            await User_food.update(
+            await Score.update(
                 {
                     stars
                 },
@@ -184,7 +193,7 @@ router.post('/:id', async (req, res) => {          // crear feedback
                 });
             return res.status(201).send("La valoración fue cambiada");
         }
-        await User_food.create({
+        await Score.create({
             userId,
             foodId,
             stars
@@ -195,6 +204,23 @@ router.post('/:id', async (req, res) => {          // crear feedback
     }
 });
 
+router.post('/comment/:id', async (req, res) => {          // crear feedback
+    const { id: foodId = 0 } = req.params;
+    const { user: userId = 0 } = req.query;
+    const { comment, time } = req.body;
+
+    try {
+        await Feedback.create({
+            userId,
+            foodId,
+            comment,
+            time
+        });
+        res.status(201).send("La comentario fue agregado");
+    } catch (err) {
+        return res.status(400).json("error " + err.message)
+    }
+});
 
 
 module.exports = router;

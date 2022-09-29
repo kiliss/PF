@@ -48,6 +48,7 @@ const Login = () => {
         } else {
           window.localStorage.setItem('session', data.session);
           window.localStorage.setItem('photo', data.photo);
+          window.localStorage.setItem('name', data.name);
           navigate("/");
         }
 
@@ -74,6 +75,7 @@ const Login = () => {
     // console.log(data)
     window.localStorage.setItem('session', data.data.session);
     window.localStorage.setItem('photo', data.data.photo);
+    window.localStorage.setItem('name', data.data.name);
     navigate('/');
   };
 
