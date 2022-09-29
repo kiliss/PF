@@ -215,8 +215,8 @@ export function getProfile() {
         try {
             var json = await axios.get("/users/user", {
                 headers: {
-                    'Authorization': localStorage.getItem('user')
-                        ? localStorage.getItem('user')
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
                         : ''
                 }
             })
@@ -404,7 +404,7 @@ export function loginFail() {
 export function logout() {
     return async function () {
         try {
-            localStorage.removeItem('user')
+            localStorage.removeItem('session')
             var logoutt = await axios.get("/auth/logout")
             return logoutt
         } catch (error) {
@@ -431,6 +431,19 @@ export function giveFoodValoration(foodId, userId, stars) {
             return data;
         } catch (err) {
             console.log(err);
+        }
+    };
+};
+export function deleteReservation(id) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.delete("/reservation/delete/" + id)
+            return dispatch({
+                type: "DELETE_RESERVATION",
+                payload: json.data
+            });
+        } catch (error) {
+            console.log(error)
         }
     };
 };
