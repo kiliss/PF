@@ -242,7 +242,7 @@
             "stock": true,
             "drinkable": false,
             "vegetarian": true
-        }, 
+        },
         {
             "id": 16,
             "name": "Coca-Cola",
@@ -402,6 +402,24 @@
             "num_Table": 2,
             "state": false,
             "chairs": 2
+        },
+        {
+            "id": 3,
+            "num_Table": 4,
+            "state": false,
+            "chairs": 3
+        },
+        {
+            "id": 4,
+            "num_Table": 4,
+            "state": false,
+            "chairs": 2
+        }, 
+        {
+            "id": 5,
+            "num_Table": 5,
+            "state": false,
+            "chairs": 4
         }
     ]
 }
