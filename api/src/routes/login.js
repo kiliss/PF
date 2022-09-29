@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
                 return res.json({ message: "Usuario bloqueado!" })
             } else {
             const jwtToken = jwt.sign(JSON.stringify({id: userEmail.id, email: userEmail.email, admin: userEmail.admin, photo: userEmail.photo}),process.env.JWT_SECRET); 
-            return res.json(jwtToken);
+            return res.json({ session: jwtToken, photo: userEmail.photo });
             }
         } else {
             return res.json({ message: "!Email o contraseña incorrecto!" });

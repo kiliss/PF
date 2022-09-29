@@ -30,8 +30,10 @@ const Navbar = () => {
     const [onHover, setOnHover] = useState('');
     const [onMobileMenu, setOnMobileMenu] = useState(false);
 
-    const { admin, photo } = localStorage.getItem('user') ? jwt_decode(localStorage.getItem('user')) : { 'admin': false, 'photo': '.jpg' };
-    // console.log('navbar ',photo);
+    const localS = localStorage.getItem('session');
+
+    const { admin } = typeof localS === 'object' && !Array.isArray(localS) && localS !== null ? jwt_decode(localS) : { 'admin': false };
+    const photo = localStorage.getItem('photo') ? localStorage.getItem('photo') : '.png';
 
     const dispatch = useDispatch();
     const menus = useSelector((state) => state.menus);
@@ -43,7 +45,7 @@ const Navbar = () => {
     return (
         <>
             {
-                localStorage.getItem('user') && !admin && openReservation && <Reservation setOpen={setOpenReservation} />
+                localS && !admin && openReservation && <Reservation setOpen={setOpenReservation} />
             }
             <Disclosure as="nav" className="bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200">
                 {({ open }) => (
@@ -103,7 +105,7 @@ const Navbar = () => {
                                             >
                                                 {'Menús'}
                                             </button>
-                                            {localStorage.getItem('user') && userNavigation.map((item) => (
+                                            {localS && userNavigation.map((item) => (
                                                 <a
                                                     key={item.name}
                                                     href={item.href}
@@ -135,7 +137,7 @@ const Navbar = () => {
                                     </div>
                                 </div>
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                                    {localStorage.getItem('user') ?
+                                    {localS ?
                                         <>
                                             {
                                                 /*<button
@@ -187,7 +189,7 @@ const Navbar = () => {
                                                             )}
                                                         </Menu.Item>
                                                         {/* {
-                                                            localStorage.getItem('user') && !admin && <Menu.Item>
+                                                            localS && !admin && <Menu.Item>
                                                                 {({ active }) => (
                                                                     <div
                                                                         className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black cursor-pointer')}
@@ -199,7 +201,7 @@ const Navbar = () => {
                                                             </Menu.Item>
                                                         } */}
                                                         {
-                                                            localStorage.getItem('user') && !admin && <Menu.Item>
+                                                            localS && !admin && <Menu.Item>
                                                                 {({ active }) => (
                                                                     <a
                                                                         href="/reservations2"
@@ -215,7 +217,7 @@ const Navbar = () => {
                                                                 <a
                                                                     href="/"
                                                                     className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black')}
-                                                                    onClick={() => localStorage.removeItem('user')}
+                                                                    onClick={() => {localStorage.removeItem('session'); localStorage.removeItem('photo')}}
                                                                 >
                                                                     Cerrar Sesión
                                                                 </a>
@@ -278,7 +280,7 @@ const Navbar = () => {
                                         {item.name}
                                     </Disclosure.Button>
                                 ))}
-                                {localStorage.getItem('user') && userNavigation.map((item) => (
+                                {localS && userNavigation.map((item) => (
                                     <Disclosure.Button
                                         key={item.name}
                                         as="a"
