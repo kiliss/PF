@@ -156,7 +156,7 @@ const Navbar = () => {
                                                         <img
                                                             loading='eager'
                                                             className="h-8 w-8 rounded-full"
-                                                            referrerpolicy="no-referrer"
+                                                            referrerPolicy="no-referrer"
                                                             src={localStorage.getItem('photo')}
                                                             alt="foto de usario"
                                                         />

@@ -17,10 +17,6 @@ const getDbUsers = async () => {
                 {
                     model: Table
                 }
-            },
-            {
-                model: Feedback,
-                attributes: ['valoration', 'comment'],
             }
         ]
     })
@@ -50,9 +46,6 @@ router.get("/user", auth, async (req, res) => {
     try {
         const users = await User.findByPk(id, {
             include: [
-                {
-                    model: Feedback,
-                },
                 {
                     model: Reservation,
                     include:
