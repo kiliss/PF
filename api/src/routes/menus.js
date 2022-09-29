@@ -44,7 +44,15 @@ router.get('/', async (req, res) => {
             });
             return res.status(201).send(menu);
         } else {
-            return res.status(201).send(await Menu.findAll());
+            return res.status(201).send(await Menu.findAll({
+                include: {
+                    model: Food,
+                    attributes: ['name'],
+                    through: {
+                        attributes: [],
+                    },
+                }
+            }));
         }
     } catch (err) {
         return res.status(400).json("error " + err.message)
@@ -79,6 +87,8 @@ router.post('/', async (req, res) => {   // Crea menu
             name: name,
             photo: photo,
             description: description,
+            visible: false,
+            homeVisible: false
         });
         info = await getDBInfoo();
         res.status(201).send("Menu created");
@@ -132,6 +142,7 @@ router.delete('/:name/:food', async (req, res) => {
 })
 
 router.put('/:name', async (req, res) => {
+    const { name, photo, description, visible, homeVisible } = req.body;
     try {
         let menu = await Menu.findOne({
             where: {
@@ -139,7 +150,13 @@ router.put('/:name', async (req, res) => {
             }
         });
         if (menu) {
-            await menu.update();
+            await menu.update({
+                name: name,
+                photo: photo,
+                description: description,
+                visible: visible,
+                homeVisible: homeVisible
+            });
             res.status(200).send("Menu updated");
         } else {
             res.status(404).send("Menu not found");

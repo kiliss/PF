@@ -77,8 +77,8 @@ const Users = () => {
             Users
         </h1>
     </div>
-    <div className="px-3 py-4 flex justify-center">
-        <table className="w-full text-md bg-white shadow-md rounded mb-4">
+    <div className="px-3 py-2 flex justify-center">
+        <table className="text-md bg-white shadow-md rounded mb-4 hidden md:table w-full">
             <tbody>
                 <tr className="border-b">
                     <th className="text-left p-3 px-5">Foto</th>
@@ -116,7 +116,39 @@ const Users = () => {
             </tbody>
         </table>
     </div>
-</div>
+    <div className="grid grid-cols-1 gap-4 md:hidden">
+                {
+                    users?.map((user) => {
+                        return !user.ban ? (
+                            <div className="bg-white shadow-md rounded-lg p-4 mb-2" key={user.id}>
+                                <div className="flex items-center space-x-3">
+                                    <img className="h-8 w-8 rounded-full object-cover " src={user.photo} alt={user.user} />
+                                    <div className="text-gray-700">
+                                        <p className="font-semibold">{user.user}</p>
+                                        <p className="text-sm">{user.email}</p>
+                                    </div>
+                                </div>
+                                <div className="mt-4">
+                                    {
+                                        user.admin ? (
+                                            <button onClick={(e) => handleAdmin(e, user)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                                                Admin</button>
+                                        ) : (
+                                            <button onClick={(e) => handleAdmin(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+                                                User</button>
+                                        )
+
+                                    }
+                                </div>
+                                <div className="mt-4">
+                                    <button onClick={(e) => banUser(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
+                                </div>
+                            </div>
+                        ) : null
+                    })
+                }
+            </div>
+    </div>
     )
 }
 
