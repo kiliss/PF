@@ -140,6 +140,36 @@ router.post('/google', async (req, res) => {
     }
 });
 
+router.post('/facebook', async (req, res) => {
+    const { user, email, photo, facebookId } = req.body;
+    let password='';
+    //  console.log("req-body:" ,user, password, email, photo, facebookId)
+    try {
+        const userEmail = await User.findOne({ where: { facebookId } }).catch((err) => { console.log("Error: ", err) });
+
+        if (!userEmail) {
+            password = generateP();
+            // console.log(password)
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const usser = await User.create({
+                user: user,
+                password: hashedPassword,
+                email: email,
+                photo: photo,
+                facebookId: facebookId,
+            })
+            const jwtToken = jwt.sign(JSON.stringify({ id: usser.id, email: usser.email, facebookId: usser.facebookId, photo: usser.photo, admin: usser.admin }), process.env.JWT_SECRET);
+            console.log(jwtToken)
+            return res.send(jwtToken);
+        } 
+            const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, facebookId: userEmail.facebookId, photo: userEmail.photo, admin: userEmail.admin }), process.env.JWT_SECRET);
+            return res.send(jwtToken);
+        
+    } catch (error) {
+        res.status(403).json(error)
+    }
+});
+
 router.put('/', async (req, res) => {
     const { id, admin, ban } = req.body;
     try {
