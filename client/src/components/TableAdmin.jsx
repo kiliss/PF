@@ -132,7 +132,7 @@ const TableAdmin = () => {
     }}
     }
     return (
-        <div className="text-gray-900 min-h-screen bg-gray-200 mt-14">´
+        <div className="text-gray-900 min-h-screen bg-gray-200 mt-14 overflow-x-auto">´
         {
 
             open && <FoodEdit open={open} setOpen={setOpen}/>
@@ -147,12 +147,13 @@ const TableAdmin = () => {
         {
             openDeleteMenu && <BorrarMenu open={openDeleteMenu} setOpen={setOpenDeleteMenu}/>
         }
-
+            <div className="flex justify-center">
             <button onClick={() => setOpenEdit(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Crear comida</button>
             <button onClick={() => setOpenCreateMenu(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Crear menu</button>
             <button onClick={() => setOpenDeleteMenu(true)} className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Borrar menu</button>
-            <div className="px-3 py-4 flex justify-center">
-                <table className="w-full text-md bg-white shadow-md rounded mb-4">
+            </div>
+            <div className="px-3 py-4 flex justify-center overflow-auto">
+                <table className=" text-md bg-white shadow-md rounded mb-4 hidden md:block">
                     <tbody>
                         <tr className="border-b">
                             <th className="text-left p-3 px-5">Food</th>
@@ -188,6 +189,44 @@ const TableAdmin = () => {
                         }
                     </tbody>
                 </table>
+            </div>
+            <div className="grid grid-cols-1 gap-4 md:hidden">
+                <div className="bg-white p-4 rounded-lg shadow">
+                    <div className="flex items-center space-x-2 text-sm">
+                        <div className="flex flex-col">
+                            <div className="text-gray-500">                            <select className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" onChange={(e)=> handleChange(e)} defaultValue="Menu"  >
+                                <option hidden>Select Menu</option>
+                                    {
+                                        menuus?.map((menu) => {
+                                            return(
+                                                <option key={menu.id} value={menu.name}>{menu.name}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {
+                    foods?.map((food) => {
+                        return(
+                            <div className="bg-white p-4 rounded-lg shadow mb-2">
+                                <div className="flex items-center space-x-2 text-sm">
+                                    <div className="flex flex-col">
+                                        <div className="font-bold">{food.name}</div>
+                                        <div className="font-bold text-orange-500">{menu}</div>
+                                    </div>
+                                </div>
+                                <div className="flex justify-end mt-4">
+                                    <button className="bg-blue-500 hover:bg-blue-700 text-white px-2 rounded mr-3" onClick={() => { dispatch(getFood(food.id)); setOpen(true) }}>View</button><button type="button" onClick={(e)=> handleAdd(e, food)} className="mr-3 px-2 text-sm bg-blue-500 hover:bg-blue-700 text-white rounded focus:outline-none focus:shadow-outline">Save Menu</button><button type="button" onClick={(e) => handleDeleteMenu(e, food)} className="mr-3 text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline">Delete Menu</button><button type="button" onClick={(e) => handleDelete(e, food.id)} className="text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline">Delete Food</button>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                        )
+                    })
+                }
             </div>
         </div>
     )

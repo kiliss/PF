@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 
 const getDbUsers = async () => {
     return await User.findAll({
-        attributes: ['id', 'user', 'password', 'email', 'photo', 'admin'],
+        attributes: ['id', 'user', 'password', 'email', 'photo', 'admin', "ban"],
         include: [
             {
                 model: Reservation,
@@ -85,7 +85,11 @@ router.post('/', async (req, res) => {
             admin: admin
         })
         if (usser) {
-            sendWelcome(email);
+            sendEmail(
+                email,
+                '¡Gracias por registrarte en PFRestaurante!',
+            `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.`,
+            'welcome');;
             res.status(200).json("El usuario ha sido creado correctamente");
         }
         else res.status(403).json("El usuario no se ha creado");
@@ -162,8 +166,26 @@ router.put('/', async (req, res) => {
     }
 });
 
-router.put('/', async (req, res) => {
-    const { id, password } = req.body;
+router.put('/name', async (req, res) => {
+    const { id, name} = req.body;
+    try {
+        const user = await User.findByPk(id);
+        if(user){
+            await User.update(
+                {user: name},
+                {where: {id: id}}
+            )
+            res.status(200).json("Su nombre de usuario ha sido actualizad correctamente")
+        }
+        else res.status(403).json("Error al actualizar la contraseña")
+    } catch (error) {
+        res.status(403).json(error)
+    }
+
+})
+
+router.put('/passwd', async (req, res) => {
+    const { id, password} = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
         const user = await User.findByPk(id);
@@ -181,8 +203,8 @@ router.put('/', async (req, res) => {
 
 })
 
-router.put('/', async (req, res) => {
-    const { id, photo } = req.body;
+router.put('/photo', async (req, res) => {
+    const { id, photo} = req.body;
     try {
         const user = await User.findByPk(id);
         if (user) {

@@ -44,7 +44,7 @@ const Users = () => {
         e.preventDefault();
         if(!user.ban){
         swal({
-            title: "¿Desea banear al usuario?",
+            title: "¿Desea borrar al usuario?",
             icon: "warning",
             buttons: ["Cancelar", "Aceptar"],
             dangerMode: true,
@@ -57,7 +57,7 @@ const Users = () => {
         })).then(() => {
         // setCharge(true)
         swal({
-            title: "Usuario banneado",
+            title: "Usuario Borrado",
             icon: "success",
             button: "Aceptar",
         });
@@ -65,38 +65,13 @@ const Users = () => {
             }
         )}
         });
-    }else{
-        swal({
-            title: "¿Desea desbanear al usuario?",
-            icon: "warning",
-            buttons: ["Cancelar", "Aceptar"],
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-        dispatch(editUser({
-            id : user.id,
-            admin : user.admin,
-            ban : !user.ban
-        })).then(() => {
-        // setCharge(true)
-        swal({
-            title: "Usuario desbanneado",
-            icon: "success",
-            button: "Aceptar",
-        });
-        dispatch(getUsers());
-            }
-        )}
-        });
-
-    }
-    }
+    }}
 
 
 
 
     return (
-        <div className="text-gray-900 bg-gray-200 min-h-screen">
+        <div className="text-gray-900 bg-gray-200 min-h-screen overflow-x-auto">
     <div className="p-4 flex">
         <h1 className="text-3xl">
             Users
@@ -115,13 +90,14 @@ const Users = () => {
                 </tr>
                 {
                     users?.map((user) => (
+                        !user.ban ?
                         <tr className="border-b hover:bg-orange-100 bg-gray-100" key= {user.id}>
                             <td className="p-3 px-5"><img className="h-8 w-8 rounded-full object-cover " src={user.photo} alt= {user.user} /></td>
                             <td className="p-3 px-5">{user.user}</td>
                             <td className="p-3 px-5">{user.email}</td>
                             <td className="p-3 px-5">
                                 {
-                                    user.admin ? (
+                                    user.admin  ? (
                                         <button onClick={(e) => handleAdmin(e, user)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
                                             Admin</button>
                                     ) : (
@@ -132,17 +108,9 @@ const Users = () => {
                                 }
                             </td>
                             <td className="p-3 px-5">
-                                {
-                                    user.ban ? (
-                                        <button onClick={(e) => banUser(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
-                                            Banned</button>
-                                    ) : (
-                                        <button onClick={(e) => banUser(e, user)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
-                                            Active</button>
-                                    )
-                                }
+                                <button onClick={(e) => banUser(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
                             </td>
-                        </tr>
+                        </tr> : null
                     ))
                 }
             </tbody>
@@ -152,10 +120,4 @@ const Users = () => {
     )
 }
 
-
-{/* <img
-className="h-8 w-8 rounded-full object-cover "
-src="https://randomuser.me/api/portraits/men/30.jpg"
-alt=""
-/> */}
 export default Users
