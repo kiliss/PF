@@ -6,11 +6,7 @@ import image from "../assets/home/burger-header.png"
 
 const Home = () => {
     const dispatch = useDispatch();
-    const menus = useSelector((state) => state.menus).filter(m => m.name === "Desayuno" || m.name === "Almuerzo" || m.name === "Cena").sort(function (a, b) {
-        if(a.name === "Desayuno" && b.name === "Almuerzo") return -1;
-        if(a.name === "Almuerzo" && b.name === "Cena") return -1;
-        return 1;
-    });
+    const menus = useSelector((state) => state.menus).filter(m => m.homeVisible === true);
 
     useEffect(() => {
         dispatch(getMenus());

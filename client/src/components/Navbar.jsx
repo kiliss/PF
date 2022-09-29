@@ -34,7 +34,6 @@ const Navbar = () => {
     const localS = localStorage.getItem('session');
 
     const { admin } = localS ? jwt_decode(localS) : { 'admin': false };
-    const photo = localStorage.getItem('photo') ? localStorage.getItem('photo') : '.png';
 
     const dispatch = useDispatch();
     const menus = useSelector((state) => state.menus);
@@ -161,10 +160,9 @@ const Navbar = () => {
                                                             src={photo}
                                                             alt="" /> */}
                                                         <Image
-
                                                             decoding='async'
                                                             loading='lazy'
-                                                            src={photo}
+                                                            src={localStorage.getItem('photo')}
                                                             className="h-8 w-8 rounded-full"
                                                         />
                                                     </Menu.Button>

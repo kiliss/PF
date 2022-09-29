@@ -24,7 +24,7 @@ module.exports = (sequilize) => {
         visible: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: true
+            defaultValue: false
         },
         homeVisible:{
             type: DataTypes.BOOLEAN,
