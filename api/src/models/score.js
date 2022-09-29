@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize')
 module.exports = (sequilize) => {
-    sequilize.define('user_food', {
+    sequilize.define('score', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

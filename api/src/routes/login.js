@@ -12,16 +12,16 @@ router.post('/', async (req, res) => {
         if (!userEmail) {
             return res.json({ message: "!Email o contraseña incorrecto!" })
         }
-    
+
         const match = await bcrypt.compare(password, userEmail.password);
         //console.log('math: ',match)
-        
-        if(match){
-            if(userEmail.ban === true){
+
+        if (match) {
+            if (userEmail.ban === true) {
                 return res.json({ message: "Usuario bloqueado!" })
             } else {
-            const jwtToken = jwt.sign(JSON.stringify({id: userEmail.id, email: userEmail.email, admin: userEmail.admin, photo: userEmail.photo}),process.env.JWT_SECRET); 
-            return res.json({ session: jwtToken, photo: userEmail.photo });
+                const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, admin: userEmail.admin }), process.env.JWT_SECRET);
+                return res.json({ session: jwtToken, photo: userEmail.photo, name: userEmail.user });
             }
         } else {
             return res.json({ message: "!Email o contraseña incorrecto!" });

@@ -78,7 +78,7 @@ export function updateMenu(name, payload) {
     }
 }
 // DELETE FOOD FROM MENU (*SE DEBE PROBAR*)
-export function deleteFoodFromMenu({menu, food}) {
+export function deleteFoodFromMenu({ menu, food }) {
     return async function (dispatch) {
         try {
             var json = await axios.delete("/menus/" + menu + "/" + food)
@@ -427,13 +427,25 @@ export function loginWithFacebook() {
 export function giveFoodValoration(foodId, userId, stars) {
     return async function () {
         try {
-            const { data } = await axios.post(`/foods/${foodId}?user=${userId}&valoration=${stars}`);
+            const { data } = await axios.post(`/foods/score/${foodId}?user=${userId}&valoration=${stars}`);
             return data;
         } catch (err) {
             console.log(err);
         }
     };
 };
+
+export function giveFoodCommentary(foodId, userId, comment, time) {
+    return async function () {
+        try {
+            const { data } = await axios.post(`/foods/comment/${foodId}?user=${userId}`, { comment, time });
+            return data;
+        } catch (err) {
+            console.log(err);
+        }
+    };
+};
+
 export function deleteReservation(id) {
     return async function (dispatch) {
         try {

@@ -9,11 +9,19 @@ module.exports = (sequilize) => {
             autoIncrement: true,
             primaryKey: true
         },
-        valoration: {
+        foodId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
         comment: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        time: {
             type: DataTypes.STRING,
             allowNull: false
         }
