@@ -128,8 +128,6 @@ export default function Food(props) {
               summary: summary2 !== "" ? summary2 : summary,
             })
           );
-          console.log(photo);
-          console.log(food.photo);
           swal("Comida editada", {
             icon: "success",
           }).then(() => {

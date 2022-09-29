@@ -64,10 +64,10 @@ export function deleteMenu(name) {
 };
 
 // UPDATE MENU (*SE DEBE PROBAR*)
-export function updateMenu(name) {
+export function updateMenu(name, payload) {
     return async function (dispatch) {
         try {
-            var json = await axios.put("/menus/" + name)
+            var json = await axios.put("/menus/" + name, payload)
             return dispatch({
                 type: "UPDATE_MENU",
                 payload: json.data
