@@ -447,3 +447,36 @@ export function deleteReservation(id) {
         }
     };
 };
+
+export function putUserName(payload) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/users/name", payload)
+            return json
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export function putUserPasswd(payload) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/users/passwd", payload)
+            return json
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export function putUserPhoto(payload) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/users/photo", payload)
+            return json
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
