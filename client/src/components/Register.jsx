@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createUser, getUsers } from "../redux/actions";
+import { createUser, emailExist } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import  ProfileImages from "../assets/register/ProfileImages.js"
 import swal from 'sweetalert';
@@ -8,12 +8,9 @@ import swal from 'sweetalert';
 const regexPasswd = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/
 const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
-function validate(input, findedUser="", findedEmail="",photo, state1, state2){
+function validate(input, findedEmail="",photo, state1, state2){
     const errors = {}
     if(state1 === "validate1"){
-        if(findedUser === true){
-            errors.user = "El nombre de usuario ya existe"
-        }
         if(input.user.length < 5){
             errors.user = "El nombre de usuario debe tener al menos 5 caracteres"
         }
@@ -23,7 +20,7 @@ function validate(input, findedUser="", findedEmail="",photo, state1, state2){
         if(input.user.charAt(0) === " "){
             errors.user = "No se permiten espacios al inicio"
         }
-        if(findedEmail === true){
+        if(findedEmail.message === "Existe"){
             errors.email = "El email ya esta registrado"
         }
         if(input.password !== input.repassword){
@@ -57,26 +54,6 @@ export default function RegisterUser(){
 const dispatch = useDispatch();
 const navigate = useNavigate();
 
-const userss = useSelector((state) => state.users);
-
-
-const findUser = (user) => {
-    if(userss.find((u) => u.user.toLowerCase() === user.toLowerCase())){
-        return true
-      } else {
-        return false
-      }
-  }
-
-const findEmail = (email) => {
-    if(userss.find((u) => u.email.toLowerCase() === email.toLowerCase())){
-        return true
-      } else {
-        return false
-      }
-}
-
-
 const [error, setError] = useState({});
 const [loading, setLoading] = useState(true);
 const [photo, setPhoto] = useState("");
@@ -89,17 +66,21 @@ const [input, setInput] = useState({
     admin: false,
 });
 
-function handleChange(e){
+const checkEmail = async (email) => {
+  var existemail = dispatch(emailExist(email))
+  return existemail
+}
+
+const handleChange = async (e) =>{
     setInput({
         ...input,
         [e.target.name] : e.target.value
     });
-    let findedUser = findUser(input.user)
-    let findedEmail = findEmail(input.email)
+    let findedEmail = checkEmail(input.email)
     setError(validate({
         ...input,
         [e.target.name] : e.target.value,
-    }, findedUser,findedEmail , photo, "validate1"))
+    },findedEmail , photo, "validate1"))
 };
 
 const uploadImage = async (e) => {
@@ -125,15 +106,13 @@ function autoUpload(){
     setPhoto(image.url)
 }
 
-function handleSubmit(e){
+const handleSubmit = async (e) => {
     e.preventDefault();
-    let findedUser = findUser(input.user)
-    let findedEmail = findEmail(input.email)
-    const aux = validate(input, findedUser, findedEmail, photo, "validate1", "validate2")
+    let findedEmail = checkEmail(input.email)
+    const aux = validate(input, findedEmail, photo, "validate1", "validate2")
     setError(aux);
     if(Object.keys(aux).length === 0){
         dispatch(createUser({...input, photo: photo}));
-        // alert("Felicidades, te has registrado exitosamente!");
         swal({
             title: "Felicidades!",
             text: "Te has registrado exitosamente!",
@@ -142,7 +121,6 @@ function handleSubmit(e){
         })
         navigate("/login")
     } else {
-        // alert("Complete correctamente todos los campos")
         swal({
             title: "Error!",
             text: "Complete correctamente todos los campos",
@@ -154,7 +132,6 @@ function handleSubmit(e){
 
 useEffect(() => {
     autoUpload()
-    dispatch(getUsers())
 }, [])
 
 const [passwordShown, setPasswordShown] = useState(false);

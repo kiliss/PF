@@ -243,6 +243,37 @@ export function editUser(payload) {
     }
 }
 
+export function selfDisableAcc(ban) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/users/disableacc", ban, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
+            return dispatch({
+                type: "GET_USER",
+                payload: json.data
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
+export function emailExist(email){
+    return async function (dispatch){
+        try {
+            var json = await axios.get("/users/findemail", email)
+            return json
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
 // OBTENER DETALLE DE USER POR ID (*SE DEBE PROBAR*)
 export function getUserDetail(id) {
     return async function (dispatch) {
@@ -576,6 +607,17 @@ export function putUserPhoto(payload) {
             return json;
         } catch (err) {
             console.log(err)
+        }
+    }
+}
+
+export function comparePassword(payload){
+    return async function (){
+        try {
+            var json = await axios.post("/login/validate", payload)
+            return json.data
+        } catch (error) {
+            console.log(error)
         }
     }
 }
