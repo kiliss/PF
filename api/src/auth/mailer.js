@@ -25,16 +25,6 @@ const sendEmail = (receptor, subject, message, type) => {
     });
 };
 
-const sendWelcome = (receptor) => {
-    sendEmail(
-        receptor,
-        '¡Gracias por registrarte en PFRestaurante!',
-        'Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.',
-        'welcome'
-    );
-};
-
 module.exports = {
-    sendEmail,
-    sendWelcome
+    sendEmail
 };
