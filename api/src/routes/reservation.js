@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {Reservation,User,Table} = require('../db.js');
 const { sendEmail } = require('../auth/mailer');
+const { isUser, isAdmin } = require("../middleware/auth.js");
 
 
 const getReservation=async()=>{
@@ -16,11 +17,11 @@ const getReservation=async()=>{
     })
 }
 
-router.get("/users",async (req,res)=>{
+router.get("/users", isAdmin ,async (req,res)=>{
     res.json(await getReservation())
 })
 
-router.get("/:id",async(req,res)=>{
+router.get("/:id", isUser,async(req,res)=>{
     const {id}=req.params;
     try{
         const reservations=await Reservation.findByPk(id,{
@@ -36,7 +37,7 @@ router.get("/:id",async(req,res)=>{
         }
 })
 
-router.post('/', async (req,res)=>{
+router.post('/', isUser, async (req,res)=>{
     const {id_User,id_Table,date,hour,price,Cant_User, email}=req.body;
     console.log(req.body)
     try{
@@ -58,7 +59,7 @@ router.post('/', async (req,res)=>{
     }
 })
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", isUser, async (req, res) => {
     const { id } = req.params;
     try {
          let reserva= await Reservation.destroy({where:{

@@ -2,6 +2,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 const router = express.Router();
 const { Food, Menu, Score, User, Feedback, conn } = require('../db.js');
+const { isUser, isAdmin } = require("../middleware/auth.js");
 
 
 router.get('/', async (req, res) => {
@@ -77,7 +78,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {          // crear comida
+router.post('/', isAdmin, async (req, res) => {          // crear comida
     const { name, photo, summary, price, stock, menu, drinkable, vegetarian } = req.body;
     console.log(req.body)
     try {
@@ -115,7 +116,7 @@ router.post('/', async (req, res) => {          // crear comida
 
 
 
-router.post('/tomenu', async (req, res) => {  // Agrega comidas existentes a menus existentes
+router.post('/tomenu', isAdmin, async (req, res) => {  // Agrega comidas existentes a menus existentes
     const { food, menu } = req.body;
     console.log(req.body)
     try {
@@ -135,7 +136,7 @@ router.post('/tomenu', async (req, res) => {  // Agrega comidas existentes a men
         return res.status(400).json("error " + error.message)
     }
 });
-router.put("/:id", async (req, res) => {  // modificar comida
+router.put("/:id", isAdmin, async (req, res) => {  // modificar comida
     const { id } = req.params;
     const { name, photo, summary, price, stock, drinkable, vegetarian } = req.body;
     try {
@@ -155,7 +156,7 @@ router.put("/:id", async (req, res) => {  // modificar comida
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAdmin, async (req, res) => {
     try {
         const { id } = req.params;
         await Food.destroy({
@@ -163,13 +164,13 @@ router.delete("/:id", async (req, res) => {
                 id: id
             }
         });
-        res.json("food borrada")
+        res.json("food borrada");
     } catch (e) {
-        return res.status(404).json("error " + e.message)
+        return res.status(404).json("error " + e.message);
     }
 })
 
-router.post('/score/:id', async (req, res) => {          // dar score
+router.post('/score/:id', isUser, async (req, res) => {          // dar score
     const { id: foodId = 0 } = req.params;
     const { user: userId = 0, valoration: stars = 0 } = req.query;
 
@@ -204,7 +205,7 @@ router.post('/score/:id', async (req, res) => {          // dar score
     }
 });
 
-router.post('/comment/:id', async (req, res) => {          // crear feedback
+router.post('/comment/:id', isUser, async (req, res) => {          // crear feedback
     const { id: foodId = 0 } = req.params;
     const { user: userId = 0 } = req.query;
     const { comment, time } = req.body;

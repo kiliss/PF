@@ -2,7 +2,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 const router = express.Router();
 const { Menu, Food } = require("../db.js");
-
+const { isAdmin } = require("../middleware/auth.js");
 
 
 const getDBInfoo = async () => {
@@ -80,7 +80,7 @@ router.get('/:name', async (req, res) => {
 });
 
 
-router.post('/', async (req, res) => {   // Crea menu
+router.post('/', isAdmin, async (req, res) => {   // Crea menu
     const { name, photo, description } = req.body;
     try {
         Menu.create({
@@ -98,7 +98,7 @@ router.post('/', async (req, res) => {   // Crea menu
 
 });
 
-router.delete('/:name', async (req, res) => {
+router.delete('/:name', isAdmin, async (req, res) => {
     try {
         let menu = await Menu.findOne({
             where: {
@@ -117,7 +117,7 @@ router.delete('/:name', async (req, res) => {
     }
 })
 //delete food menu
-router.delete('/:name/:food', async (req, res) => {
+router.delete('/:name/:food', isAdmin, async (req, res) => {
     try {
         let menu = await Menu.findOne({
             where: {
@@ -141,7 +141,7 @@ router.delete('/:name/:food', async (req, res) => {
     }
 })
 
-router.put('/:name', async (req, res) => {
+router.put('/:name', isAdmin, async (req, res) => {
     const { name, photo, description, visible, homeVisible } = req.body;
     try {
         let menu = await Menu.findOne({
