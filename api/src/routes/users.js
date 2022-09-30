@@ -177,13 +177,9 @@ router.put('/name', isUser, async (req, res) => {
 
 })
 
-<<<<<<< HEAD
-router.put('/passwd', async (req, res) => {
-    const { id, password } = req.body;
-=======
+
 router.put('/passwd', isUser, async (req, res) => {
     const { id, password} = req.body;
->>>>>>> 593ce55ef52ffd7bb970948da5cfb62e8a5ee99c
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
         const user = await User.findByPk(id);
@@ -201,13 +197,9 @@ router.put('/passwd', isUser, async (req, res) => {
 
 })
 
-<<<<<<< HEAD
-router.put('/photo', async (req, res) => {
-    const { id, photo } = req.body;
-=======
+
 router.put('/photo', isUser, async (req, res) => {
     const { id, photo} = req.body;
->>>>>>> 593ce55ef52ffd7bb970948da5cfb62e8a5ee99c
     try {
         const user = await User.findByPk(id);
         if (user) {
