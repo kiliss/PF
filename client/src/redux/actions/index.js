@@ -495,7 +495,7 @@ export function giveFoodValoration(foodId, userId, stars) {
 export function giveFoodCommentary(foodId, userId, comment, time) {
     return async function () {
         try {
-            const { data } = await axios.post(`/foods/comment/${foodId}?user=${userId}`, { comment, time }, {
+            const { data } = await axios.post(`/foods/comment/${foodId}?user=${userId}`, { comment }, {
                 headers: {
                     'Authorization': localStorage.getItem('session')
                         ? localStorage.getItem('session')
