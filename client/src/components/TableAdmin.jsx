@@ -5,8 +5,6 @@ import {getFoods, getMenus, addFoodToMenu, deleteFood, getFood, deleteFoodFromMe
 import FoodEdit from "./FoodEdit";
 import swal from 'sweetalert';
 import CreateFoods from './CreateFoods';
-import CreateMenu from './popup/CreateMenu';
-import BorrarMenu from './popup/BorrarMenu';
 
 
 const TableAdmin = () => {
@@ -16,15 +14,13 @@ const TableAdmin = () => {
     const [menu, setMenu] = useState("")
     const [open, setOpen] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
-    const [openCreateMenu, setOpenCreateMenu] = useState(false)
-    const [openDeleteMenu, setOpenDeleteMenu] = useState(false)
     const [charge, setCharge] = useState(false)
 
     useEffect(() => {
         dispatch(getFoods());
         dispatch(getMenus());
         setCharge(false)
-    }, [dispatch, charge, openEdit, openCreateMenu, openDeleteMenu]);
+    }, [dispatch, charge, openEdit]);
   
     function handleChange(e) {
         setMenu(e.target.value);
@@ -132,30 +128,19 @@ const TableAdmin = () => {
     }}
     }
     return (
-        <div className="text-gray-900 min-h-screen bg-gray-200 mt-14 overflow-x-auto">´
+        <div className="text-gray-900 min-h-screen bg-gray-200 mt-14 overflow-x-auto">
         {
-
             open && <FoodEdit open={open} setOpen={setOpen}/>
         }
         {
 
             openEdit && <CreateFoods open={openEdit} setOpen={setOpenEdit}/>
         }
-        {
-            openCreateMenu && <CreateMenu open={openCreateMenu} setOpen={setOpenCreateMenu}/>
-        }
-        {
-            openDeleteMenu && <BorrarMenu open={openDeleteMenu} setOpen={setOpenDeleteMenu}/>
-        }
-            <div className="flex justify-center">
-            <button onClick={() => setOpenEdit(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Crear comida</button>
-            <button onClick={() => setOpenCreateMenu(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Crear menu</button>
-            <button onClick={() => setOpenDeleteMenu(true)} className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Borrar menu</button>
-            </div>
             <div className="px-3 py-4 flex justify-center overflow-auto">
                 <table className=" text-md bg-white shadow-md rounded mb-4 hidden md:block">
                     <tbody>
                         <tr className="border-b">
+                            <th className="text-left p-3 px-5">Foto</th>
                             <th className="text-left p-3 px-5">Food</th>
                             <th className="text-left p-3 px-5">Detail</th>
                             <th className="text-left p-3 px-5">
@@ -170,15 +155,19 @@ const TableAdmin = () => {
                                                 }
                                             </select>
                             </th>
-                            <th></th>
+                            <th><button onClick={() => setOpenEdit(true)} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 w-full mr-4 rounded-full">Crear Producto</button></th>
+
                         </tr>
                         {
                             foods?.map((food) => {
                                 return(
                                     <tr className="border-b hover:bg-orange-100 bg-gray-100" key={food.id}>
+                                        <td className="p-3 px-5">
+                                        <img className="h-24 w-24 rounded-full object-cover" src={food.photo} alt= {food.name} />
+                                        </td>
                                         <td className="p-3 px-5">{food.name}</td>
                                         <td className="p-3 px-5">
-                                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { dispatch(getFood(food.id)); setOpen(true) }}>View</button>
+                                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { dispatch(getFood(food.id)); setOpen(true) }}>Edit</button>
                                         </td>
                                         <td className="p-3 px-5 font-bold text-orange-500">{menu}
                                         </td>
@@ -204,6 +193,7 @@ const TableAdmin = () => {
                                         })
                                     }
                                 </select>
+                                <button onClick={() => setOpenEdit(true)} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 w-full mt-4 rounded-full">Crear Producto</button>
                             </div>
                         </div>
                     </div>

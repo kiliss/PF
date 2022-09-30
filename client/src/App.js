@@ -17,7 +17,7 @@ import AdminRoutes from './utils/AdminRoutes';
 import PruebaPago from './components/pruebapago';
 import Footer from './components/Footer';
 import Reservation from './components/popup/Resevation2en1'
-
+import MenuTable from './components/MenuTable';
 
 import Users from './components/Users';
 
@@ -46,6 +46,7 @@ function App() {
           <Route exact path="/tableadmin" element={<TableAdmin />} />
           <Route exact path="/allusers" element={<Users />} />
           <Route exact path='/product/create' element={<CreateFoods />} />
+          <Route exact path='/menutable' element={<MenuTable />} />
         </Route>
         <Route exact path='*' element={<Navigate to="/" replace />} />
       </Routes>

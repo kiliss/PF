@@ -1,7 +1,38 @@
 const express = require('express');
 const { Op } = require('sequelize');
 const router = express.Router();
-const { Food, Menu, User_food, conn } = require('../db.js');
+const { Food, Menu, Score, User, Feedback, conn } = require('../db.js');
+const { isUser, isAdmin } = require("../middleware/auth.js");
+
+const timeSince = (stringDate) => {
+    var date = new Date(stringDate);
+
+    var seconds = Math.floor((new Date() - date) / 1000);
+
+    var years = seconds / 31536000;
+    if (years === 1) return `hace ${Math.floor(years)} año`;
+    if (years > 1) return `hace ${Math.floor(years)} años`;
+
+    var months = seconds / 2592000;
+    if (months === 1) return `hace ${Math.floor(months)} mes`;
+    if (months > 1) return `hace ${Math.floor(months)} meses`;
+
+    var days = seconds / 86400;
+    if (days === 1) return `hace ${Math.floor(days)} día`;
+    if (days > 1) return `hace ${Math.floor(days)} días`;
+
+    var hours = seconds / 3600;
+    if (hours === 1) return `hace ${Math.floor(hours)} hora`;
+    if (hours > 1) return `hace ${Math.floor(hours)} horas`;
+
+    var minutes = seconds / 60;
+    if (minutes === 1) return `hace ${Math.floor(minutes)} minuto`;
+    if (minutes > 1) return `hace ${Math.floor(minutes)} minutos`;
+
+    if (seconds === 0) return `justo ahora`;
+    if (seconds === 1) return `hace ${Math.floor(seconds)} segundo`;
+    return `hace ${Math.floor(seconds)} segundos`;
+}
 
 
 router.get('/', async (req, res) => {
@@ -43,12 +74,20 @@ router.get('/:id', async (req, res) => {
                         attributes: ['name']
                     },
                     {
-                        model: User_food,
+                        model: Score,
                         attributes: ['stars']
+                    },
+                    {
+                        model: Feedback,
+                        include: {
+                            model: User,
+                            attribute: ['user', 'photo']
+                        }
                     }
                 ],
                 order: [
-                    [Menu, 'name', 'ASC']
+                    [Menu, 'name', 'ASC'],
+                    [Feedback, 'id', 'DESC']
                 ],
             });
         if (food) return res.status(201).send({
@@ -60,7 +99,8 @@ router.get('/:id', async (req, res) => {
             drinkable: food.drinkable,
             vegetarian: food.vegetarian,
             menus: food.menus.map(menu => menu.name),
-            stars: food.user_foods.length ? food.user_foods.reduce((prev, curr) => prev + curr.stars, 0) / food.user_foods.length : 0
+            stars: food.scores.length ? food.scores.reduce((prev, curr) => prev + curr.stars, 0) / food.scores.length : 0,
+            comments: food.feedbacks.length ? food.feedbacks.map(f => { return { id: f.id, name: f.user.user, photo: f.user.photo, comment: f.comment, time: timeSince(f.time) } }) : []
         });
         else return res.status(201).send(food);
     } catch (err) {
@@ -68,7 +108,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {          // crear comida
+router.post('/', isAdmin, async (req, res) => {          // crear comida
     const { name, photo, summary, price, stock, menu, drinkable, vegetarian } = req.body;
     console.log(req.body)
     try {
@@ -106,7 +146,7 @@ router.post('/', async (req, res) => {          // crear comida
 
 
 
-router.post('/tomenu', async (req, res) => {  // Agrega comidas existentes a menus existentes
+router.post('/tomenu', isAdmin, async (req, res) => {  // Agrega comidas existentes a menus existentes
     const { food, menu } = req.body;
     console.log(req.body)
     try {
@@ -126,7 +166,7 @@ router.post('/tomenu', async (req, res) => {  // Agrega comidas existentes a men
         return res.status(400).json("error " + error.message)
     }
 });
-router.put("/:id", async (req, res) => {  // modificar comida
+router.put("/:id", isAdmin, async (req, res) => {  // modificar comida
     const { id } = req.params;
     const { name, photo, summary, price, stock, drinkable, vegetarian } = req.body;
     try {
@@ -146,7 +186,7 @@ router.put("/:id", async (req, res) => {  // modificar comida
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAdmin, async (req, res) => {
     try {
         const { id } = req.params;
         await Food.destroy({
@@ -154,25 +194,25 @@ router.delete("/:id", async (req, res) => {
                 id: id
             }
         });
-        res.json("food borrada")
+        res.json("food borrada");
     } catch (e) {
-        return res.status(404).json("error " + e.message)
+        return res.status(404).json("error " + e.message);
     }
 })
 
-router.post('/:id', async (req, res) => {          // crear feedback
+router.post('/score/:id', isUser, async (req, res) => {          // dar score
     const { id: foodId = 0 } = req.params;
     const { user: userId = 0, valoration: stars = 0 } = req.query;
 
     try {
-        const feedback = await User_food.findOne({
+        const feedback = await Score.findOne({
             where: {
                 userId,
                 foodId
             }
         });
         if (feedback) {
-            await User_food.update(
+            await Score.update(
                 {
                     stars
                 },
@@ -184,7 +224,7 @@ router.post('/:id', async (req, res) => {          // crear feedback
                 });
             return res.status(201).send("La valoración fue cambiada");
         }
-        await User_food.create({
+        await Score.create({
             userId,
             foodId,
             stars
@@ -195,6 +235,23 @@ router.post('/:id', async (req, res) => {          // crear feedback
     }
 });
 
+router.post('/comment/:id', isUser, async (req, res) => {          // crear feedback
+    const { id: foodId = 0 } = req.params;
+    const { user: userId = 0 } = req.query;
+    const { comment } = req.body;
+
+    try {
+        await Feedback.create({
+            userId,
+            foodId,
+            comment,
+            time: new Date().toString()
+        });
+        res.status(201).send("La comentario fue agregado");
+    } catch (err) {
+        return res.status(400).json("error " + err.message)
+    }
+});
 
 
 module.exports = router;

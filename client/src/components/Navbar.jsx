@@ -6,7 +6,6 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, /*BellIcon,*/ XMarkIcon } from '@heroicons/react/24/outline';
 import Reservation from './popup/Reservation';
 import jwt_decode from "jwt-decode";
-import Image from 'react-async-image';
 import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 
 const visitorNavigation = [
@@ -17,7 +16,8 @@ const userNavigation = [];
 
 const adminNavigation = [
     { name: 'Tabla Comidas', href: '/tableadmin' },
-    { name: 'Tabla Usuarios', href: '/allusers' }
+    { name: 'Tabla Menus', href: '/menutable' },
+    { name: 'Tabla Usuarios', href: '/allusers' },
 ];
 
 function classNames(...classes) {
@@ -33,7 +33,6 @@ const Navbar = () => {
     const localS = localStorage.getItem('session');
 
     const { admin } = localS ? jwt_decode(localS) : { 'admin': false };
-    const photo = localStorage.getItem('photo') ? localStorage.getItem('photo') : '.png';
 
     const dispatch = useDispatch();
     const menus = useSelector((state) => state.menus);
@@ -81,7 +80,7 @@ const Navbar = () => {
                                     </div>
                                     <div className="hidden sm:ml-6 sm:block">
                                         <div className="flex space-x-4">
-                                            {visitorNavigation.map((item) => (
+                                            {visitorNavigation?.map((item) => (
                                                 <a
                                                     key={item.name}
                                                     href={item.href}
@@ -105,7 +104,7 @@ const Navbar = () => {
                                             >
                                                 {'Menús'}
                                             </button>
-                                            {localS && userNavigation.map((item) => (
+                                            {localS && userNavigation?.map((item) => (
                                                 <a
                                                     key={item.name}
                                                     href={item.href}
@@ -119,7 +118,7 @@ const Navbar = () => {
                                                     {item.name}
                                                 </a>
                                             ))}
-                                            {admin && adminNavigation.map((item) => (
+                                            {admin && adminNavigation?.map((item) => (
                                                 <a
                                                     key={item.name}
                                                     href={item.href}
@@ -154,17 +153,12 @@ const Navbar = () => {
                                                 <div>
                                                     <Menu.Button className="flex rounded-full bg-gray-200 text-sm focus:outline-none ring-2 ring-gray-200 hover:ring-red-900">
                                                         <span className="sr-only">Open user menu</span>
-                                                        {/* <img
+                                                        <img
                                                             loading='eager'
                                                             className="h-8 w-8 rounded-full"
-                                                            src={photo}
-                                                            alt="" /> */}
-                                                        <Image
-
-                                                            decoding='async'
-                                                            loading='lazy'
-                                                            src={photo}
-                                                            className="h-8 w-8 rounded-full"
+                                                            referrerPolicy="no-referrer"
+                                                            src={localStorage.getItem('photo')}
+                                                            alt="foto de usario"
                                                         />
                                                     </Menu.Button>
                                                 </div>
@@ -217,7 +211,7 @@ const Navbar = () => {
                                                                 <a
                                                                     href="/"
                                                                     className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black')}
-                                                                    onClick={() => {localStorage.removeItem('session'); localStorage.removeItem('photo')}}
+                                                                    onClick={() => { localStorage.removeItem('session'); localStorage.removeItem('photo'); localStorage.removeItem('name') }}
                                                                 >
                                                                     Cerrar Sesión
                                                                 </a>
@@ -246,27 +240,26 @@ const Navbar = () => {
                             onHover === 'menus' && <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 border-t border-gray-300" onMouseLeave={() => setOnHover('')}>
                                 <div className="my-6 space-y-12 lg:grid lg:grid-cols-5 lg:gap-x-6 lg:gap-y-6 lg:space-y-0">
                                     {
-                                        menus.map(m => {
+                                        menus?.map(m => {
                                             return (
-                                                <a className="flex cursor-pointer" key={`navbar-menus-${m.name}`} href={`/menu/${m.name.toLowerCase()}`}>
+                                                m.visible ? <a className="flex cursor-pointer" key={`navbar-menus-${m.name}`} href={`/menu/${m.name.toLowerCase()}`}>
                                                     <div className="group flex w-8 h-8 overflow-hidden rounded-lg bg-white">
                                                         <img src={m.photo} alt={m.name} className="h-full w-full object-cover object-center" />
                                                     </div>
                                                     <h3 className="text-lg text-gray-700 text-sm font-normal ml-2">
                                                         {m.name}
                                                     </h3>
-                                                </a>
+                                                </a> : null
                                             );
                                         })
                                     }
                                 </div>
+
                             </div>
                         }
-
-
                         <Disclosure.Panel className="sm:hidden">
                             <div className="space-y-1 px-2 pt-2 pb-3">
-                                {visitorNavigation.map((item) => (
+                                {visitorNavigation?.map((item) => (
                                     <Disclosure.Button
                                         key={item.name}
                                         as="a"
@@ -280,7 +273,7 @@ const Navbar = () => {
                                         {item.name}
                                     </Disclosure.Button>
                                 ))}
-                                {localS && userNavigation.map((item) => (
+                                {localS && userNavigation?.map((item) => (
                                     <Disclosure.Button
                                         key={item.name}
                                         as="a"
@@ -294,7 +287,7 @@ const Navbar = () => {
                                         {item.name}
                                     </Disclosure.Button>
                                 ))}
-                                {admin && adminNavigation.map((item) => (
+                                {admin && adminNavigation?.map((item) => (
                                     <Disclosure.Button
                                         key={item.name}
                                         as="a"
@@ -321,7 +314,7 @@ const Navbar = () => {
                                         )}
                                     </span>
                                 </div>
-                                {menus.map((m) => (
+                                {menus?.map((m) => (
                                     onMobileMenu && <Disclosure.Button
                                         key={`mobile-navbar-${m.name}`}
                                         as="a"

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { User, Feedback, Reservation, Table } = require('../db.js');
 const bcrypt = require('bcrypt');
-const auth = require("../middleware/auth.js");
+const { checkAuth, isUser, isAdmin } = require("../middleware/auth.js");
 const { sendEmail } = require("../auth/mailer.js")
 const jwt = require('jsonwebtoken');
 
@@ -17,10 +17,6 @@ const getDbUsers = async () => {
                 {
                     model: Table
                 }
-            },
-            {
-                model: Feedback,
-                attributes: ['valoration', 'comment'],
             }
         ]
     })
@@ -40,19 +36,16 @@ const generateP = () => {
 }
 
 
-router.get("/", async (req, res) => {
+router.get("/", isAdmin, async (req, res) => {
     res.json(await getDbUsers())
 })
 
-router.get("/user", auth, async (req, res) => {
+router.get("/user", checkAuth, async (req, res) => {
     const id = req.userId;
     // console.log('id: ' + id)
     try {
         const users = await User.findByPk(id, {
             include: [
-                {
-                    model: Feedback,
-                },
                 {
                     model: Reservation,
                     include:
@@ -127,24 +120,23 @@ router.post('/google', async (req, res) => {
                     googleId: googleId,
                 })
                 const jwtToken = jwt.sign(JSON.stringify({ id: usser.id, email: usser.email, googleId: usser.googleId, admin: usser.admin }), process.env.JWT_SECRET);
-                // sendWelcome(usser.email);
                 sendEmail(
                     usser.email,
                     '¡Gracias por registrarte en PFRestaurante!',
                     `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Tu contraseña temporal es: ${password}\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.`,
                     'welcome');
-                return res.send({ session: jwtToken, photo: usser.photo });
+                return res.send({ session: jwtToken, photo: usser.photo, name: usser.user });
             }
         }
         const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, googleId: userEmail.googleId, admin: userEmail.admin }), process.env.JWT_SECRET);
-        return res.send({ session: jwtToken, photo: userEmail.photo });
+        return res.send({ session: jwtToken, photo: userEmail.photo, name: userEmail.user });
 
     } catch (error) {
         res.status(403).json(error)
     }
 });
 
-router.put('/', async (req, res) => {
+router.put('/', isAdmin, async (req, res) => {
     const { id, admin, ban } = req.body;
     try {
         const user = await User.findByPk(id);
@@ -166,7 +158,7 @@ router.put('/', async (req, res) => {
     }
 });
 
-router.put('/name', async (req, res) => {
+router.put('/name', isUser, async (req, res) => {
     const { id, name} = req.body;
     try {
         const user = await User.findByPk(id);
@@ -184,7 +176,7 @@ router.put('/name', async (req, res) => {
 
 })
 
-router.put('/passwd', async (req, res) => {
+router.put('/passwd', isUser, async (req, res) => {
     const { id, password} = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
@@ -203,7 +195,7 @@ router.put('/passwd', async (req, res) => {
 
 })
 
-router.put('/photo', async (req, res) => {
+router.put('/photo', isUser, async (req, res) => {
     const { id, photo} = req.body;
     try {
         const user = await User.findByPk(id);

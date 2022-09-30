@@ -2,10 +2,10 @@ import { Fragment } from 'react';
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { giveFoodValoration, getFood } from "../../redux/actions";
+import { giveFoodValoration, getFood, giveFoodCommentary } from "../../redux/actions";
 import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import { StarIcon } from '@heroicons/react/20/solid';
+import { XMarkIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
+import { StarIcon, ChatBubbleOvalLeftIcon, InformationCircleIcon } from '@heroicons/react/20/solid';
 import jwt_decode from "jwt-decode";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,7 +17,10 @@ function classNames(...classes) {
 export default function Food(props) {
     const dispatch = useDispatch();
     const food = useSelector((state) => state.food);
+    const [comments, setComments] = useState([]);
     const [selectedStar, setSelectedStar] = useState(0);
+    const [commentarySection, setCommentarySection] = useState(false);
+    const [comment, setComment] = useState('');
 
     const { admin, id: userId } = localStorage.getItem('session') ? jwt_decode(localStorage.getItem('session')) : { 'admin': false, 'id': 0 };
 
@@ -29,6 +32,18 @@ export default function Food(props) {
         const message = await dispatch(giveFoodValoration(food.id, userId, stars));
         notify(message);
         dispatch(getFood(food.id));
+    }
+
+    const sendCommentary = () => {
+        const c = {
+            'name': localStorage.getItem('name'),
+            'photo': localStorage.getItem('photo'),
+            'time': 'justo ahora',
+            'comment': comment
+        }
+        setComments([c, ...comments]);
+        setComment('');
+        dispatch(giveFoodCommentary(food.id, userId, comment));
     }
 
     return (
@@ -73,80 +88,136 @@ export default function Food(props) {
                                             <div className="h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-100">
                                                 <img src={food?.photo} alt={food?.name} className="h-full w-full object-cover object-center" />
                                             </div>
-                                            <div className='bg-red-700 hover:bg-red-900 text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer'>Comentarios</div>
+                                            <div
+                                                className='flex items-center justify-between mt-5 sm:mt-11 w-full bg-gray-900 hover:bg-gray-700 text-white px-3 py-2 text-center rounded-md text-base font-medium cursor-pointer'
+                                                onClick={() => setCommentarySection(!commentarySection)}
+                                            >
+                                                {commentarySection ? 'Información' : 'Comentarios'}
+                                                {commentarySection ? <InformationCircleIcon className="h-6 w-6" /> : <ChatBubbleOvalLeftIcon className="h-6 w-6" />}
+                                            </div>
                                         </div>
-                                        <div className="sm:col-span-8 lg:col-span-7">
-                                            <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">{food?.name}</h2>
-
-                                            <section aria-labelledby="information-heading" className="mt-2">
-                                                <h3 id="information-heading" className="sr-only">
-                                                    Product information
-                                                </h3>
-
-                                                <p className="text-2xl text-gray-900">${food?.price}</p>
-
-                                                {/* Reviews */}
-                                                <div className="mt-6">
-                                                    <h4 className="sr-only text-red-900">Reviews</h4>
-                                                    <div className="flex items-center">
-                                                        <div className="flex items-center">
-                                                            {[0, 1, 2, 3, 4].map((rating) => (
-                                                                <StarIcon
-                                                                    key={rating}
-                                                                    className={classNames(
-                                                                        selectedStar > rating ? 'text-red-900 cursor-pointer' :
-                                                                            selectedStar !== 0 ? 'text-gray-300' :
-                                                                                food?.stars > rating || !food.stars ? 'text-gray-900' : 'text-gray-300',
-                                                                        'h-5 w-5 flex-shrink-0'
-                                                                    )}
+                                        {
+                                            commentarySection ?
+                                                <div className="sm:col-span-8 lg:col-span-7">
+                                                    <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">{food?.name}</h2>
+                                                    <div className="flex items-start mt-4">
+                                                        {
+                                                            localStorage.getItem('session') && <img className="w-10 h-10 rounded-full object-cover mr-4 shadow" src={localStorage.getItem('photo')} alt="avatar" />
+                                                        }
+                                                        <div className='flex w-full border-b border-gray-400 align-center'>
+                                                            <textarea
+                                                                type='text'
+                                                                className="w-full h-10 py-2 px-2 focus:outline-none resize-none overflow-hidden"
+                                                                placeholder={localStorage.getItem('session') ? 'Agrega un comentario...' : 'Registrate para comentar...'}
+                                                                value={comment}
+                                                                onChange={(e) => setComment(e.target.value)}
+                                                            />
+                                                            {
+                                                                localStorage.getItem('session') && <PaperAirplaneIcon
+                                                                    className="h-8 w-8 my-1 cursor-pointer ml-2 text-gray-700 hover:text-gray-900"
                                                                     aria-hidden="true"
-                                                                    onMouseOver={() => userId && !admin && setSelectedStar(rating + 1)}
-                                                                    onMouseLeave={() => userId && !admin && setSelectedStar(0)}
-                                                                    onClick={() => userId && !admin && sendValoration(rating + 1)} />
-                                                            ))}
+                                                                    onClick={() => sendCommentary()}
+                                                                />
+                                                            }
                                                         </div>
                                                     </div>
+
+                                                    <ul className="h-full sm:h-72 sm:max-h-72 bg-white mt-6 overflow-x-hidden sm:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-900 scrollbar-thumb-rounded-full">
+                                                        {
+                                                            [...comments, ...food?.comments].map((f, i) => {
+                                                                return (
+                                                                    <li key={`commentary-${i}`} className="flex items-start py-2 first:pt-0 last:pb-0">
+                                                                        <img className="w-10 h-10 rounded-full object-cover mr-4 shadow" src={f.photo} alt="avatar" />
+                                                                        <div className="">
+                                                                            <div className="flex items-center">
+                                                                                <h2 className="text-sm font-semibold text-black">{f.name}</h2>
+                                                                                <small className="text-sm text-gray-500 ml-2">{f.time}</small>
+                                                                            </div>
+                                                                            <p className="w-full text-black text-sm break-all">
+                                                                                {f.comment}
+                                                                            </p>
+                                                                        </div>
+                                                                    </li>
+                                                                )
+                                                            })
+                                                        }
+
+                                                    </ul>
                                                 </div>
-                                            </section>
+                                                :
+                                                <div className="h-full sm:col-span-8 lg:col-span-7">
+                                                    <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">{food?.name}</h2>
 
-                                            <section aria-labelledby="options-heading" className="mt-8">
-                                                <h3 id="options-heading" className="sr-only">
-                                                    Product options
-                                                </h3>
+                                                    <section aria-labelledby="information-heading" className="mt-2">
+                                                        <h3 id="information-heading" className="sr-only">
+                                                            Product information
+                                                        </h3>
 
-                                                <form>
-                                                    {/* Menus */}
-                                                    <div>
+                                                        <p className="text-2xl text-gray-900">${food?.price}</p>
 
-                                                        <span className="flex items-center space-x-3 text-white mt-5">
-                                                            {food?.menus?.map((menu, i) => {
-                                                                return <a className='bg-gray-900 p-1 rounded-lg text-xs font-medium' key={`food-menu-${menu.toLowerCase()}`} href={`/menu/${menu.toLowerCase()}`}>{menu}</a>;
-                                                            })}
-                                                        </span>
-                                                    </div>
-
-                                                    {/* Categories */}
-                                                    <div className="mt-8">
-                                                        <h4 className="text-sm font-medium text-gray-900">Categoría</h4>
-
-                                                        <span className="flex items-center space-x-3 text-gray-500 mt-4">
-                                                            {food?.drinkable ? 'Bebida' : 'Comida'} {food?.vegetarian ? '• Vegetariana' : ''}
-                                                        </span>
-                                                    </div>
-
-                                                    {/* Description */}
-                                                    <div className="mt-8">
-                                                        <div className="flex items-center justify-between">
-                                                            <h4 className="text-sm font-medium text-gray-900">Descripción</h4>
+                                                        {/* Reviews */}
+                                                        <div className="mt-6">
+                                                            <h4 className="sr-only text-red-900">Reviews</h4>
+                                                            <div className="flex items-center">
+                                                                <div className="flex items-center">
+                                                                    {[0, 1, 2, 3, 4].map((rating) => (
+                                                                        <StarIcon
+                                                                            key={rating}
+                                                                            className={classNames(
+                                                                                selectedStar > rating ? 'text-red-900 cursor-pointer' :
+                                                                                    selectedStar !== 0 ? 'text-gray-300' :
+                                                                                        food?.stars > rating || !food.stars ? 'text-gray-900' : 'text-gray-300',
+                                                                                'h-5 w-5 flex-shrink-0'
+                                                                            )}
+                                                                            aria-hidden="true"
+                                                                            onMouseOver={() => userId && !admin && setSelectedStar(rating + 1)}
+                                                                            onMouseLeave={() => userId && !admin && setSelectedStar(0)}
+                                                                            onClick={() => userId && !admin && sendValoration(rating + 1)} />
+                                                                    ))}
+                                                                </div>
+                                                            </div>
                                                         </div>
+                                                    </section>
 
-                                                        <div className="flex text-gray-500 mt-4">
-                                                            {food?.summary}
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </section>
-                                        </div>
+                                                    <section aria-labelledby="options-heading" className="mt-6">
+                                                        <h3 id="options-heading" className="sr-only">
+                                                            Product options
+                                                        </h3>
+
+                                                        <form>
+                                                            {/* Menus */}
+                                                            <div>
+
+                                                                <span className="flex items-center space-x-3 text-white">
+                                                                    {food?.menus?.map((menu, i) => {
+                                                                        return <a className='bg-gray-900 p-1 rounded-lg text-xs font-medium' key={`food-menu-${menu.toLowerCase()}`} href={`/menu/${menu.toLowerCase()}`}>{menu}</a>;
+                                                                    })}
+                                                                </span>
+                                                            </div>
+
+                                                            {/* Categories */}
+                                                            <div className="mt-7">
+                                                                <h4 className="text-sm font-medium text-gray-900">Categoría</h4>
+
+                                                                <span className="flex items-center space-x-3 text-gray-500 mt-3">
+                                                                    {food?.drinkable ? 'Bebida' : 'Comida'} {food?.vegetarian ? '• Vegetariana' : ''}
+                                                                </span>
+                                                            </div>
+
+                                                            {/* Description */}
+                                                            <div className="mt-7">
+                                                                <div className="flex items-center justify-between">
+                                                                    <h4 className="text-sm font-medium text-gray-900">Descripción</h4>
+                                                                </div>
+
+                                                                <div className="sm:h-24 flex text-gray-500 mt-3 overflow-y-auto">
+                                                                    {food?.summary}
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </section>
+                                                </div>
+                                        }
                                     </div>
                                 </div>
                             </Dialog.Panel>

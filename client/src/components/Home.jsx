@@ -6,11 +6,7 @@ import image from "../assets/home/burger-header.png"
 
 const Home = () => {
     const dispatch = useDispatch();
-    const menus = useSelector((state) => state.menus).filter(m => m.name === "Desayuno" || m.name === "Almuerzo" || m.name === "Cena").sort(function (a, b) {
-        if(a.name === "Desayuno" && b.name === "Almuerzo") return -1;
-        if(a.name === "Almuerzo" && b.name === "Cena") return -1;
-        return 1;
-    });
+    const menus = useSelector((state) => state.menus).filter(m => m.homeVisible === true);
 
     useEffect(() => {
         dispatch(getMenus());
@@ -36,7 +32,7 @@ const Home = () => {
                             {
                                 menus.map(m => {
                                     return (
-                                        <div className="group relative cursor-pointer" key={m.name}>
+                                        m.homeVisible ? <div className="group relative cursor-pointer" key={m.name}>
                                             <div className="relative h-80 w-full overflow-hidden rounded-lg bg-white group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
                                                 <img src={m.photo} alt={m.name} className="h-full w-full object-cover object-center" />
                                             </div>
@@ -47,7 +43,7 @@ const Home = () => {
                                                 </a>
                                             </h3>
                                             <p className="text-base font-semibold text-gray-900">{m.description}</p>
-                                        </div>
+                                        </div> : null
                                     );
                                 })
                             }
