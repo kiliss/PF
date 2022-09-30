@@ -20,6 +20,7 @@ import Reservation from './components/popup/Resevation2en1'
 import MenuTable from './components/MenuTable';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
+import MannageReservations from './components/MannageReservations';
 import Users from './components/Users';
 
 
@@ -46,6 +47,7 @@ function App() {
           <Route exact path='/tables/:id' element={<Table />} />
         </Route>
         <Route element={<AdminRoutes />}>
+          <Route exact path='/reservas' element={<MannageReservations />} />
           <Route exact path="/tableadmin" element={<TableAdmin />} />
           <Route exact path="/allusers" element={<Users />} />
           <Route exact path='/product/create' element={<CreateFoods />} />

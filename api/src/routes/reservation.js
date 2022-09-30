@@ -2,25 +2,25 @@ const express = require('express');
 const router = express.Router();
 const {Reservation,User,Table} = require('../db.js');
 const { sendEmail } = require('../auth/mailer');
+const { isUser, isAdmin } = require("../middleware/auth.js");
 
 
 const getReservation=async()=>{
     return await Reservation.findAll({
-    //    include:{
-    //         model:User,
-    //         attributes:['user','password','email','photo','admin'],
-            through:{
-                attributes:['date','hour','price']
-            }
-        
+        include:[{
+            model:User,
+            attributes:['user','email', 'photo'],
+        },{
+            model:Table
+        }]
     })
 }
 
-router.get("/users",async (req,res)=>{
+router.get("/users", isUser ,async (req,res)=>{
     res.json(await getReservation())
 })
 
-router.get("/:id",async(req,res)=>{
+router.get("/:id", isUser,async(req,res)=>{
     const {id}=req.params;
     try{
         const reservations=await Reservation.findByPk(id,{
@@ -36,9 +36,8 @@ router.get("/:id",async(req,res)=>{
         }
 })
 
-router.post('/', async (req,res)=>{
+router.post('/', isUser, async (req,res)=>{
     const {id_User,id_Table,date,hour,price,Cant_User, email}=req.body;
-    console.log(req.body)
     try{
         const reservation=await Reservation.create({
             date:date,
@@ -58,10 +57,10 @@ router.post('/', async (req,res)=>{
     }
 })
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", isUser, async (req, res) => {
     const { id } = req.params;
     try {
-         let reserva= await Reservation.destroy({where:{
+         await Reservation.destroy({where:{
             id
          }})
         

@@ -34,49 +34,16 @@ export default function Food(props) {
         dispatch(getFood(food.id));
     }
 
-    const timeSince = (stringDate) => {
-        var date = new Date(stringDate);
-
-        var seconds = Math.floor((new Date() - date) / 1000);
-
-        var interval = seconds / 31536000;
-
-        if (interval > 1) {
-            return `hace ${Math.floor(interval)} años`;
-        }
-        interval = seconds / 2592000;
-        if (interval > 1) {
-            return `hace ${Math.floor(interval)} meses`;
-        }
-        interval = seconds / 86400;
-        if (interval > 1) {
-            return `hace ${Math.floor(interval)} días`;
-        }
-        interval = seconds / 3600;
-        if (interval > 1) {
-            return `hace ${Math.floor(interval)} horas`;
-        }
-        interval = seconds / 60;
-        if (interval > 1) {
-            return `hace ${Math.floor(interval)} minutos`;
-        }
-        if (seconds === 0) {
-            return `justo ahora`
-        }
-        return Math.floor(seconds) + " seconds";
-    }
-
     const sendCommentary = () => {
-        const time = new Date().toString();
         const c = {
             'name': localStorage.getItem('name'),
             'photo': localStorage.getItem('photo'),
-            'time': time,
+            'time': 'justo ahora',
             'comment': comment
         }
         setComments([c, ...comments]);
         setComment('');
-        dispatch(giveFoodCommentary(food.id, userId, comment, time));
+        dispatch(giveFoodCommentary(food.id, userId, comment));
     }
 
     return (
@@ -164,7 +131,7 @@ export default function Food(props) {
                                                                         <div className="">
                                                                             <div className="flex items-center">
                                                                                 <h2 className="text-sm font-semibold text-black">{f.name}</h2>
-                                                                                <small className="text-sm text-gray-500 ml-2">{timeSince(f.time)}</small>
+                                                                                <small className="text-sm text-gray-500 ml-2">{f.time}</small>
                                                                             </div>
                                                                             <p className="w-full text-black text-sm break-all">
                                                                                 {f.comment}

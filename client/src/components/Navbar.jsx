@@ -6,7 +6,6 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, /*BellIcon,*/ XMarkIcon } from '@heroicons/react/24/outline';
 import Reservation from './popup/Reservation';
 import jwt_decode from "jwt-decode";
-import Image from 'react-async-image';
 import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 
 const visitorNavigation = [
@@ -19,6 +18,7 @@ const adminNavigation = [
     { name: 'Tabla Comidas', href: '/tableadmin' },
     { name: 'Tabla Menus', href: '/menutable' },
     { name: 'Tabla Usuarios', href: '/allusers' },
+    { name: 'Tabla Reservas', href: '/reservas' },
 ];
 
 function classNames(...classes) {
@@ -154,16 +154,12 @@ const Navbar = () => {
                                                 <div>
                                                     <Menu.Button className="flex rounded-full bg-gray-200 text-sm focus:outline-none ring-2 ring-gray-200 hover:ring-red-900">
                                                         <span className="sr-only">Open user menu</span>
-                                                        {/* <img
+                                                        <img
                                                             loading='eager'
                                                             className="h-8 w-8 rounded-full"
-                                                            src={photo}
-                                                            alt="" /> */}
-                                                        <Image
-                                                            decoding='async'
-                                                            loading='lazy'
+                                                            referrerPolicy="no-referrer"
                                                             src={localStorage.getItem('photo')}
-                                                            className="h-8 w-8 rounded-full"
+                                                            alt="foto de usario"
                                                         />
                                                     </Menu.Button>
                                                 </div>
@@ -216,7 +212,7 @@ const Navbar = () => {
                                                                 <a
                                                                     href="/"
                                                                     className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black')}
-                                                                    onClick={() => {localStorage.removeItem('session'); localStorage.removeItem('photo'); localStorage.removeItem('name')}}
+                                                                    onClick={() => { localStorage.removeItem('session'); localStorage.removeItem('photo'); localStorage.removeItem('name') }}
                                                                 >
                                                                     Cerrar Sesión
                                                                 </a>
@@ -259,7 +255,7 @@ const Navbar = () => {
                                         })
                                     }
                                 </div>
-                                
+
                             </div>
                         }
                         <Disclosure.Panel className="sm:hidden">
