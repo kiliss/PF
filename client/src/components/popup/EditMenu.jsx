@@ -2,8 +2,7 @@ import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { getMenus, createMenus, updateMenu } from '../../redux/actions/index';
-import { useEffect } from "react";
+import { updateMenu } from '../../redux/actions/index';
 import { useState } from "react";
 import swal from "sweetalert";
 

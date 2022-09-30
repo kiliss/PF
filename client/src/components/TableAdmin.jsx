@@ -201,7 +201,7 @@ const TableAdmin = () => {
                 {
                     foods?.map((food) => {
                         return(
-                            <div className="bg-white p-4 rounded-lg shadow mb-2">
+                            <div className="bg-white p-4 rounded-lg shadow mb-2" key={food.id}>
                                 <div className="flex items-center space-x-2 text-sm">
                                     <div className="flex flex-col">
                                         <div className="font-bold">{food.name}</div>

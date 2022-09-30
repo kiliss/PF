@@ -18,6 +18,7 @@ const adminNavigation = [
     { name: 'Tabla Comidas', href: '/tableadmin' },
     { name: 'Tabla Menus', href: '/menutable' },
     { name: 'Tabla Usuarios', href: '/allusers' },
+    { name: 'Tabla Reservas', href: '/reservas' },
 ];
 
 function classNames(...classes) {
