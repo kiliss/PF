@@ -417,13 +417,13 @@
         },
         {
             "id": 4,
-            "num_Table": 4,
+            "num_Table": 5,
             "state": false,
             "chairs": 2
         }, 
         {
             "id": 5,
-            "num_Table": 5,
+            "num_Table": 6,
             "state": false,
             "chairs": 4
         }

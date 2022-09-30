@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
 import {getUsers, editUser} from "../redux/actions";
@@ -128,7 +128,7 @@ const Users = () => {
                                         <p className="text-sm">{user.email}</p>
                                     </div>
                                 </div>
-                                <div className="mt-4">
+                                <div className="mt-4 flex justify-around">
                                     {
                                         user.admin ? (
                                             <button onClick={(e) => handleAdmin(e, user)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
@@ -137,11 +137,10 @@ const Users = () => {
                                             <button onClick={(e) => handleAdmin(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
                                                 User</button>
                                         )
-
                                     }
-                                </div>
-                                <div className="mt-4">
-                                    <button onClick={(e) => banUser(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
+                                    {
+                                        <button onClick={(e) => banUser(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
+                                    }
                                 </div>
                             </div>
                         ) : null

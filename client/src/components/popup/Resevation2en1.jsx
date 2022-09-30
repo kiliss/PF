@@ -118,11 +118,10 @@ const CheckoutForm = () => {
               });
               elements.getElement(CardElement).clear();
               if (data.data.message === "Successfull payment"){
-                swal("Pago aceptado", "Tu reserva fue registrada con éxito", "success");
-                dispatch(createReservation(input));
-                setTimeout(function(){
+                swal("Pago aceptado", "Tu reserva fue registrada con éxito", "success").then(() => {
+                    dispatch(createReservation(input))
                     navigate("/")
-                }, 2000)
+                })
               } else if(data.data.message === "Your card's security code is incorrect."){
                 swal("Pago rechazado", "Código de seguridad invalido", "error");
               } else if(data.data.message === "Your card has insufficient funds."){
@@ -242,7 +241,7 @@ const CheckoutForm = () => {
             <h3 className="text-center my-2">${input.price}</h3>
                 <CardElement/>
                 </div>
-                <button className="bg-green-500 hover:bg-green-700 text-white font-bold w-32 py-2 px-4 border border-blue-700 rounded mx-10" disabled={!stripe || !input.id_Table || !input.guest}>
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold w-32 py-2 px-4 border border-blue-700 rounded mx-10" disabled={!stripe || !input.id_Table || !input.guest || loading}>
                     {loading ? (
                         <span>...</span>
                     ): (
