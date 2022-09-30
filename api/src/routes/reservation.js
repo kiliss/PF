@@ -7,17 +7,17 @@ const { isUser, isAdmin } = require("../middleware/auth.js");
 
 const getReservation=async()=>{
     return await Reservation.findAll({
-    //    include:{
-    //         model:User,
-    //         attributes:['user','password','email','photo','admin'],
             through:{
                 attributes:['date','hour','price']
+            },
+            include:{
+                model:User,
             }
-        
+
     })
 }
 
-router.get("/users", isAdmin ,async (req,res)=>{
+router.get("/users", isUser ,async (req,res)=>{
     res.json(await getReservation())
 })
 

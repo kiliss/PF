@@ -18,6 +18,7 @@ import PruebaPago from './components/pruebapago';
 import Footer from './components/Footer';
 import Reservation from './components/popup/Resevation2en1'
 import MenuTable from './components/MenuTable';
+import MannageTablesAdmin from './components/MannageTablesAdmin';
 
 import Users from './components/Users';
 
@@ -43,6 +44,7 @@ function App() {
           <Route exact path='/tables/:id' element={<Table />} />
         </Route>
         <Route element={<AdminRoutes />}>
+          <Route exact path='/reservas' element={<MannageTablesAdmin />} />
           <Route exact path="/tableadmin" element={<TableAdmin />} />
           <Route exact path="/allusers" element={<Users />} />
           <Route exact path='/product/create' element={<CreateFoods />} />
