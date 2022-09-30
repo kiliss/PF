@@ -253,6 +253,31 @@ export function loginGoogle(user) {
         }
     };
 };
+
+//V1-recuperar contraseña
+export function recuperarContra(email) {
+    return async function () {
+        try {
+            var json = await axios.post("/users/forgotPassword", email)
+            return json;
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
+//V1-recuperar contraseña
+export function resetPassword(password) {
+    return async function () {
+        try {
+            var json = await axios.post("/users/resertPassword", password)
+            return json;
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
 // OBTENER DETALLE DE USER POR ID (*SE DEBE PROBAR*)
 export function getTableDetail(id) {
     return async function (dispatch) {

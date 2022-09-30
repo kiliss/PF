@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const auth = require("../middleware/auth.js");
 const { sendEmail } = require("../auth/mailer.js")
 const jwt = require('jsonwebtoken');
+const { where } = require('sequelize');
 
 const getDbUsers = async () => {
     return await User.findAll({
@@ -88,8 +89,8 @@ router.post('/', async (req, res) => {
             sendEmail(
                 email,
                 '¡Gracias por registrarte en PFRestaurante!',
-            `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.`,
-            'welcome');;
+                `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.`,
+                'welcome');;
             res.status(200).json("El usuario ha sido creado correctamente");
         }
         else res.status(403).json("El usuario no se ha creado");
@@ -167,13 +168,13 @@ router.put('/', async (req, res) => {
 });
 
 router.put('/name', async (req, res) => {
-    const { id, name} = req.body;
+    const { id, name } = req.body;
     try {
         const user = await User.findByPk(id);
-        if(user){
+        if (user) {
             await User.update(
-                {user: name},
-                {where: {id: id}}
+                { user: name },
+                { where: { id: id } }
             )
             res.status(200).json("Su nombre de usuario ha sido actualizad correctamente")
         }
@@ -185,7 +186,7 @@ router.put('/name', async (req, res) => {
 })
 
 router.put('/passwd', async (req, res) => {
-    const { id, password} = req.body;
+    const { id, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
         const user = await User.findByPk(id);
@@ -204,7 +205,7 @@ router.put('/passwd', async (req, res) => {
 })
 
 router.put('/photo', async (req, res) => {
-    const { id, photo} = req.body;
+    const { id, photo } = req.body;
     try {
         const user = await User.findByPk(id);
         if (user) {
@@ -221,6 +222,62 @@ router.put('/photo', async (req, res) => {
 
 })
 
+
+//recuperar contraseña
+router.post("/forgotPassword", async (req, res) => {
+    const { email } = req.body;
+    try {
+        const oldUser = await User.findOne({where:{ email }});
+        if (!oldUser) {
+            return res.json({ message: "Usuario no existe!!" });
+        }
+        const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, googleId: userEmail.googleId, admin: userEmail.admin }), process.env.JWT_SECRET,{expiresIn: "15m"});
+        const link = `http://localhost:3001/resetPassword/${oldUser.id}/${jwtToken}`;
+        //enviar correo ...
+        console.log(link)
+    } catch (error) {
+        res.status(403).json(error)
+    }
+});
+
+router.get("/resetPassword/:id/:token", async (req, res) => {
+    const { id, token } = req.params;
+    //console.log(req.params);
+    const oldUser = await User.findOne({where:{ id: id }});
+    if (!oldUser) {
+        return res.json({ message: "Usuario no existe!!" });
+    }
+    try {
+        const verify = jwt.verify(token, process.env.JWT_SECRET);
+        res.render("/resetPassword", { email: verify.email, message: "Error, Usuario no coincide!" });
+    } catch (error) {
+        console.log(error);
+        res.send("No Verificado!");
+    }
+});
+
+router.post("/resetPassword/:id/:token", async (req, res) => {
+    const { id, token } = req.params;
+    const { password } = req.body;
+
+    const oldUser = await User.findOne({where:{ id: id }});
+    if (!oldUser) {
+        return res.json({ message: "Usuario no existe!!" });
+    }
+    try {
+        const verify = jwt.verify(token, process.env.JWT_SECRET);
+        const encryptedPassword = await bcrypt.hash(password, 10);
+        await User.update(
+            { password: encryptedPassword },
+            { where: { id: id } }
+        )
+            res.json({ email: verify.email, message:"Contraseña Actualizada!"})
+        // res.render("/login", { email: verify.email, message: "Contraseña Actualizada!" });
+    } catch (error) {
+        console.log(error);
+        res.json({ Error: "Algo salió mal" });
+    }
+});
 
 
 module.exports = router;
