@@ -20,6 +20,7 @@ import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import MannageReservations from './components/MannageReservations';
 import Users from './components/Users';
+import MannageTables from './components/MannageTables';
 
 
 
@@ -49,6 +50,7 @@ function App() {
           <Route exact path="/manage/products" element={<TableAdmin />} />
           <Route exact path="/manage/users" element={<Users />} />
           <Route exact path='/manage/menus' element={<MenuTable />} />
+          <Route exact path='/manage/tables' element={<MannageTables />} />
         </Route>
         <Route exact path='*' element={<Navigate to="/" replace />} />
       </Routes>

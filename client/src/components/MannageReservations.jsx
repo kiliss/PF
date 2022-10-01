@@ -6,8 +6,6 @@ import swal from 'sweetalert';
 
 
 const MannageReservations = () => {
-    const fecha=new Date()
-    const actualFecha=`${fecha.getFullYear()}-0${fecha.getMonth()+1}-${fecha.getDate()}`
 
     const dispatch = useDispatch();
     const reservations = useSelector(state => state.reservations);
@@ -42,8 +40,6 @@ const MannageReservations = () => {
         }
     });
     }
-    
-    let reservasActivas = reservations.filter(reservation => reservation.date.slice(0,10) >= actualFecha && reservation.hour.slice(0,2) >= fecha.getHours())
 
     return (
             <div className="text-gray-900 bg-gray-200 min-h-screen overflow-x-auto">
@@ -53,7 +49,7 @@ const MannageReservations = () => {
             </h1>
         </div>
             {
-                reservasActivas.length > 0 ? 
+                reservations.length > 0 ? 
             <div className="px-3 py-2 flex justify-center">
             <table className="text-md bg-white shadow-md rounded mb-4 hidden md:table w-full">
                 <tbody>
@@ -69,7 +65,7 @@ const MannageReservations = () => {
                         
                     </tr>
                     {
-                        reservasActivas?.map((reservation) => (
+                        reservations?.map((reservation) => (
                             <tr className="border-b hover:bg-orange-100 bg-gray-100" key={reservation.id}>
                                 <td className="p-3 px-5">
                                     <img className="w-10 h-10 rounded-full object-cover" src={reservation.users[0]?.photo} alt="" />
@@ -111,7 +107,7 @@ const MannageReservations = () => {
             }
         <div className="grid grid-cols-1 gap-4 md:hidden">
                     {
-                        reservasActivas?.map((r) => {
+                        reservations?.map((r) => {
                             return(
                                 <div className="bg-white shadow-md rounded-lg p-4 mb-2" key={r.id}>
                                     
