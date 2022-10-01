@@ -223,7 +223,7 @@ const Login = () => {
                     onFailure={googleFailure}
                     cookiePolicy={'single_host_origin'}
                   />
-                  <FacebookLogin
+                  {/* <FacebookLogin
                     appId={clientIdFacebook}
                     fields="name,email,picture,id"
                     callback={responseFacebook} 
@@ -241,7 +241,7 @@ const Login = () => {
                       Facebook{" "}
                     </button>
                   )}
-                    />
+                    /> */}
                 </div>
               </form>
               <div className="w-full md:w-12/12 px-4 mx-auto text-center">
