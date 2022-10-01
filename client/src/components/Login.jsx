@@ -93,39 +93,24 @@ const Login = () => {
     });
   };
 
-  
-  const responseFacebook = () => {
-    if(!window.FB)return;
-    window.FB.getLoginStatus(res =>{
-      // console.log(res)
-      if(res.status === 'connected'){
-        loginhandlerfacebook(res)
-      }else{
-        window.FB.login(loginhandlerfacebook,{scope:'public_profile,email'})
-      }
-    })
-  };
 
-  const loginhandlerfacebook = (res) =>{
-    if(res.status === 'connected'){
-      window.FB.api('/me?fields=id,name,email,picture', async (userdata) =>{
-        // console.log(userdata)
-        const userFacebook = {
-          user: userdata.name,
-          email: userdata.email,
-          photo: userdata.picture.data.url,
-          facebookId: userdata.id,
-        }
-        let data = await dispatch(loginFacebook(userFacebook));
-        // console.log(data)
-        // console.log(data)
-        window.localStorage.setItem('session', data.data.session);
-        window.localStorage.setItem('photo', data.data.photo);
-        window.localStorage.setItem('name', data.data.name);
-    
-        navigate('/');
-      })
-  }
+  const responseFacebook = async (res) =>{
+
+    console.log(res)
+    const userFacebook = {
+      user: res.name,
+      email: res.email,
+      photo: res.picture.data.url,
+      facebookId: res.id,
+    }
+    let data = await dispatch(loginFacebook(userFacebook));
+    // console.log(data)
+    // console.log(data)
+    window.localStorage.setItem('session', data.data.session);
+    window.localStorage.setItem('photo', data.data.photo);
+    window.localStorage.setItem('name', data.data.name);
+
+    navigate('/');
 }
 
 
@@ -223,7 +208,7 @@ const Login = () => {
                     onFailure={googleFailure}
                     cookiePolicy={'single_host_origin'}
                   />
-                  {/* <FacebookLogin
+                  <FacebookLogin
                     appId={clientIdFacebook}
                     fields="name,email,picture,id"
                     callback={responseFacebook} 
@@ -241,7 +226,7 @@ const Login = () => {
                       Facebook{" "}
                     </button>
                   )}
-                    /> */}
+                    />
                 </div>
               </form>
               <div className="w-full md:w-12/12 px-4 mx-auto text-center">
