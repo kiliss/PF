@@ -327,17 +327,31 @@ export function createUser(payload) {
     };
 };
 
-//V1-login-google
-export function loginGoogle(user) {
-    return async function (dispatch) {
+
+//V1-recuperar contraseña
+export function recuperarContra(email) {
+    return async function () {
         try {
-            var json = await axios.post("/users/google", user)
+            var json = await axios.post("/users/forgotPassword", {email})
             return json;
         } catch (error) {
             console.log(error)
         }
     };
 };
+
+//V1-recuperar contraseña
+export function resetPassword(user) {
+    return async function () {
+        try {
+            var json = await axios.post(`/users/resetPassword/${user.id}/${user.token}`, user)
+            return json;
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
 // OBTENER DETALLE DE USER POR ID (*SE DEBE PROBAR*)
 export function getTableDetail(id) {
     return async function (dispatch) {
@@ -463,6 +477,30 @@ export function createReservation(payload) {
     };
 };
 
+//V1-login-google
+export function loginGoogle(user) {
+    return async function () {
+        try {
+            var json = await axios.post("/users/google", user)
+            return json;
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
+//V1-login-facebook
+export function loginFacebook(user) {
+    return async function () {
+        try {
+            var json = await axios.post("/users/facebook", user)
+            return json;
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
 // LOGIN SUCCESS (*SE DEBE PROBAR(nunca hice una función para esto(agustín))*)
 export function login(user) {
     return async function () {
@@ -501,16 +539,6 @@ export function logout() {
     };
 };
 
-export function loginWithFacebook() {
-    return async function () {
-        try {
-            var login = await axios.get("/auth/facebook");
-            return login;
-        } catch (error) {
-            console.log(error)
-        }
-    }
-};
 
 export function giveFoodValoration(foodId, userId, stars) {
     return async function () {

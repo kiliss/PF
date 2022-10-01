@@ -23,8 +23,11 @@ module.exports = (sequilize) => {
         googleId:{
             type: DataTypes.STRING, 
         },
+        facebookId:{
+            type: DataTypes.STRING, 
+        },
         photo: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
         admin: {
