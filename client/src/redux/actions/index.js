@@ -40,10 +40,16 @@ export function getMenu(data) {
 export function createMenus(payload) {
     return async function (dispatch) {
         try {
-            var json = await axios.post("/menus", payload)
+            var json = await axios.post("/menus", payload, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
             return json;
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.log(err);
         }
     };
 };
@@ -52,42 +58,60 @@ export function createMenus(payload) {
 export function deleteMenu(name) {
     return async function (dispatch) {
         try {
-            var json = await axios.delete("/menus/" + name)
+            var json = await axios.delete("/menus/" + name, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
             return dispatch({
                 type: "DELETE_MENU",
                 payload: json.data === "Menu deleted" ? name : ''
             })
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.log(err);
         }
     };
 };
 
 // UPDATE MENU (*SE DEBE PROBAR*)
-export function updateMenu(name) {
+export function updateMenu(name, payload) {
     return async function (dispatch) {
         try {
-            var json = await axios.put("/menus/" + name)
+            var json = await axios.put("/menus/" + name, payload, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
             return dispatch({
                 type: "UPDATE_MENU",
                 payload: json.data
             })
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.log(err);
         }
     }
 }
 // DELETE FOOD FROM MENU (*SE DEBE PROBAR*)
-export function deleteFoodFromMenu({menu, food}) {
+export function deleteFoodFromMenu({ menu, food }) {
     return async function (dispatch) {
         try {
-            var json = await axios.delete("/menus/" + menu + "/" + food)
+            var json = await axios.delete("/menus/" + menu + "/" + food, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
             return dispatch({
                 type: "DELETE_FOOD_FROM_MENU",
                 payload: json.data === "Food deleted" ? food : ''
             })
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.log(err);
         }
     };
 }
@@ -126,10 +150,16 @@ export function getFoods(data) {
 export function postFood(data) {
     return async function () {
         try {
-            var json = await axios.post("/foods", data)
-            return json
-        } catch (error) {
-            console.log(error)
+            var json = await axios.post("/foods", data, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
+            return json;
+        } catch (err) {
+            console.log(err);
         }
     }
 }
@@ -138,10 +168,16 @@ export function postFood(data) {
 export function addFoodToMenu(payload) {
     return async function (dispatch) {
         try {
-            var json = await axios.post("/foods/tomenu", payload)
-            return json
-        } catch (error) {
-            console.log(error)
+            var json = await axios.post("/foods/tomenu", payload, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
+            return json;
+        } catch (err) {
+            console.log(err);
         }
     }
 }
@@ -149,10 +185,16 @@ export function addFoodToMenu(payload) {
 export function updateFood(payload) {
     return async function (dispatch) {
         try {
-            var json = await axios.put("/foods/" + payload.id, payload)
-            return json
-        } catch (error) {
-            console.log(error)
+            var json = await axios.put("/foods/" + payload.id, payload, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
+            return json;
+        } catch (err) {
+            console.log(err);
         }
     }
 }
@@ -175,10 +217,16 @@ export function deleteFood(id) {
 // OBTENER USERS (*SE DEBE PROBAR*)
 export function getUsers() {
     return async function (dispatch) {
-        var json = await axios.get("/users");
+        var json = await axios.get("/users", {
+            headers: {
+                'Authorization': localStorage.getItem('session')
+                    ? localStorage.getItem('session')
+                    : ''
+            }
+        });
         return dispatch({
             type: "GET_USERS",
-            payload: json.data
+            payload: json.data,
         })
     };
 };
@@ -187,8 +235,45 @@ export function getUsers() {
 export function editUser(payload) {
     return async function (dispatch) {
         try {
-            var json = await axios.put("/users", payload)
-            return json
+            var json = await axios.put("/users", payload, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
+            return json;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
+export function selfDisableAcc(ban) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/users/disableacc", ban, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
+            return dispatch({
+                type: "GET_USER",
+                payload: json.data
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
+export function emailExist(email){
+    return async function(){
+        try {
+            var json = await axios.get(`/users/findemail/?email=${email}`)
+            return json.data
         } catch (error) {
             console.log(error)
         }
@@ -215,17 +300,17 @@ export function getProfile() {
         try {
             var json = await axios.get("/users/user", {
                 headers: {
-                    'Authorization': localStorage.getItem('user')
-                        ? localStorage.getItem('user')
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
                         : ''
                 }
-            })
+            });
             return dispatch({
                 type: "GET_USER",
                 payload: json.data
-            })
-        } catch (error) {
-            console.log(error)
+            });
+        } catch (err) {
+            console.log(err);
         }
     };
 };
@@ -242,6 +327,42 @@ export function createUser(payload) {
     };
 };
 
+
+//V1-login-google
+export function loginGoogle(user) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.post("/users/google", user)
+            return json;
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
+//V1-recuperar contraseña
+export function recuperarContra(email) {
+    return async function () {
+        try {
+            var json = await axios.post("/users/forgotPassword", {email})
+            return json;
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
+//V1-recuperar contraseña
+export function resetPassword(user) {
+    return async function () {
+        try {
+            var json = await axios.post(`/users/resetPassword/${user.id}/${user.token}`, user)
+            return json;
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
 
 // OBTENER DETALLE DE USER POR ID (*SE DEBE PROBAR*)
 export function getTableDetail(id) {
@@ -315,11 +436,17 @@ export function createBill(payload) {
 // OBTENER RESERVAS (*SE DEBE PROBAR*)
 export function getReservations() {
     return async function (dispatch) {
-        var json = await axios.get("/reservation/users");
+        var json = await axios.get("/reservation/users", {
+            headers: {
+                'Authorization': localStorage.getItem('session')
+                    ? localStorage.getItem('session')
+                    : ''
+            }
+        });
         return dispatch({
             type: "GET_RESERVATIONS",
             payload: json.data
-        })
+        });
     };
 };
 
@@ -327,28 +454,19 @@ export function getReservations() {
 export function getReservationDetail(id) {
     return async function (dispatch) {
         try {
-            var json = await axios.get("/reservation/" + id)
+            var json = await axios.get("/reservation/" + id, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
             return dispatch({
                 type: "GET_RESERVATION",
                 payload: json.data
             });
-        } catch (error) {
-            console.log(error)
-        }
-    };
-};
-
-// OBTENER DETALLE DE UNA RESERVA POR ID (*SE DEBE PROBAR*)
-export function getReservationByUser(id_User) {
-    return async function (dispatch) {
-        try {
-            var json = await axios.get("/reservation/users/" + id_User)
-            return dispatch({
-                type: "GET_RESERVATION",
-                payload: json.data
-            });
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.log(err);
         }
     };
 };
@@ -357,10 +475,16 @@ export function getReservationByUser(id_User) {
 export function createReservation(payload) {
     return async function (dispatch) {
         try {
-            var json = await axios.post("/reservation", payload)
+            var json = await axios.post("/reservation", payload, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
             return json;
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.log(err);
         }
     };
 };
@@ -418,7 +542,7 @@ export function loginFail() {
 export function logout() {
     return async function () {
         try {
-            localStorage.removeItem('user')
+            localStorage.removeItem('session')
             var logoutt = await axios.get("/auth/logout")
             return logoutt
         } catch (error) {
@@ -441,23 +565,115 @@ export function loginWithFacebook() {
 export function giveFoodValoration(foodId, userId, stars) {
     return async function () {
         try {
-            const { data } = await axios.post(`/foods/${foodId}?user=${userId}&valoration=${stars}`);
+            const { data } = await axios.post(`/foods/score/${foodId}?user=${userId}&valoration=${stars}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
             return data;
         } catch (err) {
             console.log(err);
         }
     };
 };
+
+export function giveFoodCommentary(foodId, userId, comment, time) {
+    return async function () {
+        try {
+            const { data } = await axios.post(`/foods/comment/${foodId}?user=${userId}`, { comment }, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
+            return data;
+        } catch (err) {
+            console.log(err);
+        }
+    };
+};
+
 export function deleteReservation(id) {
     return async function (dispatch) {
         try {
-            var json = await axios.delete("/reservation/delete/" + id)
+            var json = await axios.delete("/reservation/delete/" + id, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
             return dispatch({
                 type: "DELETE_RESERVATION",
                 payload: json.data
             });
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.log(err);
         }
     };
 };
+
+export function putUserName(payload) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/users/name", payload, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
+            return json;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
+export function putUserPasswd(payload) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/users/passwd", payload, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
+            return json;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
+export function putUserPhoto(payload) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/users/photo", payload, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
+            return json;
+        } catch (err) {
+            console.log(err)
+        }
+    }
+}
+
+export function comparePassword(payload){
+    return async function (){
+        try {
+            var json = await axios.post("/login/validate", payload)
+            return json.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}

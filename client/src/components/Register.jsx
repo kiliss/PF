@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createUser, getUsers } from "../redux/actions";
+import { createUser, emailExist } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import  ProfileImages from "../assets/register/ProfileImages.js"
 import swal from 'sweetalert';
@@ -8,12 +8,9 @@ import swal from 'sweetalert';
 const regexPasswd = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/
 const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
-function validate(input, findedUser="", findedEmail="",photo, state1, state2){
+function validate(input, findedEmail="",photo, state1, state2){
     const errors = {}
     if(state1 === "validate1"){
-        if(findedUser === true){
-            errors.user = "El nombre de usuario ya existe"
-        }
         if(input.user.length < 5){
             errors.user = "El nombre de usuario debe tener al menos 5 caracteres"
         }
@@ -23,8 +20,11 @@ function validate(input, findedUser="", findedEmail="",photo, state1, state2){
         if(input.user.charAt(0) === " "){
             errors.user = "No se permiten espacios al inicio"
         }
-        if(findedEmail === true){
+        if(findedEmail.message === "Existe"){
             errors.email = "El email ya esta registrado"
+        }
+        if(input.password !== input.repassword){
+          errors.repassword = "Las contraseñas no coinciden"
         }
     }
     if(state2 === "validate2"){
@@ -54,48 +54,29 @@ export default function RegisterUser(){
 const dispatch = useDispatch();
 const navigate = useNavigate();
 
-const userss = useSelector((state) => state.users);
-
-
-const findUser = (user) => {
-    if(userss.find((u) => u.user.toLowerCase() === user.toLowerCase())){
-        return true
-      } else {
-        return false
-      }
-  }
-
-const findEmail = (email) => {
-    if(userss.find((u) => u.email.toLowerCase() === email.toLowerCase())){
-        return true
-      } else {
-        return false
-      }
-}
-
-
 const [error, setError] = useState({});
 const [loading, setLoading] = useState(true);
 const [photo, setPhoto] = useState("");
 const [input, setInput] = useState({
     user: "",
     password: "",
+    repassword: "",
     email: "",
     photo: "",
     admin: false,
 });
 
-function handleChange(e){
+const handleChange = async (e) =>{
     setInput({
         ...input,
         [e.target.name] : e.target.value
     });
-    let findedUser = findUser(input.user)
-    let findedEmail = findEmail(input.email)
+    let findedEmail = await dispatch(emailExist(input.email))
+    console.log(findedEmail)
     setError(validate({
         ...input,
         [e.target.name] : e.target.value,
-    }, findedUser,findedEmail , photo, "validate1"))
+    },findedEmail , photo, "validate1"))
 };
 
 const uploadImage = async (e) => {
@@ -121,15 +102,13 @@ function autoUpload(){
     setPhoto(image.url)
 }
 
-function handleSubmit(e){
+const handleSubmit = async (e) => {
     e.preventDefault();
-    let findedUser = findUser(input.user)
-    let findedEmail = findEmail(input.email)
-    const aux = validate(input, findedUser, findedEmail, photo, "validate1", "validate2")
+    let findedEmail = await dispatch(emailExist(input.email))
+    const aux = validate(input, findedEmail, photo, "validate1", "validate2")
     setError(aux);
     if(Object.keys(aux).length === 0){
         dispatch(createUser({...input, photo: photo}));
-        // alert("Felicidades, te has registrado exitosamente!");
         swal({
             title: "Felicidades!",
             text: "Te has registrado exitosamente!",
@@ -138,7 +117,6 @@ function handleSubmit(e){
         })
         navigate("/login")
     } else {
-        // alert("Complete correctamente todos los campos")
         swal({
             title: "Error!",
             text: "Complete correctamente todos los campos",
@@ -150,8 +128,17 @@ function handleSubmit(e){
 
 useEffect(() => {
     autoUpload()
-    dispatch(getUsers())
 }, [])
+
+const [passwordShown, setPasswordShown] = useState(false);
+const togglePassword = () => {
+    setPasswordShown(!passwordShown);
+  };
+
+  const [rePasswordShown, setRePasswordShown] = useState(false);
+  const toggleRePassword = () => {
+      setRePasswordShown(!rePasswordShown);
+    };
 
     return (
     <div className="mt-11">
@@ -168,8 +155,36 @@ useEffect(() => {
             {error.user && (<span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {error.user} </span>)}
           </div>
           <div className="relative w-full mb-3">
-            <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">Contraseña</label><input name="password" value={input.password} type="password" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="Contraseña" onChange={(e)=> handleChange(e)}/>
+            <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">Contraseña</label>
+            <div className="flex justify-end items-center relative">
+            <input name="password" value={input.password} type={passwordShown ? "text" : "password"} className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="Contraseña" onChange={(e)=> handleChange(e)}/>
+            <button className="absolute px-1" type="button" onClick={togglePassword}>{passwordShown === false ? 
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                </svg> 
+                : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>}
+            </button>
+            </div>
             {error.password && <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {error.password} </span>}
+          </div>
+          <div className="relative w-full mb-3">
+            <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">Repetir contraseña</label>
+            <div className="flex justify-end items-center relative">
+            <input name="repassword" value={input.repassword} type={rePasswordShown ? "text" : "password"} className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="Contraseña" onChange={(e)=> handleChange(e)}/>
+            <button className="absolute px-1" type="button" onClick={toggleRePassword}>{rePasswordShown === false ? 
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                </svg> 
+                : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>}
+            </button>
+            </div>
+            {error.repassword && <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {error.repassword} </span>}
           </div>
           <div className="relative w-full mb-3">
             <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">E-mail</label><input name="email" value={input.email} type="email" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="E-mail" onChange={(e)=> handleChange(e)}/>

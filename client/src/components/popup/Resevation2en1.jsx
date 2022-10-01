@@ -53,6 +53,7 @@ const CheckoutForm = () => {
 
   const tables = useSelector((state) => state.tables);
 
+ 
 //   const decode = window.localStorage.getItem("user");
   const decodee = jwt_decode(localStorage.getItem('user'))
 
@@ -61,12 +62,19 @@ const CheckoutForm = () => {
     id_Table: "",
     date: "",
     hour: "",
+    guest:"",
     price: 300,
     num_Table: [],
     email: decodee.email,
 })
   const [errors, setErrors] = useState({});
+  const mesasFiltradas=tables.filter((t)=>{
 
+    if(input.guest) {
+      if( t.chairs==input.guest){
+         const mesa=t
+         return mesa
+     } }})
   function handleChange(e) {
       setInput({
           ...input,
@@ -79,7 +87,7 @@ const CheckoutForm = () => {
       )
   }
 
-  
+
   const handleSubmit = async (e) =>{
     e.preventDefault();
 
@@ -110,11 +118,10 @@ const CheckoutForm = () => {
               });
               elements.getElement(CardElement).clear();
               if (data.data.message === "Successfull payment"){
-                swal("Pago aceptado", "Tu reserva fue registrada con éxito", "success");
-                dispatch(createReservation(input));
-                setTimeout(function(){
+                swal("Pago aceptado", "Tu reserva fue registrada con éxito", "success").then(() => {
+                    dispatch(createReservation(input))
                     navigate("/")
-                }, 2000)
+                })
               } else if(data.data.message === "Your card's security code is incorrect."){
                 swal("Pago rechazado", "Código de seguridad invalido", "error");
               } else if(data.data.message === "Your card has insufficient funds."){
@@ -128,6 +135,7 @@ const CheckoutForm = () => {
         setLoading(false)
     }}
   };
+
   
   return (
     
@@ -162,7 +170,7 @@ const CheckoutForm = () => {
                         </label>
                         <input
                             type="time"
-                            step="3600000"
+                            step="7200"
                             name="hour"
                             id="hour"
                             min="08.00" 
@@ -186,12 +194,12 @@ const CheckoutForm = () => {
                             type="number"
                             name="guest"
                             id="guest"
+                            value={input.guest}
                             placeholder="2"
                             min="2"
                             max="4"
                             onChange={handleChange}
                             className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
-                            {errors.chairs && <p className='form-error'>{errors.chairs}</p>}
                     </div>
                 </div>
                 <div className="w-full px-3 sm:w-1/2">
@@ -211,11 +219,17 @@ const CheckoutForm = () => {
                                 <option disabled value="">Seleccione mesa</option>
                             }
                             {
-                                tables.length ?
-                                    tables.map((table) => (
+                                mesasFiltradas.length ?
+                                     
+                                        mesasFiltradas.map(e=>{
+                                           return(<option key={`reservation-${e.num_Table}`}  value={e.id}>{`Mesa ${e.num_Table}`}</option>)
+                                        })
+                                    /*tables.map((table) => (
                                         
-                                        <option key={`reservation-${table.num_Table}`} value={table.id}>{`Mesa ${table.num_Table}`}</option>
-                                    ))
+
+                                        
+                                        <option key={`reservation-${table.num_Table}`}  value={table.id}>{`Mesa ${fitrado}`}</option>
+                                    ))*/
                                     :
                                     <option value={0}>Intente Otro Horario</option>
                             }
@@ -227,7 +241,7 @@ const CheckoutForm = () => {
             <h3 className="text-center my-2">${input.price}</h3>
                 <CardElement/>
                 </div>
-                <button className="bg-green-500 hover:bg-green-700 text-white font-bold w-32 py-2 px-4 border border-blue-700 rounded mx-10" disabled={!stripe || !input.id_Table || !input.guest}>
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold w-32 py-2 px-4 border border-blue-700 rounded mx-10" disabled={!stripe || !input.id_Table || !input.guest || loading}>
                     {loading ? (
                         <span>...</span>
                     ): (
