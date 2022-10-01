@@ -328,18 +328,6 @@ export function createUser(payload) {
 };
 
 
-//V1-login-google
-export function loginGoogle(user) {
-    return async function (dispatch) {
-        try {
-            var json = await axios.post("/users/google", user)
-            return json;
-        } catch (error) {
-            console.log(error)
-        }
-    };
-};
-
 //V1-recuperar contraseña
 export function recuperarContra(email) {
     return async function () {
@@ -551,16 +539,6 @@ export function logout() {
     };
 };
 
-export function loginWithFacebook() {
-    return async function () {
-        try {
-            var login = await axios.get("/auth/facebook");
-            return login;
-        } catch (error) {
-            console.log(error)
-        }
-    }
-};
 
 export function giveFoodValoration(foodId, userId, stars) {
     return async function () {

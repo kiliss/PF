@@ -67,13 +67,13 @@ const Login = () => {
   const googleSuccess = async (res) => {
     const result = res?.profileObj;
 
-    const user = {
+    const userGoogle = {
       user: result.name,
       email: result.email,
       photo: result.imageUrl,
       googleId: result.googleId,
     }
-    let data = await dispatch(loginGoogle(user));
+    let data = await dispatch(loginGoogle(userGoogle));
 
     // console.log(data)
     window.localStorage.setItem('session', data.data.session);
@@ -97,7 +97,7 @@ const Login = () => {
   const responseFacebook = () => {
     if(!window.FB)return;
     window.FB.getLoginStatus(res =>{
-      console.log(res)
+      // console.log(res)
       if(res.status === 'connected'){
         loginhandlerfacebook(res)
       }else{
@@ -108,8 +108,22 @@ const Login = () => {
 
   const loginhandlerfacebook = (res) =>{
     if(res.status === 'connected'){
-      window.FB.api('/me?fields=id,name,email,picture',userdata =>{
-        console.log(userdata)
+      window.FB.api('/me?fields=id,name,email,picture', async (userdata) =>{
+        // console.log(userdata)
+        const userFacebook = {
+          user: userdata.name,
+          email: userdata.email,
+          photo: userdata.picture.data.url,
+          facebookId: userdata.id,
+        }
+        let data = await dispatch(loginFacebook(userFacebook));
+        // console.log(data)
+        // console.log(data)
+        window.localStorage.setItem('session', data.data.session);
+        window.localStorage.setItem('photo', data.data.photo);
+        window.localStorage.setItem('name', data.data.name);
+    
+        navigate('/');
       })
   }
 }
