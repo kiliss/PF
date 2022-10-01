@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginGoogle, login } from "../redux/actions";
+import { loginGoogle, login, loginFacebook } from "../redux/actions";
 import { useEffect } from "react";
 import { GoogleLogin } from 'react-google-login';
 import swal from "sweetalert";
 import { gapi } from 'gapi-script';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const clientId = process.env.REACT_APP_CLIENT_ID_GOOGLE;
+  const clientIdGoogle = process.env.REACT_APP_CLIENT_ID_GOOGLE;
+  const clientIdFacebook = process.env.REACT_APP_CLIENT_ID_FACEBOOK;
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -20,7 +22,7 @@ const Login = () => {
 
   useEffect(() => {
     const initClient = () => {
-      gapi.client.init({ clientId: clientId, scope: '' });
+      gapi.client.init({ clientIdGoogle: clientIdGoogle, scope: '' });
     };
     gapi.load('client:auth2', initClient);
   });
@@ -65,21 +67,24 @@ const Login = () => {
   const googleSuccess = async (res) => {
     const result = res?.profileObj;
 
-    const user = {
+    const userGoogle = {
       user: result.name,
       email: result.email,
       photo: result.imageUrl,
       googleId: result.googleId,
     }
-    let data = await dispatch(loginGoogle(user));
+    let data = await dispatch(loginGoogle(userGoogle));
+
     // console.log(data)
     window.localStorage.setItem('session', data.data.session);
     window.localStorage.setItem('photo', data.data.photo);
     window.localStorage.setItem('name', data.data.name);
+
     navigate('/');
   };
 
   const googleFailure = (err) => {
+
     console.log('error inicio, ', err)
     swal({
       title: "Fallo inicio de sesión con google, intenta más tarde!",
@@ -88,10 +93,47 @@ const Login = () => {
     });
   };
 
+  
+  const responseFacebook = () => {
+    if(!window.FB)return;
+    window.FB.getLoginStatus(res =>{
+      // console.log(res)
+      if(res.status === 'connected'){
+        loginhandlerfacebook(res)
+      }else{
+        window.FB.login(loginhandlerfacebook,{scope:'public_profile,email'})
+      }
+    })
+  };
+
+  const loginhandlerfacebook = (res) =>{
+    if(res.status === 'connected'){
+      window.FB.api('/me?fields=id,name,email,picture', async (userdata) =>{
+        // console.log(userdata)
+        const userFacebook = {
+          user: userdata.name,
+          email: userdata.email,
+          photo: userdata.picture.data.url,
+          facebookId: userdata.id,
+        }
+        let data = await dispatch(loginFacebook(userFacebook));
+        // console.log(data)
+        // console.log(data)
+        window.localStorage.setItem('session', data.data.session);
+        window.localStorage.setItem('photo', data.data.photo);
+        window.localStorage.setItem('name', data.data.name);
+    
+        navigate('/');
+      })
+  }
+}
+
+
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
+
 
   return (
     <div className="mt-11">
@@ -143,18 +185,17 @@ const Login = () => {
                     </button>
                   </div>
                 </div>
-                {/* <div>
-                  <label className="inline-flex items-center cursor-pointer">
-                    <input
-                      id="customCheckLogin"
-                      type="checkbox"
-                      className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                    />
-                    <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                      Remember me
-                    </span>
-                  </label>
-                </div> */}
+                <div className="text-center mt-6">
+                  <button
+                    className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150 text-black"
+                    type="button"
+                    onClick={handleSubmit}
+                  >
+                    {" "}
+                    Sign In{" "}
+                  </button>
+                </div>
+                <br /><br />
                 <div className="text-center mb-3">
                   <h6 className="text-blueGray-500 text-sm font-bold">
                     Sing in with
@@ -162,7 +203,7 @@ const Login = () => {
                 </div>
                 <div className="btn-wrapper text-center">
                   <GoogleLogin
-                    clientId={clientId}
+                    clientId={clientIdGoogle}
                     render={(renderPros) => (
                       <button
                         onClick={renderPros.onClick}
@@ -182,16 +223,25 @@ const Login = () => {
                     onFailure={googleFailure}
                     cookiePolicy={'single_host_origin'}
                   />
-                </div>
-                <div className="text-center mt-6">
-                  <button
-                    className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150 text-black"
-                    type="button"
-                    onClick={handleSubmit}
-                  >
-                    {" "}
-                    Sign In{" "}
-                  </button>
+                  <FacebookLogin
+                    appId={clientIdFacebook}
+                    fields="name,email,picture,id"
+                    callback={responseFacebook} 
+                    render={(props) => (
+                      <button 
+                      onClick={props.onClick}
+                      className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                      type="button"
+                    >
+                      <img
+                        alt="..."
+                        className="w-5 mr-1"
+                        src="https://demos.creative-tim.com/notus-js/assets/img/github.svg"
+                      />
+                      Facebook{" "}
+                    </button>
+                  )}
+                    />
                 </div>
               </form>
               <div className="w-full md:w-12/12 px-4 mx-auto text-center">

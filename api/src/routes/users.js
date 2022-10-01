@@ -108,7 +108,7 @@ router.post('/google', async (req, res) => {
                     }
                 });
         } else {
-            if (!userEmail) {
+            if (!userEmail || userEmail.ban === true) {
                 password = generateP();
                 // console.log(password)
                 const hashedPassword = await bcrypt.hash(password, 10);
@@ -131,11 +131,43 @@ router.post('/google', async (req, res) => {
         const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, googleId: userEmail.googleId, admin: userEmail.admin }), process.env.JWT_SECRET);
         return res.send({ session: jwtToken, photo: userEmail.photo, name: userEmail.user });
 
-
     } catch (error) {
         res.status(403).json(error)
     }
 });
+
+
+router.post('/facebook', async (req, res) => {
+    const { user, email, photo, facebookId } = req.body;
+    let password='';
+    // console.log("req-body:", photo)
+    try {
+        const userEmail = await User.findOne({ where: { facebookId } }).catch((err) => { console.log("Error: ", err) });
+        console.log('usuario: ',userEmail)
+        if (!userEmail || userEmail.ban === true) {
+            password = generateP();
+            // console.log(password)
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const usser = await User.create({
+                user: user,
+                password: hashedPassword,
+                email: email,
+                photo: photo,
+                facebookId: facebookId,
+            });
+            // console.log('user creado: ',usser)
+            const jwtToken = jwt.sign(JSON.stringify({ id: usser.id, email: usser.email, facebookId: usser.facebookId, photo: usser.photo, admin: usser.admin }), process.env.JWT_SECRET);
+            // console.log(jwtToken)
+            return res.send({ session: jwtToken, photo: usser.photo, name: usser.user });
+        } 
+            const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, facebookId: userEmail.facebookId, photo: userEmail.photo, admin: userEmail.admin }), process.env.JWT_SECRET);
+            return res.send({ session: jwtToken, photo: userEmail.photo, name: userEmail.user });
+        
+    } catch (error) {
+        res.status(403).json(error)
+    }
+});
+
 
 router.put('/', isAdmin, async (req, res) => {
     const { id, admin, ban } = req.body;
