@@ -7,6 +7,7 @@ import { GoogleLogin } from 'react-google-login';
 import swal from "sweetalert";
 import { gapi } from 'gapi-script';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import logoFacebook from '../assets/login/logo_facebook.webp'
 
 
 const Login = () => {
@@ -37,7 +38,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user.email || !user.password) {
-      console.log("no enviar");
+      swal({
+        title: 'Hay campos vacios!',
+        icon: "warning",
+        button: "Aceptar",
+      });
     } else {
       let data = await dispatch(login(user));
       if (data) {
@@ -75,7 +80,7 @@ const Login = () => {
     }
     let data = await dispatch(loginGoogle(userGoogle));
 
-    // console.log(data)
+
     window.localStorage.setItem('session', data.data.session);
     window.localStorage.setItem('photo', data.data.photo);
     window.localStorage.setItem('name', data.data.name);
@@ -83,9 +88,7 @@ const Login = () => {
     navigate('/');
   };
 
-  const googleFailure = (err) => {
-
-    console.log('error inicio, ', err)
+  const googleFailure = () => {
     swal({
       title: "Fallo inicio de sesión con google, intenta más tarde!",
       icon: "warning",
@@ -96,7 +99,8 @@ const Login = () => {
 
   const responseFacebook = async (res) =>{
 
-    console.log(res)
+    if(res.name && res.email && res.picture.data.url && res.id){
+
     const userFacebook = {
       user: res.name,
       email: res.email,
@@ -104,13 +108,18 @@ const Login = () => {
       facebookId: res.id,
     }
     let data = await dispatch(loginFacebook(userFacebook));
-    // console.log(data)
-    // console.log(data)
+  
     window.localStorage.setItem('session', data.data.session);
     window.localStorage.setItem('photo', data.data.photo);
     window.localStorage.setItem('name', data.data.name);
-
     navigate('/');
+  }else{
+    swal({
+      title: "Fallo inicio de sesión con Facebok, intenta más tarde!",
+      icon: "warning",
+      button: "Aceptar",
+    });
+  }
 }
 
 
@@ -221,7 +230,7 @@ const Login = () => {
                       <img
                         alt="..."
                         className="w-5 mr-1"
-                        src="https://demos.creative-tim.com/notus-js/assets/img/github.svg"
+                        src={logoFacebook}
                       />
                       Facebook{" "}
                     </button>
