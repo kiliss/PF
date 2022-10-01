@@ -31,4 +31,28 @@ router.post('/', async (req, res) => {
     }
 })
 
+router.post('/validate', async (req, res) => {
+    const { password, email } = req.body;
+    try {
+        const userEmail = await User.findOne({ where: { email } }).catch((err) => { console.log("Error: ", err) });
+        // console.log('bd user :',userEmail)
+        if (!userEmail) {
+            return res.json({ message: "!Email o contraseña incorrecto!" })
+        } else
+            if (userEmail.ban === true) {
+                return res.json({ message: "Usuario bloqueado!" })
+            } else {
+                const match = await bcrypt.compare(password, userEmail.password);
+                //console.log('math: ',match)
+                if (match) {
+                    return res.json({ message: "Contraseña correcta!" })
+                } else {
+                    return res.json({ message: "!Email o contraseña incorrecto!" });
+                }
+            }
+    } catch (error) {
+        res.status(404).json(error)
+    }
+})
+
 module.exports = router;

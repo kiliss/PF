@@ -159,6 +159,24 @@ router.put('/', isAdmin, async (req, res) => {
     }
 });
 
+router.put('/disableacc', checkAuth, async (req, res) => {
+    const id = req.userId;
+    const {ban} = req.body;
+    try {
+        await User.update({
+            ban
+        },
+        {
+            where: {
+                id
+            }
+        })
+        res.status(200).json("Usuario baneado")
+    } catch (error) {
+        res.status(403).json(error)
+    }
+})
+
 router.put('/name', isUser, async (req, res) => {
     const { id, name } = req.body;
     try {
@@ -214,6 +232,22 @@ router.put('/photo', isUser, async (req, res) => {
         res.status(403).json(error)
     }
 
+})
+
+router.get('/findemail', async (req, res) => {
+    const { email } = req.query;
+    try {
+        const user = await User.findOne({where: {
+            email: email
+        }});
+        if (!user || user.ban === true) {
+            res.status(200).json({message:"No existe"})
+        } else if (user) {
+            res.status(200).json({message:"Existe"})
+        }
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 
