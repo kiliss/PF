@@ -400,31 +400,31 @@
         {
             "id": 1,
             "num_Table": 1,
-            "state": false,
+            "state": true,
             "chairs": 4
         },
         {
             "id": 2,
             "num_Table": 2,
-            "state": false,
+            "state": true,
             "chairs": 2
         },
         {
             "id": 3,
             "num_Table": 4,
-            "state": false,
+            "state": true,
             "chairs": 3
         },
         {
             "id": 4,
             "num_Table": 5,
-            "state": false,
+            "state": true,
             "chairs": 2
         }, 
         {
             "id": 5,
             "num_Table": 6,
-            "state": false,
+            "state": true,
             "chairs": 4
         }
     ]

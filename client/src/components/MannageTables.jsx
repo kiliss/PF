@@ -124,7 +124,7 @@ const MannageTables = () => {
                     });
                 } else {
                 dispatch(createTable({
-                    state: true,
+                    state: false,
                     num_Table: r,
                     chairs: 1
                 }))
@@ -149,6 +149,7 @@ const MannageTables = () => {
             }}
         })
     }
+    console.log(tables)
 
     return (
             <div className="text-gray-900 bg-gray-200 min-h-screen overflow-x-auto">
@@ -183,7 +184,7 @@ const MannageTables = () => {
                                 </td>
                                 <td className="p-3 px-5">
                                     {
-                                        table.state === false ? <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4" onClick={() => editTables(table)}>Disponible</button> : <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 " onClick={() => editTables(table)}>No Disponible</button>
+                                        table.state === true ? <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4" onClick={() => editTables(table)}>Disponible</button> : <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 " onClick={() => editTables(table)}>No Disponible</button>
                                     }
                                 </td>
                                 <td className="p-3 px-5">
@@ -218,7 +219,7 @@ const MannageTables = () => {
                                 <p className="text-sm text-gray-500">Sillas: {
                                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => editNumeroChairs(table)}>{table.chairs}</button>
                                 }</p>
-                                <p className="text-sm text-gray-500">State: {table.state === false ? <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4" onClick={() => editTables(table)}>Disponible</button> : <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 " onClick={() => editTables(table)}>No Disponible</button>}</p>
+                                <p className="text-sm text-gray-500">State: {table.state === true ? <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4" onClick={() => editTables(table)}>Disponible</button> : <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 " onClick={() => editTables(table)}>No Disponible</button>}</p>
                             </div>
                             <div className="flex justify-end">
                             <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => handleDelete(table.id)}>Eliminar</button>
