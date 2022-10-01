@@ -62,19 +62,25 @@
             "id": 1,
             "name": "Desayuno",
             "description": "Obtén la suficiente energía que necesitaras para empezar el día.",
-            "photo": "https://images.hola.com/imagenes/cocina/noticiaslibros/20200213160483/dia-nacional-desayuno/0-782-593/portada-desayuno-adobe-m.jpg"
+            "photo": "https://images.hola.com/imagenes/cocina/noticiaslibros/20200213160483/dia-nacional-desayuno/0-782-593/portada-desayuno-adobe-m.jpg",
+            "active": true,
+            "homeVisible": true
         },
         {
             "id": 2,
             "name": "Almuerzo",
             "description": "Reabastece tu estomago con nuestra diversa selección para el almuerzo.",
-            "photo": "https://recetasespecialesdecocina.files.wordpress.com/2018/10/asado.jpg"
+            "photo": "https://recetasespecialesdecocina.files.wordpress.com/2018/10/asado.jpg",
+            "active": true,
+            "homeVisible": true
         },
         {
             "id": 3,
             "name": "Cena",
             "description": "Finaliza el día comiendo con nosotros recibiendo nuestra hospitalidad.",
-            "photo": "https://cdn7.kiwilimon.com/ss_secreto/3010/640x426/3010.jpg.webp"
+            "photo": "https://cdn7.kiwilimon.com/ss_secreto/3010/640x426/3010.jpg.webp",
+            "active": true,
+            "homeVisible": true
         }
     ],
     "food": [
@@ -161,9 +167,130 @@
             "rating": 4,
             "photo": "https://img-global.cpcdn.com/recipes/9dde7a1dd9412396/680x482cq70/avena-cocida-a-fuego-bajo-con-leche-fit-y-rico-foto-principal.webp",
             "summary": "Estas gachas de avena, conocidas como porridge en el Reino Unido, son ideales para niños y personas mayores por su digestibilidad.",
-            "price": 100,
+            "price": 110,
             "stock": true,
             "drinkable": false,
+            "vegetarian": true
+        },
+        {
+            "id": 9,
+            "name": "Pinchos de res con salsa teriyaki de mora",
+            "rating": 4,
+            "photo": "https://buenprovecho.hn/wp-content/uploads/2019/10/1_2-1.jpg",
+            "summary": "La carne esta bañada con una fruta ácida y jugosa como la mora, será una explosión de sabor en tu boca. Te aseguramos que te enamorarás de este platillo y será un almuerzo fuera de lo común para tu familia.",
+            "price": 299,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
+        },
+        {
+            "id": 10,
+            "name": "Pechuga de pollo a la plancha con chimichurri",
+            "rating": 5,
+            "photo": "https://buenprovecho.hn/wp-content/uploads/2020/03/1_76.jpg",
+            "summary": "Cuando escuchamos pollo con salsa chimichurri se nos viene a la mente un platillo jugoso y lleno de sabor. Cuando preparas el pollo a la plancha despiertas todos esos nutrientes esenciales que contiene, así que con este platillo, aparte de delicioso, le darás muchos aportes importantes a tu cuerpo.",
+            "price": 420,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
+        },
+        {
+            "id": 18,
+            "name": "Pasta con pollo al grill",
+            "rating": 3,
+            "photo": "https://buenprovecho.hn/wp-content/uploads/2020/04/WhatsApp-Image-2020-04-06-at-5.50.23-PM.jpeg",
+            "summary": "El pollo al grill es uno de los platos más ricos. Cuando un alimento es preparado al grill, significa que se ha cocido sobre un utensilio como una plancha acanalada dando la forma de rejillas, ideadas para darle una textura inigualable.",
+            "price": 680,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
+        },
+        {
+            "id": 19,
+            "name": "Pizza",
+            "rating": 4.5,
+            "photo": "https://cdn.colombia.com/gastronomia/2011/08/25/pizza-margarita-3684.jpg",
+            "summary": "Es un plato de origen italiano, compuesto por una masa de harina de trigo, levadura, agua y sal, que se hornea en un horno de leña o eléctrico.",
+            "price": 450,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
+        },
+        {
+            "id": 13,
+            "name": "Sopa de Fideos",
+            "rating": 4.5,
+            "photo": "https://www.pequerecetas.com/wp-content/uploads/2015/03/sopa-de-fideos-660x594.jpg",
+            "summary": "Una rica sopa de fideos casera es lo único que apetece cuando hace frío.",
+            "price": 450,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": true
+        },
+        {
+            "id": 17,
+            "name": "Asado",
+            "rating": 4.5,
+            "photo": "https://www.clarin.com/img/2022/03/07/0w2kcAVNO_340x340__1.jpg",
+            "summary": "Es un plato típico de la cocina argentina, uruguaya y chilena, que consiste en carne de vacuno, cerdo o cordero, asada en un horno de leña o carbón.",
+            "price": 450,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
+        },
+        {
+            "id": 15,
+            "name": "Sopa de Verduras",
+            "rating": 4.5,
+            "photo": "https://www.recetasderechupete.com/wp-content/uploads/2019/10/Sopa-de-verduras-en-juliana-768x527.jpg",
+            "summary": "¿Frío en los huesos? Tengo la cura, una sopa de verduras bien calentita que aporte calor al cuerpo.",
+            "price": 450,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": true
+        },
+        {
+            "id": 16,
+            "name": "Coca-Cola",
+            "rating": 4.5,
+            "photo": "https://storage0.dms.mpinteractiv.ro/media/401/341/5531/16106019/1/alege-ti-coca-cola-preferata.jpg",
+            "summary": "Coca-Cola es una bebida gaseosa de cola, producida por The Coca-Cola Company.",
+            "price": 120,
+            "stock": true,
+            "drinkable": true,
+            "vegetarian": true
+        },
+        {
+            "id": 14,
+            "name": "Fanta",
+            "rating": 4.5,
+            "photo": "https://i.pinimg.com/originals/e9/69/f2/e969f298dc5782e5867ec222c793d1ee.jpg",
+            "summary": "Fanta es una bebida gaseosa de sabor a frutas, producida por The Coca-Cola Company.",
+            "price": 120,
+            "stock": true,
+            "drinkable": true,
+            "vegetarian": true
+        },
+        {
+            "id": 11,
+            "name": "Sprite",
+            "rating": 4.5,
+            "photo": "https://mktadstrategies.files.wordpress.com/2016/03/sprite.jpg",
+            "summary": "Sprite es una bebida gaseosa de sabor a limón, producida por The Coca-Cola Company.",
+            "price": 120,
+            "stock": true,
+            "drinkable": true,
+            "vegetarian": true
+        },
+        {
+            "id": 12,
+            "name": "Pepsi",
+            "rating": 5,
+            "photo": "https://tofuu.getjusto.com/orioneat-prod-resized/y2jqSmfBcsJBZgXYx-1200-1200.webp",
+            "summary": "Pepsi es una bebida gaseosa de cola.",
+            "price": 120,
+            "stock": true,
+            "drinkable": true,
             "vegetarian": true
         }
     ],
@@ -210,27 +337,95 @@
         },
         {
             "id": 9,
-            "foodId": 8,
+            "foodId": 19,
             "menuId": 2
         },
         {
             "id": 10,
             "foodId": 8,
             "menuId": 3
+        },
+        {
+            "id": 11,
+            "foodId": 9,
+            "menuId": 2
+        },
+        {
+            "id": 12,
+            "foodId": 10,
+            "menuId": 2
+        },
+        {
+            "id": 13,
+            "foodId": 11,
+            "menuId": 2
+        },
+        {
+            "id": 14,
+            "foodId": 12,
+            "menuId": 2
+        },
+        {
+            "id": 15,
+            "foodId": 13,
+            "menuId": 2
+        },
+        {
+            "id": 16,
+            "foodId": 14,
+            "menuId": 2
+        },
+        {
+            "id": 17,
+            "foodId": 15,
+            "menuId": 2
+        },
+        {
+            "id": 18,
+            "foodId": 16,
+            "menuId": 2
+        },
+        {
+            "id": 19,
+            "foodId": 17,
+            "menuId": 2
+        },
+        {
+            "id": 20,
+            "foodId": 18,
+            "menuId": 2
         }
     ],
     "table": [
         {
             "id": 1,
             "num_Table": 1,
-            "state": false,
+            "state": true,
             "chairs": 4
         },
         {
             "id": 2,
             "num_Table": 2,
-            "state": false,
+            "state": true,
             "chairs": 2
+        },
+        {
+            "id": 3,
+            "num_Table": 4,
+            "state": true,
+            "chairs": 3
+        },
+        {
+            "id": 4,
+            "num_Table": 5,
+            "state": true,
+            "chairs": 2
+        }, 
+        {
+            "id": 5,
+            "num_Table": 6,
+            "state": true,
+            "chairs": 4
         }
     ]
 }

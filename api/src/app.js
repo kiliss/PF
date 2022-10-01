@@ -9,12 +9,12 @@ const passport = require("passport");
 require("./auth/passport.js");
  const session = require("express-session");
 
-const cookieSession = require('cookie-session');
+// const cookieSession = require('cookie-session');
 
 const login = require("./routes/login");
 const users = require("./routes/users");
 const reservation = require("./routes/reservation");
-const auth = require("./routes/auth");
+// const auth = require("./routes/auth");
 const feedbacks = require("./routes/feedbacks");
 const table = require("./routes/table");
 

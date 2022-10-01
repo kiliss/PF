@@ -55,21 +55,18 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Bill, Foodcount, Food, Reservation, Table, User, Menu, Feedback, Order, Menu_food, User_food } = sequelize.models;
+const { Bill, Foodcount, Food, Reservation, Table, User, Menu, Feedback, Order, Menu_food, Score } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 User.hasMany(Feedback);
 Feedback.belongsTo(User);
 
-Reservation.hasOne(User);
-User.belongsTo(Reservation);
+// Reservation.hasMany(User);
+// User.belongsTo(Reservation);
 
 User.hasMany(Bill);
 Bill.belongsTo(User);
-
-Feedback.hasOne(Bill);
-Bill.belongsTo(Feedback);
 
 Bill.hasMany(Order);
 Order.belongsTo(Bill);
@@ -83,14 +80,26 @@ Foodcount.belongsTo(Order);
 Food.hasMany(Foodcount);
 Foodcount.belongsTo(Food);
 
+User.belongsToMany(Reservation, { through: 'User_reservation' });
+Reservation.belongsToMany(User, { through: 'User_reservation' });
+
+Table.belongsToMany(Reservation, { through: 'Table_reservation' });
+Reservation.belongsToMany(Table, { through: 'Table_reservation' });
+
 Food.belongsToMany(Menu, { through: Menu_food });
 Menu.belongsToMany(Food, { through: Menu_food });
 
-Food.hasMany(User_food);
-User_food.belongsTo(Food);
+Food.hasMany(Score);
+Score.belongsTo(Food);
 
-User.hasMany(User_food);
-User_food.belongsTo(User);
+User.hasMany(Score);
+Score.belongsTo(User);
+
+Food.hasMany(Feedback);
+Feedback.belongsTo(Food);
+
+User.hasMany(Feedback);
+Feedback.belongsTo(User);
 
 
 module.exports = {

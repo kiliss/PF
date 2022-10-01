@@ -9,17 +9,17 @@ module.exports = (sequilize) => {
             autoIncrement: true,
             primaryKey: true
         },
-        id_User: {
-            type: DataTypes.STRING,
-            ForeingKey: true
-        },
-        id_Table: {
-            type: DataTypes.INTEGER,
-            ForeingKey: true
-        },
+        // id_User: {
+        //     type: DataTypes.INTEGER,
+        //     ForeingKey: true
+        // },
+        // id_Table: {
+        //     type: DataTypes.INTEGER,
+        //     ForeingKey: true
+        // },
 
         date: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false
         },
         hour: {

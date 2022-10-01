@@ -1,6 +1,8 @@
 const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 
-const transporter = nodemailer.createTransport({
+const accountTransport = {
     service: 'gmail',
     auth: {
         type: 'OAuth2',
@@ -10,31 +12,43 @@ const transporter = nodemailer.createTransport({
         clientSecret: process.env.OAUTH_CLIENT_SECRET,
         refreshToken: process.env.OAUTH_REFRESH_TOKEN
     }
-});
+}
 
-const sendEmail = (receptor, subject, message, type) => {
-    const mailOptions = {
-        from: 'PFRestaurante <pfrestaurante07@gmail.com>',
-        to: receptor,
-        subject: subject,
-        text: message
-    }
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) console.log(error.message);
-        if (info) console.log(`Sent ${type} message to ${receptor}`);
+const mail_rover = async (callback) => {
+    const oauth2Client = new OAuth2(
+        accountTransport.auth.clientId,
+        accountTransport.auth.clientSecret,
+        "https://developers.google.com/oauthplayground",
+    );
+    oauth2Client.setCredentials({
+        refresh_token: accountTransport.auth.refreshToken,
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+    oauth2Client.getAccessToken((err, token) => {
+        if (err)
+            return console.log(err);
+        accountTransport.auth.accessToken = token;
+        callback(nodemailer.createTransport(accountTransport));
     });
 };
 
-const sendWelcome = (receptor) => {
-    sendEmail(
-        receptor,
-        '¡Gracias por registrarte en PFRestaurante!',
-        'Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.',
-        'welcome'
-    );
+const sendEmail = (receptor, subject, message, type) => {
+    mail_rover(function (transporter) {
+        const mailOptions = {
+            from: 'PFRestaurante <pfrestaurante07@gmail.com>',
+            to: receptor,
+            subject: subject,
+            text: message
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) console.log(error.message);
+            if (info) console.log(`Sent ${type} message to ${receptor}`);
+        });
+    });
 };
 
 module.exports = {
-    sendEmail,
-    sendWelcome
+    sendEmail
 };

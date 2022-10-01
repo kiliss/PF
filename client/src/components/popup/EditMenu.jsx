@@ -2,43 +2,42 @@ import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { getMenus, createMenus } from '../../redux/actions/index';
-import { useEffect } from "react";
+import { updateMenu } from '../../redux/actions/index';
 import { useState } from "react";
 import swal from "sweetalert";
 
 
 const validationForm = (input, photo, existe) => {
     let errors = {};
-    if (!input.name) {
-        errors.name = "El nombre es obligatorio";
+    if (input.name !== "" && input.name.length < 3) {
+        errors.name = "El nombre debe tener al menos 3 caracteres";
     }
     if (existe) {
         errors.name = "El menu ya existe";
     }
-    if (!input.description) {
-        errors.description = "La descripcion es obligatoria";
+    if (input.description !== "" && input.description.length < 3) {
+        errors.description = "La descripción debe tener al menos 3 caracteres";
     }
-    if (!photo) {
+    if (photo !== "" && photo.length < 3) {
         errors.photo = "Debe seleccionar una imagen";
     }
     return errors
 };
 
-const CreateMenu = (props) => {
+const EditMenu = (props) => {
     const dispatch = useDispatch();
-    const menus = useSelector((state) => state.menus);
+   
+    let menu = useSelector((state) => state.menu);
+    let menus = useSelector((state) => state.menus);
     const [errors, setErrors] = useState({});
     const [input, setInput] = useState({
         name: "",
         description: "",
+        visible: menu.visible,
+        homeVisible: menu.homeVisible,
     })
     const [photo, setPhoto] = useState("");
-    const [charge, setCharge] = useState(true)
-    useEffect(() => {
-        dispatch(getMenus())
-    }, [dispatch])
-    
+    const [charge, setCharge] = useState(true);
   const uploadImage = async (e) => {
     const files = e.target.files;
     const data = new FormData();
@@ -76,7 +75,13 @@ const CreateMenu = (props) => {
         const aux = validationForm(input, photo, findName(input.name))
         setErrors(aux)
         if (Object.keys(aux).length === 0) {
-            dispatch(createMenus({...input, photo: photo}));
+            dispatch(updateMenu(menu.name, {
+                name: input.name === "" ? menu.name : input.name,
+                description: input.description === "" ? menu.description : input.description,
+                photo: photo === "" ? menu.photo : photo,
+                visible: input.visible,
+                homeVisible: input.homeVisible
+            }))
             swal({
                 title: "Menu creado",
                 icon: "success",
@@ -131,7 +136,7 @@ const CreateMenu = (props) => {
                                             <div
                                                 className="flex w-full items-center justify-between py-4 px-9 border-b border-gray-200"
                                             >
-                                                <h3 className="text-xl font-bold text-red-700">Crear Menu</h3>
+                                                <h3 className="text-xl font-bold text-red-700">Ingrese Los Datos Que Quiere Editar</h3>
                                                 <button onClick={() => props.setOpen(false)} className="text-gray-400 hover:text-gray-500">
                                                     <XMarkIcon className="h-8 w-8" aria-hidden="true" />
                                                 </button>
@@ -142,7 +147,7 @@ const CreateMenu = (props) => {
                                             >
                                                         <div className="mb-3">
                                                             <label className="block text-sm font-medium text-gray-700">Nombre Del Menu</label>
-                                                            <input type="text" name = "name" placeholder="Desayuno" onChange={(e) => handleInputChange(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                                                            <input type="text" name = "name" placeholder={menu.name} onChange={(e) => handleInputChange(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
                                                             {errors.name && <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {errors.name} </span>}
                                                         </div>
                                                     <div className="mb-3">
@@ -154,7 +159,7 @@ const CreateMenu = (props) => {
                                                                 name="description"
                                                                 rows={3}
                                                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                                placeholder="Obten un desayuno completo con jugo, cafe, pan, huevos, etc."
+                                                                placeholder={menu.description}
                                                                 onChange={(e) => handleInputChange(e)}
                                                             />
                                                             {errors.description && <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {errors.description} </span>}
@@ -202,7 +207,7 @@ const CreateMenu = (props) => {
                                                         type='submit'
                                                         onClick={(e) => handleSubmit(e)}
                                                     >
-                                                        Crear Menu
+                                                        Editar Menu
                                                     </button>
 
                                                 </div>
@@ -210,10 +215,7 @@ const CreateMenu = (props) => {
                                         </div>
                                     </div>
                                 </div>
-
                                 {/* </form> */}
-
-
                             </Dialog.Panel>
                         </Transition.Child>
                     </div>
@@ -224,4 +226,4 @@ const CreateMenu = (props) => {
 }
 
 
-export default CreateMenu;
+export default EditMenu;

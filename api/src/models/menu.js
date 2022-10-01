@@ -20,6 +20,16 @@ module.exports = (sequilize) => {
         description: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        visible: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true
+        },
+        homeVisible:{
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true
         }
     },
         {

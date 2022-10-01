@@ -7,25 +7,27 @@ import Login from "./components/Login";
 import Tables from "./components/Tables";
 import Table from "./components/Tables";
 import Navbar from "./components/Navbar";
-import CreateFoods from './components/CreateFoods';
 import Register from './components/Register';
 import TableAdmin from './components/TableAdmin';
 import Products from './components/Products';
 import VisitorRoutes from './utils/VisitorRoutes';
 import UserRoutes from './utils/UserRoutes';
 import AdminRoutes from './utils/AdminRoutes';
-import PruebaPago from './components/pruebapago';
-
+import Footer from './components/Footer';
 import Reservation from './components/popup/Resevation2en1'
-
-
+import MenuTable from './components/MenuTable';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
+import MannageReservations from './components/MannageReservations';
 import Users from './components/Users';
+import MannageTables from './components/MannageTables';
 
 
 
 function App() {
   return (
     <>
+      
       <Navbar />
       <Routes>
         <Route exact path='/' element={<Home />} />
@@ -34,20 +36,25 @@ function App() {
         <Route element={<VisitorRoutes />}>
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/register' element={<Register />} />
+          <Route exact path='/forgotPassword' element={<ForgotPassword />} />
+          <Route exact path='/resetPassword/:id/:token' element={<ResetPassword />} />
         </Route>
         <Route element={<UserRoutes />}>
           <Route exact path='/profile' element={<Profile />} />
-          <Route exact path='/reservations2' element={<Reservation />}/>
+          <Route exact path='/reservation' element={<Reservation />}/>
           <Route exact path='/tables' element={<Tables />} />
           <Route exact path='/tables/:id' element={<Table />} />
         </Route>
         <Route element={<AdminRoutes />}>
-          <Route exact path="/tableadmin" element={<TableAdmin />} />
-          <Route exact path="/allusers" element={<Users />} />
-          <Route exact path='/product/create' element={<CreateFoods />} />
+          <Route exact path='/manage/reservations' element={<MannageReservations />} />
+          <Route exact path="/manage/products" element={<TableAdmin />} />
+          <Route exact path="/manage/users" element={<Users />} />
+          <Route exact path='/manage/menus' element={<MenuTable />} />
+          <Route exact path='/manage/tables' element={<MannageTables />} />
         </Route>
         <Route exact path='*' element={<Navigate to="/" replace />} />
       </Routes>
+      <Footer />
     </>
   );
 }

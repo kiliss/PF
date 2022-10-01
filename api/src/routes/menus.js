@@ -2,7 +2,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 const router = express.Router();
 const { Menu, Food } = require("../db.js");
-
+const { isAdmin } = require("../middleware/auth.js");
 
 
 const getDBInfoo = async () => {
@@ -44,7 +44,15 @@ router.get('/', async (req, res) => {
             });
             return res.status(201).send(menu);
         } else {
-            return res.status(201).send(await Menu.findAll());
+            return res.status(201).send(await Menu.findAll({
+                include: {
+                    model: Food,
+                    attributes: ['name'],
+                    through: {
+                        attributes: [],
+                    },
+                }
+            }));
         }
     } catch (err) {
         return res.status(400).json("error " + err.message)
@@ -72,13 +80,15 @@ router.get('/:name', async (req, res) => {
 });
 
 
-router.post('/', async (req, res) => {   // Crea menu
+router.post('/', isAdmin, async (req, res) => {   // Crea menu
     const { name, photo, description } = req.body;
     try {
         Menu.create({
             name: name,
             photo: photo,
             description: description,
+            visible: false,
+            homeVisible: false
         });
         info = await getDBInfoo();
         res.status(201).send("Menu created");
@@ -88,7 +98,7 @@ router.post('/', async (req, res) => {   // Crea menu
 
 });
 
-router.delete('/:name', async (req, res) => {
+router.delete('/:name', isAdmin, async (req, res) => {
     try {
         let menu = await Menu.findOne({
             where: {
@@ -107,7 +117,7 @@ router.delete('/:name', async (req, res) => {
     }
 })
 //delete food menu
-router.delete('/:name/:food', async (req, res) => {
+router.delete('/:name/:food', isAdmin, async (req, res) => {
     try {
         let menu = await Menu.findOne({
             where: {
@@ -131,7 +141,8 @@ router.delete('/:name/:food', async (req, res) => {
     }
 })
 
-router.put('/:name', async (req, res) => {
+router.put('/:name', isAdmin, async (req, res) => {
+    const { name, photo, description, visible, homeVisible } = req.body;
     try {
         let menu = await Menu.findOne({
             where: {
@@ -139,7 +150,13 @@ router.put('/:name', async (req, res) => {
             }
         });
         if (menu) {
-            await menu.update();
+            await menu.update({
+                name: name,
+                photo: photo,
+                description: description,
+                visible: visible,
+                homeVisible: homeVisible
+            });
             res.status(200).send("Menu updated");
         } else {
             res.status(404).send("Menu not found");
