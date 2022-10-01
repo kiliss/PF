@@ -352,10 +352,10 @@ export function recuperarContra(email) {
 };
 
 //V1-recuperar contraseña
-export function resetPassword(password) {
+export function resetPassword(user) {
     return async function () {
         try {
-            var json = await axios.post("/users/resertPassword", password)
+            var json = await axios.post(`/users/resetPassword/${user.id}/${user.token}`, user)
             return json;
         } catch (error) {
             console.log(error)

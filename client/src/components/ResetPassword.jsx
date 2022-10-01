@@ -1,32 +1,35 @@
 import React,{ useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 import { resetPassword } from '../redux/actions';
 import swal from 'sweetalert';
 
 const ResetPassword = () => {
 
-    const [password, setPassword] = useState('');
-    const [password2, setPassword2] = useState('');
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const {id,token} = useParams();
+    const [user, setUser] = useState({
+      id,
+      token,
+      password:'',
+    });
 
+
+    const dispatch = useDispatch();
     const handleChange = (e) => {
-        setPassword(e.target.value);
-      };
-      const handleChange2 = (e) => {
-        setPassword2(e.target.value);
-      };
+      let { name, value } = e.target;
+      let newDatos = { ...user, [name]: value };
+      setUser(newDatos);
+    };
 
       const handleSubmit =  (e) => {
         e.preventDefault();
-        if(password === password2){
-            let data = dispatch(resetPassword(password));
-            swal({
-                title: data.message,
-                icon: "warning",
-                button: "Aceptar",
-              });
-              Navigate('/login');
+        if(user.id && user.token && user.password){
+            dispatch(resetPassword(user))
+           .then((data)=>swal({ title: data.data.message, icon: "warning",button: "Aceptar",}))
+             .then(()=>navigate('/login'));
+        }else{
+          swal({ title: 'Algo salió mal!', icon: "warning",button: "Aceptar",})
         }
       };
 
@@ -45,22 +48,11 @@ const ResetPassword = () => {
                             </label>
                             <input
                                 name="password"
-                                value={password}
+                                value={user.password}
                                 type="password"
                                 className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                 placeholder="password"
                                 onChange={(e) => handleChange(e)}
-                            />
-                            <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                                Confirmed password
-                            </label>
-                            <input
-                                name="password2"
-                                value={password2}
-                                type="password"
-                                className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                placeholder="confirmed password"
-                                onChange={(e) => handleChange2(e)}
                             />
                         </div>
                         <div className="text-center mt-6">

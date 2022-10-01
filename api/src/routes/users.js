@@ -264,7 +264,7 @@ router.post("/forgotPassword", async (req, res) => {
         // console.log(jwtToken)
         const link = `http://localhost:3000/resetPassword/${oldUser.id}/${jwtToken}`;
         //enviar correo ...
-        console.log(link)
+        // console.log(link)
         sendEmail(
             oldUser.email,
             '¡Proceso de recuperación de contraseña!',
@@ -280,7 +280,7 @@ router.post("/forgotPassword", async (req, res) => {
 router.post("/resetPassword/:id/:token", async (req, res) => {
     const { id, token } = req.params;
     const { password } = req.body;
-
+    console.log('id: ',id, ' pass: ',password,' token: ', token)   
     const oldUser = await User.findOne({ where: { id: id } });
     if (!oldUser) {
         return res.json({ message: "Usuario no existe!" });
