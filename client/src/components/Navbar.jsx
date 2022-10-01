@@ -15,10 +15,10 @@ const visitorNavigation = [
 const userNavigation = [];
 
 const adminNavigation = [
-    { name: 'Tabla Comidas', href: '/tableadmin' },
-    { name: 'Tabla Menus', href: '/menutable' },
-    { name: 'Tabla Usuarios', href: '/allusers' },
-    { name: 'Tabla Reservas', href: '/reservas' },
+    { name: 'Productos', href: '/manage/products' },
+    { name: 'Menús', href: '/manage/menus' },
+    { name: 'Usuarios', href: '/manage/users' },
+    { name: 'Reservaciones', href: '/manage/reservations' },
 ];
 
 function classNames(...classes) {
@@ -30,6 +30,7 @@ const Navbar = () => {
     const [openReservation, setOpenReservation] = useState(false);
     const [onHover, setOnHover] = useState('');
     const [onMobileMenu, setOnMobileMenu] = useState(false);
+    const [onMobileAdmin, setOnMobileAdmin] = useState(false);
 
     const localS = localStorage.getItem('session');
 
@@ -103,23 +104,21 @@ const Navbar = () => {
                                                 aria-current={undefined}
                                                 onMouseEnter={() => setOnHover('menus')}
                                             >
-                                                {'Menús'}
+                                                Menús
                                             </button>
-                                            {localS && userNavigation?.map((item) => (
-                                                <a
-                                                    key={item.name}
-                                                    href={item.href}
+                                            {
+                                                localS && admin && <button
                                                     className={classNames(
-                                                        location.pathname === item.href ? 'bg-red-700 text-white' : 'text-black hover:bg-gray-500 hover:text-white',
+                                                        'peer text-black hover:bg-gray-500 hover:text-white',
                                                         'px-3 py-2 rounded-md text-sm font-medium'
                                                     )}
-                                                    aria-current={location.pathname === item.href ? 'page' : undefined}
-                                                    onMouseEnter={() => setOnHover(item.name)}
+                                                    aria-current={undefined}
+                                                    onMouseEnter={() => setOnHover('admin')}
                                                 >
-                                                    {item.name}
-                                                </a>
-                                            ))}
-                                            {admin && adminNavigation?.map((item) => (
+                                                    Administrar
+                                                </button>
+                                            }
+                                            {localS && userNavigation?.map((item) => (
                                                 <a
                                                     key={item.name}
                                                     href={item.href}
@@ -139,16 +138,6 @@ const Navbar = () => {
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                     {localS ?
                                         <>
-                                            {
-                                                /*<button
-                                                    type="button"
-                                                    className="rounded-full bg-red-700 p-1 text-white hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                                                >
-                                                    <span className="sr-only">View notifications</span>
-                                                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                    </button>*/
-                                            }
-
                                             {/* Profile dropdown */}
                                             <Menu as="div" className="relative ml-3" onMouseEnter={() => setOnHover('')}>
                                                 <div>
@@ -183,23 +172,11 @@ const Navbar = () => {
                                                                 </a>
                                                             )}
                                                         </Menu.Item>
-                                                        {/* {
-                                                            localS && !admin && <Menu.Item>
-                                                                {({ active }) => (
-                                                                    <div
-                                                                        className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black cursor-pointer')}
-                                                                        onClick={() => setOpenReservation(true)}
-                                                                    >
-                                                                        Reservación
-                                                                    </div>
-                                                                )}
-                                                            </Menu.Item>
-                                                        } */}
                                                         {
                                                             localS && !admin && <Menu.Item>
                                                                 {({ active }) => (
                                                                     <a
-                                                                        href="/reservations2"
+                                                                        href="/reservation"
                                                                         className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black')}
                                                                     >
                                                                         Reservación
@@ -230,10 +207,11 @@ const Navbar = () => {
                                                     className={'bg-red-700 hover:bg-red-900 text-white px-3 py-2 rounded-md text-sm font-medium'}
                                                     aria-current={undefined}
                                                 >
-                                                    {'Iniciar Sesión'}
+                                                    Iniciar Sesión
                                                 </a>
                                             </div>
-                                        </div>}
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -255,7 +233,23 @@ const Navbar = () => {
                                         })
                                     }
                                 </div>
-
+                            </div>
+                        }
+                        {
+                            onHover === 'admin' && <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 border-t border-gray-300" onMouseLeave={() => setOnHover('')}>
+                                <div className="my-6 space-y-12 lg:grid lg:grid-cols-5 lg:gap-x-6 lg:gap-y-6 lg:space-y-0">
+                                    {
+                                        adminNavigation?.map(a => {
+                                            return (
+                                                <a className="flex cursor-pointer" key={`navbar-admin-${a.name}`} href={a.href}>
+                                                    <h3 className="text-lg text-gray-700 text-sm font-normal ml-2">
+                                                        {a.name}
+                                                    </h3>
+                                                </a>
+                                            );
+                                        })
+                                    }
+                                </div>
                             </div>
                         }
                         <Disclosure.Panel className="sm:hidden">
@@ -275,20 +269,6 @@ const Navbar = () => {
                                     </Disclosure.Button>
                                 ))}
                                 {localS && userNavigation?.map((item) => (
-                                    <Disclosure.Button
-                                        key={item.name}
-                                        as="a"
-                                        href={item.href}
-                                        className={classNames(
-                                            location.pathname === item.href ? 'bg-red-700 text-white' : 'text-black hover:bg-gray-500 hover:text-white',
-                                            'block px-3 py-2 rounded-md text-base font-medium'
-                                        )}
-                                        aria-current={location.pathname === item.href ? 'page' : undefined}
-                                    >
-                                        {item.name}
-                                    </Disclosure.Button>
-                                ))}
-                                {admin && adminNavigation?.map((item) => (
                                     <Disclosure.Button
                                         key={item.name}
                                         as="a"
@@ -329,6 +309,37 @@ const Navbar = () => {
                                         {m.name}
                                     </Disclosure.Button>
                                 ))}
+                                {
+                                    localS && admin && <div
+                                        className={'text-black hover:bg-gray-500 hover:text-white flex px-3 py-2 rounded-md text-base font-medium cursor-pointer justify-between items-center'}
+                                        onClick={() => setOnMobileAdmin(!onMobileAdmin)}
+                                    >
+                                        <span className="font-medium">Administrar</span>
+                                        <span className="ml-6 flex items-center">
+                                            {onMobileAdmin ? (
+                                                <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                            ) : (
+                                                <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                            )}
+                                        </span>
+                                    </div>
+                                }
+                                {
+                                    localS && admin && adminNavigation?.map((a) => (
+                                        onMobileAdmin && <Disclosure.Button
+                                            key={`mobile-navbar-${a.name}`}
+                                            as="a"
+                                            href={a.href}
+                                            className={classNames(
+                                                location.pathname === a.href ? 'bg-red-700 text-white' : 'text-gray-500 hover:bg-gray-500 hover:text-white',
+                                                'block px-3 py-2 rounded-md text-base font-medium'
+                                            )}
+                                            aria-current={location.pathname === a.href ? 'page' : undefined}
+                                        >
+                                            {a.name}
+                                        </Disclosure.Button>
+                                    ))
+                                }
                             </div>
                         </Disclosure.Panel>
                     </>
