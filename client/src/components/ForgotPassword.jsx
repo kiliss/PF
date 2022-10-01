@@ -1,5 +1,6 @@
 import React,{ useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import { recuperarContra } from '../redux/actions';
 
@@ -8,19 +9,15 @@ const ForgotPassword = () => {
 
     const [email, setEmail] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        setEmail(e.target.value);
-      };
 
-      const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault();
-        const data = dispatch(recuperarContra(email));
-        swal({
-            title: data.message,
-            icon: "warning",
-            button: "Aceptar",
-          });
+        console.log(email)
+         dispatch(recuperarContra(email))
+        .then((data)=>swal({title: data.data.message, icon: "warning",button: "Aceptar"}))
+         .then(()=>navigate('/login'))
       };
 
     return (
@@ -42,7 +39,7 @@ const ForgotPassword = () => {
                                 type="email"
                                 className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                 placeholder="Email"
-                                onChange={(e) => handleChange(e)}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
                         <div className="text-center mt-6">

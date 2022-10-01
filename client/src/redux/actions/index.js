@@ -312,7 +312,7 @@ export function loginGoogle(user) {
 export function recuperarContra(email) {
     return async function () {
         try {
-            var json = await axios.post("/users/forgotPassword", email)
+            var json = await axios.post("/users/forgotPassword", {email})
             return json;
         } catch (error) {
             console.log(error)
