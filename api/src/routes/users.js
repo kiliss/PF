@@ -232,7 +232,7 @@ router.put('/photo', isUser, async (req, res) => {
 })
 
 router.get('/findemail', async (req, res) => {
-    const { email } = req.body;
+    const { email } = req.query;
     try {
         const user = await User.findOne({where: {
             email: email

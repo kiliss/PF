@@ -270,10 +270,10 @@ export function selfDisableAcc(ban) {
 }
 
 export function emailExist(email){
-    return async function (dispatch){
+    return async function(){
         try {
-            var json = await axios.get("/users/findemail", email)
-            return json
+            var json = await axios.get(`/users/findemail/?email=${email}`)
+            return json.data
         } catch (error) {
             console.log(error)
         }
