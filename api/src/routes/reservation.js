@@ -7,13 +7,12 @@ const { isUser, isAdmin } = require("../middleware/auth.js");
 
 const getReservation=async()=>{
     return await Reservation.findAll({
-            through:{
-                attributes:['date','hour','price']
-            },
-            include:{
-                model:User,
-            }
-
+        include:[{
+            model:User,
+            attributes:['user','email', 'photo'],
+        },{
+            model:Table
+        }]
     })
 }
 
@@ -39,7 +38,6 @@ router.get("/:id", isUser,async(req,res)=>{
 
 router.post('/', isUser, async (req,res)=>{
     const {id_User,id_Table,date,hour,price,Cant_User, email}=req.body;
-    console.log(req.body)
     try{
         const reservation=await Reservation.create({
             date:date,
@@ -62,7 +60,7 @@ router.post('/', isUser, async (req,res)=>{
 router.delete("/delete/:id", isUser, async (req, res) => {
     const { id } = req.params;
     try {
-         let reserva= await Reservation.destroy({where:{
+         await Reservation.destroy({where:{
             id
          }})
         
