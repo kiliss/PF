@@ -66,17 +66,13 @@ const [input, setInput] = useState({
     admin: false,
 });
 
-const checkEmail = async (email) => {
-  var existemail = dispatch(emailExist(email))
-  return existemail
-}
-
 const handleChange = async (e) =>{
     setInput({
         ...input,
         [e.target.name] : e.target.value
     });
-    let findedEmail = checkEmail(input.email)
+    let findedEmail = await dispatch(emailExist(input.email))
+    console.log(findedEmail)
     setError(validate({
         ...input,
         [e.target.name] : e.target.value,
@@ -108,7 +104,7 @@ function autoUpload(){
 
 const handleSubmit = async (e) => {
     e.preventDefault();
-    let findedEmail = checkEmail(input.email)
+    let findedEmail = await dispatch(emailExist(input.email))
     const aux = validate(input, findedEmail, photo, "validate1", "validate2")
     setError(aux);
     if(Object.keys(aux).length === 0){
