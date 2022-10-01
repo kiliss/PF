@@ -280,7 +280,7 @@ router.post("/forgotPassword", async (req, res) => {
 router.post("/resetPassword/:id/:token", async (req, res) => {
     const { id, token } = req.params;
     const { password } = req.body;
-    console.log('id: ',id, ' pass: ',password,' token: ', token)   
+    // console.log('id: ',id, ' pass: ',password, ' token: ', token)   
     const oldUser = await User.findOne({ where: { id: id } });
     if (!oldUser) {
         return res.json({ message: "Usuario no existe!" });

@@ -14,7 +14,6 @@ const ForgotPassword = () => {
 
       const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(email)
          dispatch(recuperarContra(email))
         .then((data)=>swal({title: data.data.message, icon: "warning",button: "Aceptar"}))
          .then(()=>navigate('/login'))
