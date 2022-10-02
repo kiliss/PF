@@ -66,13 +66,14 @@ const Profile = () => {
             dangerMode: true,
         }).then((willDelete) => {
         if(willDelete){
-            dispatch(deleteReservation(id))
-            dispatch(getProfile())
-            swal({
-                title: "reserva eliminada",
-                icon: "success",
-                button: "Aceptar",
-            });
+            dispatch(deleteReservation(id)).then(() => {
+                dispatch(getProfile())
+                swal({
+                    title: "reserva eliminada",
+                    icon: "success",
+                    button: "Aceptar",
+                });
+            })
         }
     })}
     
@@ -281,7 +282,7 @@ const Profile = () => {
                 }).then((compareee) => {
                     if(compareee.message === 'Contraseña correcta!'){
                         dispatch(selfDisableAcc({
-                            ban : true
+                            erased : true
                     })).then(() =>{
                         swal({
                             title: "Tu cuenta ha sido desactivada",
@@ -307,7 +308,7 @@ const Profile = () => {
     }
        
     return (
-        <div className="container mx-auto mt-48 xl:mb-32 lg:mb-32 md:mb-24 sm:mb-1">
+        <div className="container mx-auto mt-48 h-full xl:mb-32 lg:mb-32 md:mb-24 sm:mb-1">
         <div>
             {
                 !editProf ?
