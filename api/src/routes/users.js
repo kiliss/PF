@@ -98,7 +98,7 @@ router.post('/google', async (req, res) => {
     // console.log("req-body:" ,user, password, email, photo, googleId)
     try {
         const userEmail = await User.findOne({ where: { email } }).catch((err) => { console.log("Error: ", err) });
-        if (userEmail && !userEmail.googleId && userEmail.ban === false) {
+        if (userEmail && !userEmail.googleId && userEmail.erased === false) {
             await User.update({
                 googleId
             },
@@ -108,7 +108,7 @@ router.post('/google', async (req, res) => {
                     }
                 });
         } else {
-            if (!userEmail || userEmail.ban === true) {
+            if (!userEmail || userEmail.erased === true) {
                 password = generateP();
                 // console.log(password)
                 const hashedPassword = await bcrypt.hash(password, 10);
@@ -144,7 +144,7 @@ router.post('/facebook', async (req, res) => {
     try {
         const userEmail = await User.findOne({ where: { facebookId } }).catch((err) => { console.log("Error: ", err) });
         // console.log('usuario: ',userEmail)
-        if (!userEmail || userEmail.ban === true) {
+        if (!userEmail || userEmail.erased === true) {
             password = generateP();
             // console.log(password)
             const hashedPassword = await bcrypt.hash(password, 10);
@@ -272,7 +272,7 @@ router.get('/findemail', async (req, res) => {
         const user = await User.findOne({where: {
             email: email
         }});
-        if (!user || user.ban === true) {
+        if (!user || user.erased === true) {
             res.status(200).json({message:"No existe"})
         } else if (user) {
             res.status(200).json({message:"Existe"})
@@ -289,8 +289,8 @@ router.post("/forgotPassword", async (req, res) => {
     // console.log(email)
     try {
         const oldUser = await User.findOne({ where: { email } });
-        if (!oldUser || oldUser.ban === true) {
-            return res.json({ message: "Usuario no existe!!" });
+        if (!oldUser || oldUser.erased === true) {
+            return res.json({ message: "¡Usuario inexistente!" });
         }
         const jwtToken = jwt.sign(JSON.stringify({ id: oldUser.id, email: oldUser.email, admin: oldUser.admin }), process.env.JWT_SECRET);
         // console.log(jwtToken)

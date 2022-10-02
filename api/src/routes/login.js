@@ -17,8 +17,8 @@ router.post('/', async (req, res) => {
         //console.log('math: ',match)
 
         if (match) {
-            if (userEmail.ban === true) {
-                return res.json({ message: "Usuario bloqueado!" })
+            if (userEmail.erased === true) {
+                return res.json({ message: "!Email o contraseña incorrecto!" })
             } else {
                 const jwtToken = jwt.sign(JSON.stringify({ id: userEmail.id, email: userEmail.email, admin: userEmail.admin }), process.env.JWT_SECRET);
                 return res.json({ session: jwtToken, photo: userEmail.photo, name: userEmail.user });
@@ -39,13 +39,13 @@ router.post('/validate', async (req, res) => {
         if (!userEmail) {
             return res.json({ message: "!Email o contraseña incorrecto!" })
         } else
-            if (userEmail.ban === true) {
-                return res.json({ message: "Usuario bloqueado!" })
+            if (userEmail.erased === true) {
+                return res.json({ message: "!Email o contraseña incorrecto!" })
             } else {
                 const match = await bcrypt.compare(password, userEmail.password);
                 //console.log('math: ',match)
                 if (match) {
-                    return res.json({ message: "Contraseña correcta!" })
+                    return res.json({ message: "¡Contraseña correcta!" })
                 } else {
                     return res.json({ message: "!Email o contraseña incorrecto!" });
                 }

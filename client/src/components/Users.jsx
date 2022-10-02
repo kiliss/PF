@@ -27,7 +27,7 @@ const Users = () => {
         dispatch(editUser({
             id : user.id,
             admin : !user.admin,
-            ban: user.ban
+            erased: user.erased
         })).then(() => {
         // setCharge(true)
         swal({
@@ -42,7 +42,7 @@ const Users = () => {
     }
     function banUser(e, user) {
         e.preventDefault();
-        if(!user.ban){
+        if(!user.erased){
         swal({
             title: "¿Desea borrar al usuario?",
             icon: "warning",
@@ -53,7 +53,7 @@ const Users = () => {
         dispatch(editUser({
             id : user.id,
             admin : user.admin,
-            ban : !user.ban
+            erased : !user.erased
         })).then(() => {
         // setCharge(true)
         swal({
@@ -90,7 +90,7 @@ const Users = () => {
                 </tr>
                 {
                     users?.map((user) => (
-                        !user.ban ?
+                        !user.erased ?
                         <tr className="border-b hover:bg-orange-100 bg-gray-100" key= {user.id}>
                             <td className="p-3 px-5"><img className="h-8 w-8 rounded-full object-cover " src={user.photo} alt= {user.user} /></td>
                             <td className="p-3 px-5">{user.user}</td>
@@ -119,7 +119,7 @@ const Users = () => {
     <div className="grid grid-cols-1 gap-4 md:hidden">
                 {
                     users?.map((user) => {
-                        return !user.ban ? (
+                        return !user.erased ? (
                             <div className="bg-white shadow-md rounded-lg p-4 mb-2" key={user.id}>
                                 <div className="flex items-center space-x-3">
                                     <img className="h-8 w-8 rounded-full object-cover " src={user.photo} alt={user.user} />
