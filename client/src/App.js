@@ -27,7 +27,6 @@ import MannageTables from './components/MannageTables';
 function App() {
   return (
     <>
-      
       <Navbar />
       <Routes>
         <Route exact path='/' element={<Home />} />
@@ -41,7 +40,7 @@ function App() {
         </Route>
         <Route element={<UserRoutes />}>
           <Route exact path='/profile' element={<Profile />} />
-          <Route exact path='/reservation' element={<Reservation />}/>
+          <Route exact path='/reservation' element={<Reservation />} />
           <Route exact path='/tables' element={<Tables />} />
           <Route exact path='/tables/:id' element={<Table />} />
         </Route>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
-import { getMenus } from "../redux/actions";
+import { getVisibleMenus } from "../redux/actions";
 import style from "./style/Home.module.css";
 import image from "../assets/home/burger-header.png"
 
@@ -9,7 +9,7 @@ const Home = () => {
     const menus = useSelector((state) => state.menus).filter(m => m.homeVisible === true);
 
     useEffect(() => {
-        dispatch(getMenus());
+        dispatch(getVisibleMenus());
         // eslint-disable-next-line
     }, [])
 

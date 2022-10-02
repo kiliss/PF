@@ -13,11 +13,6 @@ module.exports = (sequilize) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        rating: {
-            type: DataTypes.DECIMAL,
-            allowNull: false,
-            defaultValue: 5
-        },
         photo: {
             type: DataTypes.STRING,
             allowNull: false,

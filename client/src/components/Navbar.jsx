@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
-import { getMenus } from "../redux/actions";
+import { getVisibleMenus } from "../redux/actions";
 import { useLocation } from "react-router-dom";
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, /*BellIcon,*/ XMarkIcon } from '@heroicons/react/24/outline';
@@ -41,7 +41,7 @@ const Navbar = () => {
     const menus = useSelector((state) => state.menus);
 
     useEffect(() => {
-        dispatch(getMenus());
+        dispatch(getVisibleMenus());
         // eslint-disable-next-line
     }, [])
     return (
@@ -222,14 +222,14 @@ const Navbar = () => {
                                     {
                                         menus?.map(m => {
                                             return (
-                                                m.visible ? <a className="flex cursor-pointer" key={`navbar-menus-${m.name}`} href={`/menu/${m.name.toLowerCase()}`}>
+                                                <a className="flex cursor-pointer" key={`navbar-menus-${m.name}`} href={`/menu/${m.name.toLowerCase()}`}>
                                                     <div className="group flex w-8 h-8 overflow-hidden rounded-lg bg-white">
                                                         <img src={m.photo} alt={m.name} className="h-full w-full object-cover object-center" />
                                                     </div>
                                                     <h3 className="text-lg text-gray-700 text-sm font-normal ml-2">
                                                         {m.name}
                                                     </h3>
-                                                </a> : null
+                                                </a>
                                             );
                                         })
                                     }

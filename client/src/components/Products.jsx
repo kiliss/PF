@@ -3,7 +3,7 @@ import { Dialog, Disclosure, Menu as MenuReact, Transition } from '@headlessui/r
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { useDispatch, useSelector } from "react-redux"
-import { getFoods, getFood } from "../redux/actions";
+import { getFoodsSearch, getFood } from "../redux/actions";
 import Food from "./popup/Food";
 
 const sortOptions = [
@@ -38,12 +38,12 @@ const Products = () => {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        dispatch(getFoods());
+        dispatch(getFoodsSearch());
         // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
-        dispatch(getFoods({ 'name': name, 'filter': menuFilter, 'price': menuSort, ...menuExtraFilter }))
+        dispatch(getFoodsSearch({ 'name': name, 'filter': menuFilter, 'price': menuSort, ...menuExtraFilter }))
         // eslint-disable-next-line
     }, [menuFilter, menuSort, menuExtraFilter, name])
 

@@ -13,11 +13,31 @@ const objectToQueries = (data = {}) => {
 // OBTENER MENUS
 export function getMenus() {
     return async function (dispatch) {
-        var json = await axios.get("/menus");
+        var json = await axios.get("/menus/all", {
+            headers: {
+                'Authorization': localStorage.getItem('session')
+                    ? localStorage.getItem('session')
+                    : ''
+            }
+        });
         return dispatch({
             type: "GET_MENUS",
             payload: json.data
         })
+    };
+};
+
+export function getVisibleMenus(data) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.get(`/menus/visible${objectToQueries(data)}`);
+            return dispatch({
+                type: "GET_MENUS",
+                payload: json.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
     };
 };
 
@@ -35,6 +55,31 @@ export function getMenu(data) {
         }
     };
 };
+
+export function getVisibleMenu(data) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.get(`/menus/visible${objectToQueries(data)}`);
+            return dispatch({
+                type: "GET_MENU",
+                payload: json.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
+export function menuExist(name){
+    return async function(){
+        try {
+            var { data } = await axios.get(`/menus/exist/${name}`);
+            return data.message
+        } catch (err) {
+            console.log(err)
+        }
+    }
+}
 
 // CREAR MENU (*SE DEBE PROBAR*)
 export function createMenus(payload) {
@@ -132,10 +177,31 @@ export function getFood(id) {
 };
 
 // FILTRAR COMIDAS (*SE DEBE PROBAR*)
-export function getFoods(data) {
+export function getFoods() {
     return async function (dispatch) {
         try {
-            var json = await axios.get(`/foods${objectToQueries(data)}`);
+            var json = await axios.get(`/foods`);
+            return dispatch({
+                type: "GET_FOODS",
+                payload: json.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
+// FILTRAR COMIDAS (*SE DEBE PROBAR*)
+export function getFoodsSearch(data) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.get(`/foods/search${objectToQueries(data)}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
             return dispatch({
                 type: "GET_FOODS",
                 payload: json.data
@@ -272,10 +338,10 @@ export function selfDisableAcc(ban) {
 export function emailExist(email){
     return async function(){
         try {
-            var json = await axios.get(`/users/findemail/?email=${email}`)
-            return json.data
-        } catch (error) {
-            console.log(error)
+            var { data } = await axios.get(`/users/findemail/?email=${email}`)
+            return data
+        } catch (err) {
+            console.log(err)
         }
     }
 }
