@@ -166,7 +166,7 @@ export default function Food(props) {
                                                                             className={classNames(
                                                                                 selectedStar > rating ? 'text-red-900 cursor-pointer' :
                                                                                     selectedStar !== 0 ? 'text-gray-300' :
-                                                                                        food?.stars > rating || !food.stars ? 'text-gray-900' : 'text-gray-300',
+                                                                                        food?.stars > rating ? 'text-gray-900' : 'text-gray-300',
                                                                                 'h-5 w-5 flex-shrink-0'
                                                                             )}
                                                                             aria-hidden="true"

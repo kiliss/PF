@@ -49,7 +49,7 @@ const MannageTables = () => {
         })
         .then((willEdit) => {
             if (willEdit) {
-                console.log(table)
+                //console.log(table)
                 dispatch(editTable({
                     id: table.id,
                     state: !table.state,
@@ -149,7 +149,7 @@ const MannageTables = () => {
             }}
         })
     }
-    console.log(tables)
+    //console.log(tables)
 
     return (
             <div className="text-gray-900 bg-gray-200 min-h-screen overflow-x-auto">
@@ -210,7 +210,7 @@ const MannageTables = () => {
             </div>
             {
                 tables?.map((table) => (
-                    <div className="bg-white shadow-md rounded-lg p-4 mb-2">
+                    <div className="bg-white shadow-md rounded-lg p-4 mb-2" key={`m-${table.id}`}>
                     
                         <div className="flex space-x-3 justify-between items-end">
                             <div className="text-gray-700">

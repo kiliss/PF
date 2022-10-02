@@ -55,7 +55,7 @@ const CheckoutForm = () => {
 
  
 //   const decode = window.localStorage.getItem("user");
-  const decodee = jwt_decode(localStorage.getItem('user'))
+  const decodee = jwt_decode(localStorage.getItem('session'))
 
   const [input, setInput] = useState({
     id_User: decodee.id,
