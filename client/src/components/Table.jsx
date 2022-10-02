@@ -13,7 +13,7 @@ export default function Table(){
     useEffect(()=>{
       dispatch(getTableDetail(id))  
     },[dispatch,id])
-   console.log(details)
+   //console.log(details)
     return (
         <div >
             <div>

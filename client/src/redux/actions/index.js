@@ -180,7 +180,13 @@ export function getFood(id) {
 export function getFoods() {
     return async function (dispatch) {
         try {
-            var json = await axios.get(`/foods`);
+            var json = await axios.get(`/foods`, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
             return dispatch({
                 type: "GET_FOODS",
                 payload: json.data

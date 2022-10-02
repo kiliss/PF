@@ -150,7 +150,7 @@ const Profile = () => {
             body: data,
         }
         );
-        console.log(photo)
+        //console.log(photo)
         const file = await res.json();
         setPhoto(file.secure_url);
         setLoading(false);
