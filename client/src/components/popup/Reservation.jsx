@@ -52,7 +52,7 @@ const Reservation = (props) => {
     })
    
 
-    console.log(usuario.id)
+    //console.log(usuario.id)
     const [errors, setErrors] = useState({});
     useEffect(() => {
         dispatch(getTable())
@@ -63,7 +63,7 @@ const Reservation = (props) => {
         // e.preventDefault();
         setErrors(validationForm(input))
         const errors = validationForm(input)
-        console.log(errors);
+        //console.log(errors);
         if (Object.values(errors).length) {
             swal({
                 title: "Por favor complete los campos a llenar",

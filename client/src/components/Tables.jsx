@@ -11,7 +11,7 @@ const Tables = () => {
         dispatch(getTable())
     }, [dispatch])
     const tables = useSelector((state) => state.tables)
-    console.log(tables)
+    //console.log(tables)
     return (
         <div className={style.container}>
              <div className="mt-11 flex min-h-full items-stretch justify-center text-left md:items-center md:px-2 lg:px-4">

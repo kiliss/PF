@@ -33,8 +33,8 @@ const CheckoutForm = () => {
                 id,
                 amount: 1000000 // lo obtiene en centavos
               });
-              console.log(data.data.message)
-              console.log(data.data)
+              //console.log(data.data.message)
+              //console.log(data.data)
               elements.getElement(CardElement).clear();
               if (data.data.message === "Successfull payment"){
                 swal("Pago aceptado", "", "success");

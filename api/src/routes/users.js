@@ -9,7 +9,7 @@ const { where } = require('sequelize');
 
 const getDbUsers = async () => {
     return await User.findAll({
-        attributes: ['id', 'user', 'password', 'email', 'photo', 'admin', "ban"],
+        attributes: ['id', 'user', 'password', 'email', 'photo', 'admin', "erased"],
         include: [
             {
                 model: Reservation,
@@ -170,13 +170,13 @@ router.post('/facebook', async (req, res) => {
 
 
 router.put('/', isAdmin, async (req, res) => {
-    const { id, admin, ban } = req.body;
+    const { id, admin, erased } = req.body;
     try {
         const user = await User.findByPk(id);
         if (user) {
             await User.update({
                 admin: admin,
-                ban: ban
+                erased: erased
             },
                 {
                     where: {
@@ -193,17 +193,17 @@ router.put('/', isAdmin, async (req, res) => {
 
 router.put('/disableacc', checkAuth, async (req, res) => {
     const id = req.userId;
-    const {ban} = req.body;
+    const {erased} = req.body;
     try {
         await User.update({
-            ban
+            erased
         },
         {
             where: {
                 id
             }
         })
-        res.status(200).json("Usuario baneado")
+        res.status(200).json("Usuario borrado")
     } catch (error) {
         res.status(403).json(error)
     }
