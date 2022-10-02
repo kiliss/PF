@@ -157,14 +157,14 @@ const Profile = () => {
         setLoading(false);
     };
 
-    function changePhoto(e){
-        e.preventDefault()
-        localStorage.setItem('photo', photo);
-        dispatch(putUserPhoto({
-            id: usuarioo.id,
-            photo: photo 
-        }))
-    }
+    // function changePhoto(e){
+    //     e.preventDefault()
+    //     localStorage.setItem('photo', photo);
+    //     dispatch(putUserPhoto({
+    //         id: usuarioo.id,
+    //         photo: photo 
+    //     }))
+    // }
 
 
     // ACTUALIZAR TODO DE UNA SOLA VEZ
