@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginGoogle, login } from "../redux/actions";
+import { loginGoogle, login, loginFacebook } from "../redux/actions";
 import { useEffect } from "react";
 import { GoogleLogin } from 'react-google-login';
 import swal from "sweetalert";
 import { gapi } from 'gapi-script';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import logoFacebook from '../assets/login/logo_facebook.webp'
 
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const clientId = process.env.REACT_APP_CLIENT_ID_GOOGLE;
+  const clientIdGoogle = process.env.REACT_APP_CLIENT_ID_GOOGLE;
+  const clientIdFacebook = process.env.REACT_APP_CLIENT_ID_FACEBOOK;
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -20,7 +23,7 @@ const Login = () => {
 
   useEffect(() => {
     const initClient = () => {
-      gapi.client.init({ clientId: clientId, scope: '' });
+      gapi.client.init({ clientIdGoogle: clientIdGoogle, scope: '' });
     };
     gapi.load('client:auth2', initClient);
   });
@@ -35,7 +38,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user.email || !user.password) {
-      console.log("no enviar");
+      swal({
+        title: 'Hay campos vacios!',
+        icon: "warning",
+        button: "Aceptar",
+      });
     } else {
       let data = await dispatch(login(user));
       if (data) {
@@ -64,30 +71,63 @@ const Login = () => {
 
   const googleSuccess = async (res) => {
     const result = res?.profileObj;
-  
-    const user = {
+
+    const userGoogle = {
       user: result.name,
       email: result.email,
       photo: result.imageUrl,
       googleId: result.googleId,
     }
-    let data = await dispatch(loginGoogle(user));
-    // console.log(data)
+    let data = await dispatch(loginGoogle(userGoogle));
+
+
+    window.localStorage.setItem('session', data.data.session);
+    window.localStorage.setItem('photo', data.data.photo);
+    window.localStorage.setItem('name', data.data.name);
+
+    navigate('/');
+  };
+
+  const googleFailure = () => {
+    swal({
+      title: "Fallo inicio de sesión con google, intenta más tarde!",
+      icon: "warning",
+      button: "Aceptar",
+    });
+  };
+
+
+  const responseFacebook = async (res) =>{
+
+    if(res.name && res.email && res.picture.data.url && res.id){
+
+    const userFacebook = {
+      user: res.name,
+      email: res.email,
+      photo: res.picture.data.url,
+      facebookId: res.id,
+    }
+    let data = await dispatch(loginFacebook(userFacebook));
+  
     window.localStorage.setItem('session', data.data.session);
     window.localStorage.setItem('photo', data.data.photo);
     window.localStorage.setItem('name', data.data.name);
     navigate('/');
-  };
+  }else{
+    swal({
+      title: "Fallo inicio de sesión con Facebok, intenta más tarde!",
+      icon: "warning",
+      button: "Aceptar",
+    });
+  }
+}
 
-  const googleFailure = (err) => {
-    console.log('error inicio, ',err)
-    console.log('Fallo inicio de sesión con google, intenta más tarde!')
-  };
 
   const [passwordShown, setPasswordShown] = useState(false);
-    const togglePassword = () => {
+  const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
+
 
   return (
     <div className="mt-11">
@@ -120,37 +160,36 @@ const Login = () => {
                     Password
                   </label>
                   <div className="flex justify-end items-center relative">
-                  <input
-                    name="password"
-                    value={user.password}
-                    type={passwordShown ? "text" : "password"}
-                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="Password"
-                    onChange={(e) => handleChange(e)}
-                  />
-                  <button className="absolute px-1" type="button" onClick={togglePassword}>{passwordShown === false ? 
+                    <input
+                      name="password"
+                      value={user.password}
+                      type={passwordShown ? "text" : "password"}
+                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      placeholder="Password"
+                      onChange={(e) => handleChange(e)}
+                    />
+                    <button className="absolute px-1" type="button" onClick={togglePassword}>{passwordShown === false ?
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
-                      </svg> 
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                      </svg>
                       : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>}
-                  </button>
+                    </button>
                   </div>
                 </div>
-                {/* <div>
-                  <label className="inline-flex items-center cursor-pointer">
-                    <input
-                      id="customCheckLogin"
-                      type="checkbox"
-                      className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                    />
-                    <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                      Remember me
-                    </span>
-                  </label>
-                </div> */}
+                <div className="text-center mt-6">
+                  <button
+                    className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150 text-black"
+                    type="button"
+                    onClick={handleSubmit}
+                  >
+                    {" "}
+                    Sign In{" "}
+                  </button>
+                </div>
+                <br /><br />
                 <div className="text-center mb-3">
                   <h6 className="text-blueGray-500 text-sm font-bold">
                     Sing in with
@@ -158,7 +197,7 @@ const Login = () => {
                 </div>
                 <div className="btn-wrapper text-center">
                   <GoogleLogin
-                    clientId={clientId}
+                    clientId={clientIdGoogle}
                     render={(renderPros) => (
                       <button
                         onClick={renderPros.onClick}
@@ -178,18 +217,30 @@ const Login = () => {
                     onFailure={googleFailure}
                     cookiePolicy={'single_host_origin'}
                   />
-                </div>
-                <div className="text-center mt-6">
-                  <button
-                    className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150 text-black"
-                    type="button"
-                    onClick={handleSubmit}
-                  >
-                    {" "}
-                    Sign In{" "}
-                  </button>
+                  <FacebookLogin
+                    appId={clientIdFacebook}
+                    fields="name,email,picture,id"
+                    callback={responseFacebook} 
+                    render={(props) => (
+                      <button 
+                      onClick={props.onClick}
+                      className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                      type="button"
+                    >
+                      <img
+                        alt="..."
+                        className="w-5 mr-1"
+                        src={logoFacebook}
+                      />
+                      Facebook{" "}
+                    </button>
+                  )}
+                    />
                 </div>
               </form>
+              <div className="w-full md:w-12/12 px-4 mx-auto text-center">
+                <Link to="/forgotPassword">Olvidaste tu contraseña?</Link>
+              </div>
             </div>
           </div>
         </div>

@@ -16,9 +16,11 @@ import AdminRoutes from './utils/AdminRoutes';
 import Footer from './components/Footer';
 import Reservation from './components/popup/Resevation2en1'
 import MenuTable from './components/MenuTable';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 import MannageReservations from './components/MannageReservations';
-
 import Users from './components/Users';
+import MannageTables from './components/MannageTables';
 
 
 
@@ -34,6 +36,8 @@ function App() {
         <Route element={<VisitorRoutes />}>
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/register' element={<Register />} />
+          <Route exact path='/forgotPassword' element={<ForgotPassword />} />
+          <Route exact path='/resetPassword/:id/:token' element={<ResetPassword />} />
         </Route>
         <Route element={<UserRoutes />}>
           <Route exact path='/profile' element={<Profile />} />
@@ -46,6 +50,7 @@ function App() {
           <Route exact path="/manage/products" element={<TableAdmin />} />
           <Route exact path="/manage/users" element={<Users />} />
           <Route exact path='/manage/menus' element={<MenuTable />} />
+          <Route exact path='/manage/tables' element={<MannageTables />} />
         </Route>
         <Route exact path='*' element={<Navigate to="/" replace />} />
       </Routes>
