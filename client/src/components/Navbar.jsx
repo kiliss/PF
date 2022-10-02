@@ -19,6 +19,7 @@ const adminNavigation = [
     { name: 'Menús', href: '/manage/menus' },
     { name: 'Usuarios', href: '/manage/users' },
     { name: 'Reservaciones', href: '/manage/reservations' },
+    { name: "Mesas", href: "/manage/tables"}
 ];
 
 function classNames(...classes) {

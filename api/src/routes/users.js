@@ -143,7 +143,7 @@ router.post('/facebook', async (req, res) => {
     // console.log("req-body:", photo)
     try {
         const userEmail = await User.findOne({ where: { facebookId } }).catch((err) => { console.log("Error: ", err) });
-        console.log('usuario: ',userEmail)
+        // console.log('usuario: ',userEmail)
         if (!userEmail || userEmail.ban === true) {
             password = generateP();
             // console.log(password)
@@ -289,7 +289,7 @@ router.post("/forgotPassword", async (req, res) => {
     // console.log(email)
     try {
         const oldUser = await User.findOne({ where: { email } });
-        if (!oldUser && oldUser.ban === true) {
+        if (!oldUser || oldUser.ban === true) {
             return res.json({ message: "Usuario no existe!!" });
         }
         const jwtToken = jwt.sign(JSON.stringify({ id: oldUser.id, email: oldUser.email, admin: oldUser.admin }), process.env.JWT_SECRET);

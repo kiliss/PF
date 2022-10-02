@@ -356,7 +356,7 @@ export function resetPassword(user) {
 export function getTableDetail(id) {
     return async function (dispatch) {
         try {
-            var json = await axios.get("/table/:" + id)
+            var json = await axios.get("/table/" + id)
             return dispatch({
                 type: "GET_TABLE",
                 payload: json.data
@@ -376,6 +376,33 @@ export function getTable() {
         })
     };
 };
+
+//BORRAR Table
+export function deleteTable(id) {
+    return async function (dispatch) {
+        try {
+            const response = await axios.delete(`/table/${id}`)
+            return dispatch({
+                type: "DELETE_TABLE",
+                payload: response.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+// Editar Table
+export function editTable(payload) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.put("/table/" + payload.id, payload);
+            return json;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
 //CREAR UNA MESA(*SE DEBE PROBAR)
 export function createTable(payload) {
     return async function (dispatch) {
@@ -383,7 +410,7 @@ export function createTable(payload) {
             var json = await axios.post("/table", payload)
             return json;
         } catch (error) {
-            console.log(error)
+            return error.response.data
         }
     }
 }
