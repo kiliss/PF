@@ -20,7 +20,7 @@ const validationForm = (input) => {
     if (!input.date) {
         errors.date = "Date required"
     }
-    if(input.date=actualFecha&&input.hour.slice(0,1)<=hora){
+    if(input.date===actualFecha && input.hour.slice(0,1)<=hora){
         errors.hour="please insert a correct hour"
     }
     if (!input.hour) {
@@ -136,7 +136,7 @@ const CheckoutForm = () => {
       type: 'card',
       card: elements.getElement(CardElement) // esto es como un getElementByID
     });
-
+    
     if (!error) {
         setLoading(true);
         const { id } = paymentMethod;
@@ -162,9 +162,19 @@ const CheckoutForm = () => {
             console.log(error)
         }
         setLoading(false)
-    }}
+    }else if(error.message === "El año de caducidad de la tarjeta ya ha pasado." || error.message === "El año de caducidad de la tarjeta no es válido." || error.message === "La fecha de caducidad de tu tarjeta ya ha pasado."){
+        swal("Revise los campos de su tarjeta", "El año de caducidad no es valido", "warning")
+    }else if(error.message === "El número de tu tarjeta está incompleto."){
+        swal("Revise los campos de su tarjeta", "El número de tu tarjeta está incompleto", "warning")
+    }else if(error.message === "Tu código postal está incompleto."){
+        swal("Revise los campos de su tarjeta", "Tu código postal está incompleto", "warning")
+    }else if(error.message === "La fecha de caducidad de tu tarjeta está incompleta."){
+        swal("Revise los campos de su tarjeta", "La fecha de caducidad de tu tarjeta esta incompleta", "warning")
+    }else if(error.message === "El código de seguridad de tu tarjeta está incompleto."){
+        swal("Revise los campos de su tarjeta", "El código de seguridad de tu tarjeta esta incompleto", "warning")
+    }
   };
-
+  }
   
   return (
     
