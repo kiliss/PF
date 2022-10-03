@@ -180,7 +180,7 @@ export function getFood(id) {
 export function getFoods() {
     return async function (dispatch) {
         try {
-            var json = await axios.get(`/foods`, {
+            var json = await axios.get(`/foods/all`, {
                 headers: {
                     'Authorization': localStorage.getItem('session')
                         ? localStorage.getItem('session')
@@ -222,7 +222,7 @@ export function getFoodsSearch(data) {
 export function postFood(data) {
     return async function () {
         try {
-            var json = await axios.post("/foods", data, {
+            var json = await axios.post("/foods/all", data, {
                 headers: {
                     'Authorization': localStorage.getItem('session')
                         ? localStorage.getItem('session')
@@ -642,7 +642,7 @@ export function logout() {
 export function giveFoodValoration(foodId, userId, stars) {
     return async function () {
         try {
-            const { data } = await axios.post(`/foods/score/${foodId}?user=${userId}&valoration=${stars}`, {
+            const { data } = await axios.post(`/foods/score/${foodId}?user=${userId}&valoration=${stars}`, {}, {
                 headers: {
                     'Authorization': localStorage.getItem('session')
                         ? localStorage.getItem('session')
@@ -656,7 +656,7 @@ export function giveFoodValoration(foodId, userId, stars) {
     };
 };
 
-export function giveFoodCommentary(foodId, userId, comment, time) {
+export function giveFoodCommentary(foodId, userId, comment) {
     return async function () {
         try {
             const { data } = await axios.post(`/foods/comment/${foodId}?user=${userId}`, { comment }, {
