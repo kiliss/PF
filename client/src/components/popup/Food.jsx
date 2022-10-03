@@ -110,13 +110,14 @@ export default function Food(props) {
                                                                 className="w-full h-10 py-2 px-2 focus:outline-none resize-none overflow-hidden"
                                                                 placeholder={localStorage.getItem('session') ? 'Agrega un comentario...' : 'Registrate para comentar...'}
                                                                 value={comment}
+                                                                maxlength='250'
                                                                 onChange={(e) => setComment(e.target.value)}
                                                             />
                                                             {
                                                                 localStorage.getItem('session') && <PaperAirplaneIcon
                                                                     className="h-8 w-8 my-1 cursor-pointer ml-2 text-gray-700 hover:text-gray-900"
                                                                     aria-hidden="true"
-                                                                    onClick={() => sendCommentary()}
+                                                                    onClick={() => { if (comment.length) sendCommentary() }}
                                                                 />
                                                             }
                                                         </div>
