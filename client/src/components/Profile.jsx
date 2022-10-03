@@ -189,7 +189,7 @@ const Profile = () => {
                 }))
                 return compareee
                 }).then((compareee) => {
-            if(compareee.message === 'Contraseña correcta!'){
+            if(compareee.message === '¡Contraseña correcta!'){
                 dispatch(putUserName({
                     id: usuarioo.id,
                     name: inputUser.name === "" ? usuario.user : inputUser.name
@@ -280,12 +280,12 @@ const Profile = () => {
                     }))
                     return compareee
                 }).then((compareee) => {
-                    if(compareee.message === 'Contraseña correcta!'){
+                    if(compareee.message === '¡Contraseña correcta!'){
                         dispatch(selfDisableAcc({
                             erased : true
                     })).then(() =>{
                         swal({
-                            title: "Tu cuenta ha sido desactivada",
+                            title: "Tu cuenta ha sido borrada",
                             icon: "success",
                             button: "Aceptar",
                         });
