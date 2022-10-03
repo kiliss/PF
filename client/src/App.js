@@ -21,7 +21,9 @@ import ResetPassword from './components/ResetPassword';
 import MannageReservations from './components/MannageReservations';
 import Users from './components/Users';
 import MannageTables from './components/MannageTables';
+import Chat from './components/Chat';
 import Politicas from './components/Politicas';
+
 
 
 function App() {
@@ -44,6 +46,7 @@ function App() {
           <Route exact path='/reservation' element={<Reservation />} />
           <Route exact path='/tables' element={<Tables />} />
           <Route exact path='/tables/:id' element={<Table />} />
+          <Route exact path='/chat' element={<Chat />} />
         </Route>
         <Route element={<AdminRoutes />}>
           <Route exact path='/manage/reservations' element={<MannageReservations />} />

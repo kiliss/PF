@@ -767,3 +767,45 @@ export function comparePassword(payload){
         }
     }
 }
+
+export function getRooms(){
+    return async function (dispatch){
+        try {
+            var json = await axios.get("/users/messages/rooms")
+            return dispatch({
+                type: "GET_ROOMS",
+                payload: json.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export function getMessages(id){
+    return async function (dispatch){
+        try {
+            var json = await axios.get("/users/messages/"+ id)
+            return dispatch({
+                type: "GET_MESSAGES",
+                payload: json.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export function postMessage(payload){
+    return async function (dispatch){
+        try {
+            var json = await axios.post("/users/message", payload)
+            return dispatch({
+                type:"POST_MESSAGE",
+                payload: json.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
