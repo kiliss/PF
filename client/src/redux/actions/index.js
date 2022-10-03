@@ -176,6 +176,19 @@ export function getFood(id) {
     };
 };
 
+export function refreshFood() {
+    return async function (dispatch) {
+        try {
+            return dispatch({
+                type: "GET_FOOD",
+                payload: {}
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
 // FILTRAR COMIDAS (*SE DEBE PROBAR*)
 export function getFoods() {
     return async function (dispatch) {
