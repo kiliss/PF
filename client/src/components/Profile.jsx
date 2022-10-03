@@ -69,7 +69,7 @@ const Profile = () => {
             dispatch(deleteReservation(id)).then(() => {
                 dispatch(getProfile())
                 swal({
-                    title: "reserva eliminada",
+                    title: "Reserva eliminada",
                     icon: "success",
                     button: "Aceptar",
                 });
@@ -258,7 +258,7 @@ const Profile = () => {
     function banUser(e){
         e.preventDefault();
         swal({
-            title: "¿Desea desactivar su cuenta?",
+            title: "¿Desea borrar su cuenta?",
             icon: "warning",
             buttons: ["Cancelar", "Aceptar"],
             dangerMode: true,
