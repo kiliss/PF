@@ -110,7 +110,7 @@ export default function Food(props) {
                                                                 className="w-full h-10 py-2 px-2 focus:outline-none resize-none overflow-hidden"
                                                                 placeholder={localStorage.getItem('session') ? 'Agrega un comentario...' : 'Registrate para comentar...'}
                                                                 value={comment}
-                                                                maxlength='250'
+                                                                maxLength='250'
                                                                 onChange={(e) => setComment(e.target.value)}
                                                             />
                                                             {
