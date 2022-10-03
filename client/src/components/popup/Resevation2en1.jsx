@@ -14,9 +14,14 @@ import jwt_decode from "jwt-decode"
 
 const validationForm = (input) => {
     let errors = {};
-
+    const fecha=new Date()
+    const actualFecha=`${fecha.getFullYear()}-${fecha.getMonth()+1}-0${fecha.getDate()}`
+    const hora=fecha.getHours()
     if (!input.date) {
         errors.date = "Date required"
+    }
+    if(input.date=actualFecha&&input.hour.slice(0,1)<=hora){
+        errors.hour="please insert a correct hour"
     }
     if (!input.hour) {
         errors.hour = "Hour is required"
