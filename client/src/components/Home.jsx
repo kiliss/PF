@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
-import { getMenus } from "../redux/actions";
+import { getVisibleMenus } from "../redux/actions";
 import style from "./style/Home.module.css";
 import image from "../assets/home/burger-header.png"
 
@@ -9,15 +9,18 @@ const Home = () => {
     const menus = useSelector((state) => state.menus).filter(m => m.homeVisible === true);
 
     useEffect(() => {
-        dispatch(getMenus());
+        dispatch(getVisibleMenus());
         // eslint-disable-next-line
     }, [])
 
     return (
         <div className={style.container}>
             <div className="lg:h-screen bg-gradient-to-b from-red-900 to-gray-100 lg:grid lg:grid-cols-2 gap-x-6 pt-20 lg:pt-0">
-                <div className="flex">
-                    <div className="text-center text-white m-auto text-3xl sm:text-5xl md:text-7xl font-['Cabin_Sketch']">PFRestaurante</div>
+                <div className="flex flex-col">
+                    <div className="text-center text-white m-auto">
+                    <div className="text-3xl sm:text-5xl md:text-7xl font-['Cabin_Sketch']">PFRestaurante</div>
+                    <div className="invisible lg:visible">UN FESTÍN PARA TU PALADAR</div>
+                    </div>
                     
                 </div>
                 <div className="flex">

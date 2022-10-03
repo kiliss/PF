@@ -5,8 +5,8 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import { createReservation, getProfile, getReservations, getTable } from '../../redux/actions/index';
 import { useEffect } from "react";
 import { useState } from "react";
-import {loadStripe} from "@stripe/stripe-js"
-import {Elements, CardElement, useStripe, useElements} from '@stripe/react-stripe-js'
+import { loadStripe } from "@stripe/stripe-js"
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import axios from 'axios';
 import swal from "sweetalert";
 import PruebaPago from "../pruebapago";
@@ -33,26 +33,26 @@ const validationForm = (input) => {
 // console.log(PruebaPago().props)
 
 const Reservation = (props) => {
-  /*console.log( window.localStorage.getItem("user"))*/
-    
+    /*console.log( window.localStorage.getItem("user"))*/
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getProfile())
     }, [dispatch])
-    
+
     const usuario = useSelector((state) => state.user)
     const tables = useSelector((state) => state.tables);
     const [open, setOpen] = useState(false)
     const [input, setInput] = useState({
-        id_User:usuario.user,
+        id_User: usuario.user,
         date: "",
         hour: "",
         price: 300,
         num_Table: [],
     })
-   
 
-    console.log(usuario.id)
+
+    //console.log(usuario.id)
     const [errors, setErrors] = useState({});
     useEffect(() => {
         dispatch(getTable())
@@ -63,7 +63,7 @@ const Reservation = (props) => {
         // e.preventDefault();
         setErrors(validationForm(input))
         const errors = validationForm(input)
-        console.log(errors);
+        //console.log(errors);
         if (Object.values(errors).length) {
             swal({
                 title: "Por favor complete los campos a llenar",
@@ -73,19 +73,19 @@ const Reservation = (props) => {
         } else {
             {
                 setOpen(true)
-                dispatch (createReservation(input))
-               
-               /* if (setOpen(false)){
-                    dispatch(createReservation(input))
-                }*/
+                dispatch(createReservation(input))
+
+                /* if (setOpen(false)){
+                     dispatch(createReservation(input))
+                 }*/
                 //dispatch(createReservation(input));
                 // swal("reservation confirmed, we are waiting for you soon", {
                 //     icon: "success",
                 // });
             }
-            
+
         }
-        
+
     }
 
     // function nexttt()  {
@@ -144,12 +144,12 @@ const Reservation = (props) => {
                                                     <XMarkIcon className="h-8 w-8" aria-hidden="true" />
                                                 </button>
                                             </div>
-                                                {
-                                                    open && <PruebaPago open={open} setOpen={setOpen}/> 
-                                                }
-                                                {
-                                                    
-                                                }
+                                            {
+                                                open && <PruebaPago open={open} setOpen={setOpen} />
+                                            }
+                                            {
+
+                                            }
                                             <div
                                                 className="px-4 pt-8 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8"
                                             >
@@ -184,15 +184,33 @@ const Reservation = (props) => {
                                                             >
                                                                 Hora
                                                             </label>
-                                                            <input
-                                                                type="time"
-                                                                step="3600000"
-                                                                name="hour"
-                                                                id="hour"
-                                                                value={input.hour}
-                                                                onChange={handleChange}
-                                                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                                            /> {errors.hour && <p className='form-error'>{errors.hour}</p>}
+                                                            <select 
+                                                            name="hour"
+                                                             id="hour"
+                                                             value={input.hour} 
+                                                            onChange={handleChange}
+                                                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                                            >   
+                                                                
+                                                                <option value="08:00">08:00</option>
+                                                                <option value="09:00">09:00</option>
+                                                                <option value="10:00">10:00</option>
+                                                                <option value="11:00">11:00</option>
+                                                                <option value="12:00">12:00</option>
+                                                                <option value="13:00">13:00</option>
+                                                                <option value="14:00">14:00</option>
+                                                                <option value="15:00">15:00</option>
+                                                                <option value="16:00">16:00</option>
+                                                                <option value="17:00">17:00</option>
+                                                                <option value="18:00">18:00</option>
+                                                                <option value="19:00">19:00</option>
+                                                                <option value="20:00">20:00</option> 
+                                                                <option value="21:00">21:00</option>
+                                                                <option value="22:00">22:00</option>
+                                                                <option value="23:00">23:00</option>
+                                                                
+                                                            </select>{errors.hour && <p className='form-error'>{errors.hour}</p>}
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>

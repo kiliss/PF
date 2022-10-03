@@ -17,7 +17,7 @@ const getDBInfoo = async () => {
     })
 };
 
-router.get('/', async (req, res) => {
+router.get('/all', isAdmin, async (req, res) => {
     const { name, filter = '', price = '', vegetarian = '' } = req.query;
     try {
         if (name) {
@@ -59,6 +59,52 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/visible', async (req, res) => {
+    const { name, filter = '', price = '', vegetarian = '' } = req.query;
+    try {
+        if (name) {
+            let menu = await Menu.findOne({
+                where: {
+                    name: {
+                        [Op.iLike]: `%${name}%`
+                    },
+                    visible: true
+                },
+                include: [{
+                    model: Food,
+                    where: {
+                        drinkable: {
+                            [Op.or]: filter === 'drink' ? [true] : filter === 'food' ? [false] : [true, false]
+                        },
+                        vegetarian: {
+                            [Op.or]: vegetarian === 'true' ? [true] : [true, false]
+                        }
+                    }
+                }],
+                order: [
+                    price.toUpperCase() === "ASC" || price.toUpperCase() === "DESC" ? [Food, 'price', price.toUpperCase()] : [Food, 'id', 'DESC']
+                ]
+            });
+            return res.status(201).send(menu);
+        } else {
+            return res.status(201).send(await Menu.findAll({
+                where: {
+                    visible: true
+                },
+                include: {
+                    model: Food,
+                    attributes: ['name'],
+                    through: {
+                        attributes: [],
+                    },
+                }
+            }));
+        }
+    } catch (err) {
+        return res.status(400).json("error " + err.message)
+    }
+});
+
 router.get('/:name', async (req, res) => {
     const { name } = req.params;
     if (name) {
@@ -79,6 +125,24 @@ router.get('/:name', async (req, res) => {
     }
 });
 
+router.get('/exist/:name', async (req, res) => {
+    const { name } = req.params;
+    try {
+        const menu = await Menu.findOne({where: {
+            name: {
+                [Op.iLike]: `%${name}%`
+            },
+            visible: true
+        }});
+        if (!menu) {
+            res.status(200).json({message:"No existe"});
+        } else {
+            res.status(200).json({message:"Existe"});
+        }
+    } catch (err) {
+        console.log(err)
+    }
+});
 
 router.post('/', isAdmin, async (req, res) => {   // Crea menu
     const { name, photo, description } = req.body;

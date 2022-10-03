@@ -35,7 +35,23 @@ const timeSince = (stringDate) => {
 }
 
 
-router.get('/', async (req, res) => {
+router.get('/', isAdmin, async (req, res) => {
+    try {
+        let foods = await Food.findAll({
+            include: [{
+                model: Menu
+            }],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        return res.status(201).send(foods);
+    } catch (err) {
+        return res.status(400).json("error " + err.message)
+    }
+});
+
+router.get('/search', async (req, res) => {
     const { name = '', filter = '', price = '', vegetarian = '' } = req.query;
     try {
         let foods = await Food.findAll({
@@ -51,13 +67,16 @@ router.get('/', async (req, res) => {
                 }
             },
             include: [{
-                model: Menu
+                model: Menu,
+                where: {
+                    visible: true
+                }
             }],
             order: [
                 price.toUpperCase() === "ASC" || price.toUpperCase() === "DESC" ? ['price', price.toUpperCase()] : ['id', 'DESC']
             ]
         });
-        return res.status(201).send(foods);
+        return res.status(201).send(foods.filter(f => f.menus.length));
     } catch (err) {
         return res.status(400).json("error " + err.message)
     }
@@ -222,14 +241,14 @@ router.post('/score/:id', isUser, async (req, res) => {          // dar score
                         foodId
                     }
                 });
-            return res.status(201).send("La valoración fue cambiada");
+            return res.status(201).send("La puntuación fue cambiada");
         }
         await Score.create({
             userId,
             foodId,
             stars
         });
-        res.status(201).send("La valoración fue enviada");
+        res.status(201).send("La puntuación fue registrada");
     } catch (err) {
         return res.status(400).json("error " + err.message)
     }

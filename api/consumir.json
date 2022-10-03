@@ -6,7 +6,8 @@
             "password": "$2b$10$cgT9zd0nSOKKPdS.EDr/Ze2s/3FhTAu6ntOASIA8VpQns2ppaK2Me",
             "email": "admin@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663612044/Foodss/zzuflolenjp4u9ardj24.png",
-            "admin": true
+            "admin": true,
+            "erased": false
         },
         {
             "id": 2,
@@ -14,7 +15,8 @@
             "password": "$2b$10$hsFalj0znEGudkzZbpuyGOfihs7o3pLtzTSjcUDfnuHnwZ0eRER4S",
             "email": "agustin@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663678154/Foodss/qyqs558rinx4oaaorqoh.png",
-            "admin": false
+            "admin": false,
+            "erased": false
         },
         {
             "id": 3,
@@ -22,7 +24,8 @@
             "password": "$2b$10$nUOj2353hZw1YIbcLzTYR.RphXh6YYUnqOUGCXV7l/MbcS.KbM4LW",
             "email": "alejandro@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663678301/Foodss/jmfnbhvken93pbcsouz1.png",
-            "admin": false
+            "admin": false,
+            "erased": false
         },
         {
             "id": 4,
@@ -30,7 +33,8 @@
             "password": "$2b$10$07pg/7wQtPctHO9iUwpm8uO2liEdyl5mfBwOHkJiQRr8NuTr/F.j.",
             "email": "anderson@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663678378/Foodss/xohytkga1zt2lhyqzjfn.png",
-            "admin": false
+            "admin": false,
+            "erased": false
         },
         {
             "id": 5,
@@ -38,7 +42,8 @@
             "password": "$2b$10$VJXhvw4aG6Cx9BLdR7Sb6.QHyn7wfQNf6VJyeyWuGyitsvIwYAyeO",
             "email": "fabricio@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663678200/Foodss/v6bjh4axscaozsfrlt6v.png",
-            "admin": false
+            "admin": false,
+            "erased": false
         },
         {
             "id": 6,
@@ -46,7 +51,8 @@
             "password": "$2b$10$Rae44iIRBGi43pOaYmgSL.zESJVh6bjLZkmx.ZStIuJdfpHNcwUK6",
             "email": "gabriel@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663678254/Foodss/nwul9da8rhoowpchplxw.png",
-            "admin": false
+            "admin": false,
+            "erased": false
         },
         {
             "id": 7,
@@ -54,7 +60,8 @@
             "password": "$2b$10$KLulf4gW/djyqZ.USSWMLOLYprcMM7J6RAJbmKd.p7rC02il1vUCW",
             "email": "sebastian@restaurant.com",
             "photo": "https://res.cloudinary.com/dzvqedesg/image/upload/v1663678330/Foodss/kyu689fx8stw8pijffgn.png",
-            "admin": false
+            "admin": false,
+            "erased": false
         }
     ],
     "menu": [
@@ -63,7 +70,7 @@
             "name": "Desayuno",
             "description": "Obtén la suficiente energía que necesitaras para empezar el día.",
             "photo": "https://images.hola.com/imagenes/cocina/noticiaslibros/20200213160483/dia-nacional-desayuno/0-782-593/portada-desayuno-adobe-m.jpg",
-            "active": true,
+            "visible": true,
             "homeVisible": true
         },
         {
@@ -71,7 +78,7 @@
             "name": "Almuerzo",
             "description": "Reabastece tu estomago con nuestra diversa selección para el almuerzo.",
             "photo": "https://recetasespecialesdecocina.files.wordpress.com/2018/10/asado.jpg",
-            "active": true,
+            "visible": true,
             "homeVisible": true
         },
         {
@@ -79,15 +86,22 @@
             "name": "Cena",
             "description": "Finaliza el día comiendo con nosotros recibiendo nuestra hospitalidad.",
             "photo": "https://cdn7.kiwilimon.com/ss_secreto/3010/640x426/3010.jpg.webp",
-            "active": true,
+            "visible": true,
             "homeVisible": true
+        },
+        {
+            "id": 4,
+            "name": "Navidad",
+            "description": "Festeja esta festividad con nosotros y disfruta de este menú de tiempo limitado.",
+            "photo": "https://www.neahoy.com/wp-content/uploads/2021/12/cena-navidad.jpg",
+            "visible": false,
+            "homeVisible": false
         }
     ],
     "food": [
         {
             "id": 1,
             "name": "Café",
-            "rating": 4.5,
             "photo": "https://www.webconsultas.com/sites/default/files/styles/wch_image_schema/public/temas/cafe.jpg",
             "summary": "Es la bebida que se obtiene a partir de los granos tostados y molidos de los frutos de la planta del café.",
             "price": 300,
@@ -98,7 +112,6 @@
         {
             "id": 2,
             "name": "Panqueque",
-            "rating": 3.5,
             "photo": "https://www.laurafuentes.soy/wp-content/uploads/2020/07/Pancakes-without-Milk-post-1.jpg",
             "summary": "Es una torta plana, redonda y salada o dulce, cuya masa contiene leche y está levadurizada.",
             "price": 240,
@@ -109,7 +122,6 @@
         {
             "id": 3,
             "name": "Buñuelo Colombiano",
-            "rating": 3,
             "photo": "https://www.196flavors.com/wp-content/uploads/2021/07/bunuelos-colombianos-4fp.jpg",
             "summary": "No son dulces, y la mezcla para su preparación incluye queso costeño, huevos, almidón de maíz (o maicena) con un poco de almidón de yuca, se forman bolas con la mezcla y se fríen en abundante aceite caliente.",
             "price": 100,
@@ -120,7 +132,6 @@
         {
             "id": 4,
             "name": "Omelet",
-            "rating": 3.9,
             "photo": "https://assets.unileversolutions.com/recipes-v2/231048.jpg",
             "summary": "Es un plato elaborado con huevo batido y cocinado con mantequilla o aceite.",
             "price": 180,
@@ -131,7 +142,6 @@
         {
             "id": 5,
             "name": "Batido de Chocolate",
-            "rating": 4,
             "photo": "https://www.gastrolabweb.com/u/fotografias/m/2021/7/26/f638x638-16725_74892_6524.jpg",
             "summary": "Es una bebida elaborada a base de leche o helado, que puede llevar frutas o turrón.",
             "price": 290,
@@ -142,7 +152,6 @@
         {
             "id": 6,
             "name": "Té",
-            "rating": 3.5,
             "photo": "https://www.cafe-mx.com/blog/app/assets/media/2021/01/datos_curiosos_sobre_el_te.jpg",
             "summary": "Es la infusión de las hojas y brotes de la planta del té.",
             "price": 250,
@@ -153,7 +162,6 @@
         {
             "id": 7,
             "name": "Batido Picante de Remolacha",
-            "rating": 4,
             "photo": "https://blog.oxfamintermon.org/wp-content/uploads/2017/01/batido-vegano-remolacha.jpg",
             "summary": "¿Quieres probar con algo atrevido? Este es uno de los batidos veganos más idóneos para una fiesta o una ocasión especial, y seguro que te acaba encantando.",
             "price": 290,
@@ -164,7 +172,6 @@
         {
             "id": 8,
             "name": "Avena Cocida",
-            "rating": 4,
             "photo": "https://img-global.cpcdn.com/recipes/9dde7a1dd9412396/680x482cq70/avena-cocida-a-fuego-bajo-con-leche-fit-y-rico-foto-principal.webp",
             "summary": "Estas gachas de avena, conocidas como porridge en el Reino Unido, son ideales para niños y personas mayores por su digestibilidad.",
             "price": 110,
@@ -174,8 +181,7 @@
         },
         {
             "id": 9,
-            "name": "Pinchos de res con salsa teriyaki de mora",
-            "rating": 4,
+            "name": "Pinchos de Res con Salsa Teriyaki de Mora",
             "photo": "https://buenprovecho.hn/wp-content/uploads/2019/10/1_2-1.jpg",
             "summary": "La carne esta bañada con una fruta ácida y jugosa como la mora, será una explosión de sabor en tu boca. Te aseguramos que te enamorarás de este platillo y será un almuerzo fuera de lo común para tu familia.",
             "price": 299,
@@ -185,8 +191,7 @@
         },
         {
             "id": 10,
-            "name": "Pechuga de pollo a la plancha con chimichurri",
-            "rating": 5,
+            "name": "Pechuga de Pollo a la Plancha con Chimichurri",
             "photo": "https://buenprovecho.hn/wp-content/uploads/2020/03/1_76.jpg",
             "summary": "Cuando escuchamos pollo con salsa chimichurri se nos viene a la mente un platillo jugoso y lleno de sabor. Cuando preparas el pollo a la plancha despiertas todos esos nutrientes esenciales que contiene, así que con este platillo, aparte de delicioso, le darás muchos aportes importantes a tu cuerpo.",
             "price": 420,
@@ -196,8 +201,7 @@
         },
         {
             "id": 18,
-            "name": "Pasta con pollo al grill",
-            "rating": 3,
+            "name": "Pasta con Pollo al Grill",
             "photo": "https://buenprovecho.hn/wp-content/uploads/2020/04/WhatsApp-Image-2020-04-06-at-5.50.23-PM.jpeg",
             "summary": "El pollo al grill es uno de los platos más ricos. Cuando un alimento es preparado al grill, significa que se ha cocido sobre un utensilio como una plancha acanalada dando la forma de rejillas, ideadas para darle una textura inigualable.",
             "price": 680,
@@ -208,7 +212,6 @@
         {
             "id": 19,
             "name": "Pizza",
-            "rating": 4.5,
             "photo": "https://cdn.colombia.com/gastronomia/2011/08/25/pizza-margarita-3684.jpg",
             "summary": "Es un plato de origen italiano, compuesto por una masa de harina de trigo, levadura, agua y sal, que se hornea en un horno de leña o eléctrico.",
             "price": 450,
@@ -219,7 +222,6 @@
         {
             "id": 13,
             "name": "Sopa de Fideos",
-            "rating": 4.5,
             "photo": "https://www.pequerecetas.com/wp-content/uploads/2015/03/sopa-de-fideos-660x594.jpg",
             "summary": "Una rica sopa de fideos casera es lo único que apetece cuando hace frío.",
             "price": 450,
@@ -230,7 +232,6 @@
         {
             "id": 17,
             "name": "Asado",
-            "rating": 4.5,
             "photo": "https://www.clarin.com/img/2022/03/07/0w2kcAVNO_340x340__1.jpg",
             "summary": "Es un plato típico de la cocina argentina, uruguaya y chilena, que consiste en carne de vacuno, cerdo o cordero, asada en un horno de leña o carbón.",
             "price": 450,
@@ -241,7 +242,6 @@
         {
             "id": 15,
             "name": "Sopa de Verduras",
-            "rating": 4.5,
             "photo": "https://www.recetasderechupete.com/wp-content/uploads/2019/10/Sopa-de-verduras-en-juliana-768x527.jpg",
             "summary": "¿Frío en los huesos? Tengo la cura, una sopa de verduras bien calentita que aporte calor al cuerpo.",
             "price": 450,
@@ -252,7 +252,6 @@
         {
             "id": 16,
             "name": "Coca-Cola",
-            "rating": 4.5,
             "photo": "https://storage0.dms.mpinteractiv.ro/media/401/341/5531/16106019/1/alege-ti-coca-cola-preferata.jpg",
             "summary": "Coca-Cola es una bebida gaseosa de cola, producida por The Coca-Cola Company.",
             "price": 120,
@@ -263,7 +262,6 @@
         {
             "id": 14,
             "name": "Fanta",
-            "rating": 4.5,
             "photo": "https://i.pinimg.com/originals/e9/69/f2/e969f298dc5782e5867ec222c793d1ee.jpg",
             "summary": "Fanta es una bebida gaseosa de sabor a frutas, producida por The Coca-Cola Company.",
             "price": 120,
@@ -274,7 +272,6 @@
         {
             "id": 11,
             "name": "Sprite",
-            "rating": 4.5,
             "photo": "https://mktadstrategies.files.wordpress.com/2016/03/sprite.jpg",
             "summary": "Sprite es una bebida gaseosa de sabor a limón, producida por The Coca-Cola Company.",
             "price": 120,
@@ -285,13 +282,102 @@
         {
             "id": 12,
             "name": "Pepsi",
-            "rating": 5,
             "photo": "https://tofuu.getjusto.com/orioneat-prod-resized/y2jqSmfBcsJBZgXYx-1200-1200.webp",
             "summary": "Pepsi es una bebida gaseosa de cola.",
             "price": 120,
             "stock": true,
             "drinkable": true,
             "vegetarian": true
+        },
+        {
+            "id": 20,
+            "name": "Vino Tinto",
+            "photo": "https://www.65ymas.com/uploads/s1/54/10/41/sigue-estos-consejos-para-servir-el-vino-a-la-temperatura-ideal-foto-bigstock_1_621x621.jpeg",
+            "summary": "El vino tinto es un tipo de vino procedente mayormente de mostos de uvas tintas.",
+            "price": 280,
+            "stock": true,
+            "drinkable": true,
+            "vegetarian": true
+        },
+        {
+            "id": 21,
+            "name": "Espagueti Rojo Extra Cremoso",
+            "photo": "https://assets.unileversolutions.com/recipes-v2/236933.jpg",
+            "summary": "El espagueti es un tipo de pasta italiana elaborada con harina de grano duro y agua.",
+            "price": 300,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": true
+        },
+        {
+            "id": 22,
+            "name": "Milanesas de Pollo al Horno",
+            "photo": "https://img-global.cpcdn.com/recipes/fe4c45a1cd16ec27/680x482cq70/milanesas-de-pollo-al-horno-foto-principal.webp",
+            "summary": "La milanesa es un filete, normalmente de carne vacuna, rebozado, que se cocina frito o al horno.",
+            "price": 260,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
+        },
+        {
+            "id": 23,
+            "name": "Papas Fritas",
+            "photo": "https://www.recetas360.com/wp-content/uploads/2019/07/como-hacer-papas-fritas-de-mcdonals.jpg",
+            "summary": "La milanesa es un filete, normalmente de carne vacuna, rebozado, que se cocina frito o al horno.",
+            "price": 260,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": true
+        },
+        {
+            "id": 24,
+            "name": "Pechugas de Pollo a la Parmesana",
+            "photo": "https://assets.kraftfoods.com/recipe_images/opendeploy/171188_640x428.jpg",
+            "summary": "Las pechugas de pollo llevan un empanizado de queso parmesano y migajas de pan y se emparejan con una deliciosa salsa marinara en esta versión casera del clásico platillo italiano de pasta.",
+            "price": 300,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
+        },
+        {
+            "id": 25,
+            "name": "Camarones con Coco",
+            "photo": "https://assets.kraftfoods.com/recipe_images/Coconut-Shrimp-41458.jpg",
+            "summary": "Crujientes camarones con coco al horno... fáciles y ¡de limpieza rápida!",
+            "price": 260,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
+        },
+        {
+            "id": 26,
+            "name": "Sidra",
+            "photo": "https://www.cronista.com/files/image/299/299289/5ffe0e817c787.jpg",
+            "summary": "La sidra ​ es una bebida alcohólica fabricada con el jugo fermentado de la manzana o de la pera de baja graduación que varía entre el 2 %",
+            "price": 200,
+            "stock": true,
+            "drinkable": true,
+            "vegetarian": true
+        },
+        {
+            "id": 27,
+            "name": "Salmón al Horno",
+            "photo": "https://i.blogs.es/7ed22f/salmon-al-horno-facil-y-rapido-con-un-toque-especial/1366_2000.jpg",
+            "summary": "Pescado con una cobertura de espuma de mayonesa aromatizada con ajo y limón.",
+            "price": 400,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
+        },
+        {
+            "id": 28,
+            "name": "Pollo al Horno al Limón",
+            "photo": "https://images.hola.com/imagenes/cocina/recetas/20190605143246/pollo-horno-limon/0-686-843/pollo-horno-limon-m.jpg",
+            "summary": "Un pollo al horno, una comida que nos gusta a todos y que es perfecta para compartir entre 4 o 5 personas.",
+            "price": 550,
+            "stock": true,
+            "drinkable": false,
+            "vegetarian": false
         }
     ],
     "menu_food": [
@@ -394,6 +480,66 @@
             "id": 20,
             "foodId": 18,
             "menuId": 2
+        },
+        {
+            "id": 21,
+            "foodId": 20,
+            "menuId": 3
+        },
+        {
+            "id": 22,
+            "foodId": 21,
+            "menuId": 3
+        },
+        {
+            "id": 23,
+            "foodId": 22,
+            "menuId": 3
+        },
+        {
+            "id": 24,
+            "foodId": 23,
+            "menuId": 3
+        },
+        {
+            "id": 25,
+            "foodId": 24,
+            "menuId": 3
+        },
+        {
+            "id": 26,
+            "foodId": 16,
+            "menuId": 3
+        },
+        {
+            "id": 27,
+            "foodId": 12,
+            "menuId": 3
+        },
+        {
+            "id": 28,
+            "foodId": 25,
+            "menuId": 3
+        },
+        {
+            "id": 29,
+            "foodId": 16,
+            "menuId": 4
+        },
+        {
+            "id": 30,
+            "foodId": 26,
+            "menuId": 4
+        },
+        {
+            "id": 31,
+            "foodId": 27,
+            "menuId": 4
+        },
+        {
+            "id": 32,
+            "foodId": 28,
+            "menuId": 4
         }
     ],
     "table": [
@@ -411,19 +557,19 @@
         },
         {
             "id": 3,
-            "num_Table": 4,
+            "num_Table": 3,
             "state": true,
             "chairs": 3
         },
         {
             "id": 4,
-            "num_Table": 5,
+            "num_Table": 4,
             "state": true,
             "chairs": 2
         }, 
         {
             "id": 5,
-            "num_Table": 6,
+            "num_Table": 5,
             "state": true,
             "chairs": 4
         }

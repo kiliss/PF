@@ -110,13 +110,14 @@ export default function Food(props) {
                                                                 className="w-full h-10 py-2 px-2 focus:outline-none resize-none overflow-hidden"
                                                                 placeholder={localStorage.getItem('session') ? 'Agrega un comentario...' : 'Registrate para comentar...'}
                                                                 value={comment}
+                                                                maxlength='250'
                                                                 onChange={(e) => setComment(e.target.value)}
                                                             />
                                                             {
                                                                 localStorage.getItem('session') && <PaperAirplaneIcon
                                                                     className="h-8 w-8 my-1 cursor-pointer ml-2 text-gray-700 hover:text-gray-900"
                                                                     aria-hidden="true"
-                                                                    onClick={() => sendCommentary()}
+                                                                    onClick={() => { if (comment.length) sendCommentary() }}
                                                                 />
                                                             }
                                                         </div>
@@ -133,7 +134,7 @@ export default function Food(props) {
                                                                                 <h2 className="text-sm font-semibold text-black">{f.name}</h2>
                                                                                 <small className="text-sm text-gray-500 ml-2">{f.time}</small>
                                                                             </div>
-                                                                            <p className="w-full text-black text-sm break-all">
+                                                                            <p className="w-full text-black text-sm break-all whitespace-pre-line">
                                                                                 {f.comment}
                                                                             </p>
                                                                         </div>
@@ -166,7 +167,7 @@ export default function Food(props) {
                                                                             className={classNames(
                                                                                 selectedStar > rating ? 'text-red-900 cursor-pointer' :
                                                                                     selectedStar !== 0 ? 'text-gray-300' :
-                                                                                        food?.stars > rating || !food.stars ? 'text-gray-900' : 'text-gray-300',
+                                                                                        food?.stars > rating ? 'text-gray-900' : 'text-gray-300',
                                                                                 'h-5 w-5 flex-shrink-0'
                                                                             )}
                                                                             aria-hidden="true"

@@ -72,7 +72,7 @@ const handleChange = async (e) =>{
         [e.target.name] : e.target.value
     });
     let findedEmail = await dispatch(emailExist(input.email))
-    console.log(findedEmail)
+    //console.log(findedEmail)
     setError(validate({
         ...input,
         [e.target.name] : e.target.value,

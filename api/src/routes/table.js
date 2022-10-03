@@ -5,15 +5,15 @@ const {Table,User,Reservation} = require('../db.js');
 
 
 const getTable=async()=>{
-    return await Table.findAll(/*{
-        // include:{
-        //     model:Reservation,
+    return await Table.findAll({
+     include:{
+            model:Reservation,
         //     attributes:['date','hour','price'],
         //     through:{
         //         attributes:['num_Table','state','chairs']
         //     }
-        // }
-    }*/)
+         }
+    })
 }
 
 router.get("/table",async (req,res)=>{

@@ -1,9 +1,9 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import { Dialog, Disclosure, Menu as MenuReact, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
-import { useDispatch, useSelector } from "react-redux"
-import { getMenu, getFood } from "../redux/actions";
+import { Dialog, Disclosure, Menu as MenuReact, Transition } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid';
+import { useDispatch, useSelector } from "react-redux";
+import { getVisibleMenu, getFood } from "../redux/actions";
 import { useParams } from 'react-router-dom';
 import Food from "./popup/Food";
 //import style from "./style/Menu.module.css";
@@ -39,12 +39,12 @@ const Menu = () => {
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
-        dispatch(getMenu({ 'name': name }));
+        dispatch(getVisibleMenu({ 'name': name }));
         // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
-        dispatch(getMenu({ 'name': name, 'filter': menuFilter, 'price': menuSort, ...menuExtraFilter }))
+        dispatch(getVisibleMenu({ 'name': name, 'filter': menuFilter, 'price': menuSort, ...menuExtraFilter }))
         // eslint-disable-next-line
     }, [menuFilter, menuSort, menuExtraFilter])
 

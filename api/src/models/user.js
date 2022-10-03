@@ -35,7 +35,7 @@ module.exports = (sequilize) => {
             allowNull: false,
             defaultValue: false
         },
-        ban: {
+        erased: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false

@@ -66,13 +66,14 @@ const Profile = () => {
             dangerMode: true,
         }).then((willDelete) => {
         if(willDelete){
-            dispatch(deleteReservation(id))
-            dispatch(getProfile())
-            swal({
-                title: "reserva eliminada",
-                icon: "success",
-                button: "Aceptar",
-            });
+            dispatch(deleteReservation(id)).then(() => {
+                dispatch(getProfile())
+                swal({
+                    title: "reserva eliminada",
+                    icon: "success",
+                    button: "Aceptar",
+                });
+            })
         }
     })}
     
@@ -150,20 +151,20 @@ const Profile = () => {
             body: data,
         }
         );
-        console.log(photo)
+        //console.log(photo)
         const file = await res.json();
         setPhoto(file.secure_url);
         setLoading(false);
     };
 
-    function changePhoto(e){
-        e.preventDefault()
-        localStorage.setItem('photo', photo);
-        dispatch(putUserPhoto({
-            id: usuarioo.id,
-            photo: photo 
-        }))
-    }
+    // function changePhoto(e){
+    //     e.preventDefault()
+    //     localStorage.setItem('photo', photo);
+    //     dispatch(putUserPhoto({
+    //         id: usuarioo.id,
+    //         photo: photo 
+    //     }))
+    // }
 
 
     // ACTUALIZAR TODO DE UNA SOLA VEZ
@@ -188,7 +189,7 @@ const Profile = () => {
                 }))
                 return compareee
                 }).then((compareee) => {
-            if(compareee.message === 'Contraseña correcta!'){
+            if(compareee.message === '¡Contraseña correcta!'){
                 dispatch(putUserName({
                     id: usuarioo.id,
                     name: inputUser.name === "" ? usuario.user : inputUser.name
@@ -279,12 +280,12 @@ const Profile = () => {
                     }))
                     return compareee
                 }).then((compareee) => {
-                    if(compareee.message === 'Contraseña correcta!'){
+                    if(compareee.message === '¡Contraseña correcta!'){
                         dispatch(selfDisableAcc({
-                            ban : true
+                            erased : true
                     })).then(() =>{
                         swal({
-                            title: "Tu cuenta ha sido desactivada",
+                            title: "Tu cuenta ha sido borrada",
                             icon: "success",
                             button: "Aceptar",
                         });
@@ -307,23 +308,20 @@ const Profile = () => {
     }
        
     return (
-        <div className="container mx-auto mt-48 mb-60">
+        <div className="container mx-auto mt-48 h-full xl:mb-32 lg:mb-32 md:mb-24 sm:mb-1">
         <div>
             {
                 !editProf ?
                 <div className="bg-white relative shadow-2xl rounded-lg w-5/6 md:w-4/6  lg:w-3/6 xl:w-2/6 mx-auto">
                 <div className='flex justify-end mr-2'>
-                    <button title='Editar perfil' className='bg-gray-300 hover:bg-gray-400 text-black font-bold rounded-full' onClick={showEditProf}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
-                    <path fillRule="evenodd" d="M11.828 2.25c-.916 0-1.699.663-1.85 1.567l-.091.549a.798.798 0 01-.517.608 7.45 7.45 0 00-.478.198.798.798 0 01-.796-.064l-.453-.324a1.875 1.875 0 00-2.416.2l-.243.243a1.875 1.875 0 00-.2 2.416l.324.453a.798.798 0 01.064.796 7.448 7.448 0 00-.198.478.798.798 0 01-.608.517l-.55.092a1.875 1.875 0 00-1.566 1.849v.344c0 .916.663 1.699 1.567 1.85l.549.091c.281.047.508.25.608.517.06.162.127.321.198.478a.798.798 0 01-.064.796l-.324.453a1.875 1.875 0 00.2 2.416l.243.243c.648.648 1.67.733 2.416.2l.453-.324a.798.798 0 01.796-.064c.157.071.316.137.478.198.267.1.47.327.517.608l.092.55c.15.903.932 1.566 1.849 1.566h.344c.916 0 1.699-.663 1.85-1.567l.091-.549a.798.798 0 01.517-.608 7.52 7.52 0 00.478-.198.798.798 0 01.796.064l.453.324a1.875 1.875 0 002.416-.2l.243-.243c.648-.648.733-1.67.2-2.416l-.324-.453a.798.798 0 01-.064-.796c.071-.157.137-.316.198-.478.1-.267.327-.47.608-.517l.55-.091a1.875 1.875 0 001.566-1.85v-.344c0-.916-.663-1.699-1.567-1.85l-.549-.091a.798.798 0 01-.608-.517 7.507 7.507 0 00-.198-.478.798.798 0 01.064-.796l.324-.453a1.875 1.875 0 00-.2-2.416l-.243-.243a1.875 1.875 0 00-2.416-.2l-.453.324a.798.798 0 01-.796.064 7.462 7.462 0 00-.478-.198.798.798 0 01-.517-.608l-.091-.55a1.875 1.875 0 00-1.85-1.566h-.344zM12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z" clipRule="evenodd" />
-                    </svg>
+                    <button title='Editar perfil' className='bg-gray-300 hover:bg-gray-400 text-black font-bold rounded-full' onClick={showEditProf}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+                        <path fillRule="evenodd" d="M11.828 2.25c-.916 0-1.699.663-1.85 1.567l-.091.549a.798.798 0 01-.517.608 7.45 7.45 0 00-.478.198.798.798 0 01-.796-.064l-.453-.324a1.875 1.875 0 00-2.416.2l-.243.243a1.875 1.875 0 00-.2 2.416l.324.453a.798.798 0 01.064.796 7.448 7.448 0 00-.198.478.798.798 0 01-.608.517l-.55.092a1.875 1.875 0 00-1.566 1.849v.344c0 .916.663 1.699 1.567 1.85l.549.091c.281.047.508.25.608.517.06.162.127.321.198.478a.798.798 0 01-.064.796l-.324.453a1.875 1.875 0 00.2 2.416l.243.243c.648.648 1.67.733 2.416.2l.453-.324a.798.798 0 01.796-.064c.157.071.316.137.478.198.267.1.47.327.517.608l.092.55c.15.903.932 1.566 1.849 1.566h.344c.916 0 1.699-.663 1.85-1.567l.091-.549a.798.798 0 01.517-.608 7.52 7.52 0 00.478-.198.798.798 0 01.796.064l.453.324a1.875 1.875 0 002.416-.2l.243-.243c.648-.648.733-1.67.2-2.416l-.324-.453a.798.798 0 01-.064-.796c.071-.157.137-.316.198-.478.1-.267.327-.47.608-.517l.55-.091a1.875 1.875 0 001.566-1.85v-.344c0-.916-.663-1.699-1.567-1.85l-.549-.091a.798.798 0 01-.608-.517 7.507 7.507 0 00-.198-.478.798.798 0 01.064-.796l.324-.453a1.875 1.875 0 00-.2-2.416l-.243-.243a1.875 1.875 0 00-2.416-.2l-.453.324a.798.798 0 01-.796.064 7.462 7.462 0 00-.478-.198.798.798 0 01-.517-.608l-.091-.55a1.875 1.875 0 00-1.85-1.566h-.344zM12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z" clipRule="evenodd" />
+                        </svg>
                     </button>
                 </div>
                 <div className="flex justify-center">
-                    {
-                        !photo ?
-                        <img src={usuariooPhoto} alt="" referrerPolicy='no-referrer' className="rounded-full mx-auto absolute -top-20 w-40 h-40 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"/>
-                        : <img src={photo} alt="" referrerPolicy='no-referrer' className="rounded-full mx-auto absolute -top-20 w-40 h-40 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"/>
-                    }
+                    <img src={usuariooPhoto} alt="" referrerPolicy='no-referrer' className="rounded-full mx-auto absolute -top-20 w-40 h-40 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"/>
                 </div>
                 <div className=" mt-16">
                 <div className='flex flex-col justify-center items-center px-6 text-center'>
@@ -372,9 +370,10 @@ const Profile = () => {
             // ACA CAMBIA DE COMPONENTE
             <div className="bg-white relative shadow-2xl rounded-lg w-5/6 md:w-4/6  lg:w-3/6 xl:w-2/6 mx-auto">
                 <div className='flex justify-end mr-2'>
-                    <button title='Volver al perfil' className='bg-gray-300 hover:bg-gray-400 text-black font-bold rounded-full' onClick={showEditProf}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
-                    <path fillRule="evenodd" d="M11.828 2.25c-.916 0-1.699.663-1.85 1.567l-.091.549a.798.798 0 01-.517.608 7.45 7.45 0 00-.478.198.798.798 0 01-.796-.064l-.453-.324a1.875 1.875 0 00-2.416.2l-.243.243a1.875 1.875 0 00-.2 2.416l.324.453a.798.798 0 01.064.796 7.448 7.448 0 00-.198.478.798.798 0 01-.608.517l-.55.092a1.875 1.875 0 00-1.566 1.849v.344c0 .916.663 1.699 1.567 1.85l.549.091c.281.047.508.25.608.517.06.162.127.321.198.478a.798.798 0 01-.064.796l-.324.453a1.875 1.875 0 00.2 2.416l.243.243c.648.648 1.67.733 2.416.2l.453-.324a.798.798 0 01.796-.064c.157.071.316.137.478.198.267.1.47.327.517.608l.092.55c.15.903.932 1.566 1.849 1.566h.344c.916 0 1.699-.663 1.85-1.567l.091-.549a.798.798 0 01.517-.608 7.52 7.52 0 00.478-.198.798.798 0 01.796.064l.453.324a1.875 1.875 0 002.416-.2l.243-.243c.648-.648.733-1.67.2-2.416l-.324-.453a.798.798 0 01-.064-.796c.071-.157.137-.316.198-.478.1-.267.327-.47.608-.517l.55-.091a1.875 1.875 0 001.566-1.85v-.344c0-.916-.663-1.699-1.567-1.85l-.549-.091a.798.798 0 01-.608-.517 7.507 7.507 0 00-.198-.478.798.798 0 01.064-.796l.324-.453a1.875 1.875 0 00-.2-2.416l-.243-.243a1.875 1.875 0 00-2.416-.2l-.453.324a.798.798 0 01-.796.064 7.462 7.462 0 00-.478-.198.798.798 0 01-.517-.608l-.091-.55a1.875 1.875 0 00-1.85-1.566h-.344zM12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z" clipRule="evenodd" />
-                    </svg>
+                    <button title='Volver al perfil' className='bg-gray-300 hover:bg-gray-400 text-black font-bold rounded-full' onClick={showEditProf}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+                        <path fillRule="evenodd" d="M9.53 2.47a.75.75 0 010 1.06L4.81 8.25H15a6.75 6.75 0 010 13.5h-3a.75.75 0 010-1.5h3a5.25 5.25 0 100-10.5H4.81l4.72 4.72a.75.75 0 11-1.06 1.06l-6-6a.75.75 0 010-1.06l6-6a.75.75 0 011.06 0z" clipRule="evenodd" />
+                        </svg>
                     </button>
                 </div>
                 <div className="flex justify-center">
@@ -458,12 +457,12 @@ const Profile = () => {
                 </div>
                     <div className='flex justify-end pb-1 pr-1'>
                         <div className='flex flex-col items-center'>
-                        <button className='mt-2 font-normal text-xs bg-gray-200 enabled:hover:bg-gray-300 text-black px-1 rounded-lg' type='button' onClick={showDivDisableAcc}>Desactivar cuenta&#129055;</button>
+                        <button className='mt-2 font-normal text-xs bg-gray-200 enabled:hover:bg-gray-300 text-black px-1 rounded-lg' type='button' onClick={showDivDisableAcc}>Borrar cuenta&#129055;</button>
                         <div>
                             {
                                 !divDisableAcc ?
                                 <span></span>:
-                                <button className='font-bold text-1xl bg-red-700 enabled:hover:bg-red-900 text-white px-2 h-6 rounded-full' onClick={(e) => banUser(e)}>Desactivar</button>
+                                <button className='font-bold text-1xl bg-red-700 enabled:hover:bg-red-900 text-white px-2 h-6 rounded-full' onClick={(e) => banUser(e)}>Borrar</button>
                             }
                         </div>
                         </div>
