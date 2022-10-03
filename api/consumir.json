@@ -557,19 +557,19 @@
         },
         {
             "id": 3,
-            "num_Table": 4,
+            "num_Table": 3,
             "state": true,
             "chairs": 3
         },
         {
             "id": 4,
-            "num_Table": 5,
+            "num_Table": 4,
             "state": true,
             "chairs": 2
         }, 
         {
             "id": 5,
-            "num_Table": 6,
+            "num_Table": 5,
             "state": true,
             "chairs": 4
         }
