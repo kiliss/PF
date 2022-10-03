@@ -134,7 +134,7 @@ export default function Food(props) {
                                                                                 <h2 className="text-sm font-semibold text-black">{f.name}</h2>
                                                                                 <small className="text-sm text-gray-500 ml-2">{f.time}</small>
                                                                             </div>
-                                                                            <p className="w-full text-black text-sm break-all">
+                                                                            <p className="w-full text-black text-sm break-all whitespace-pre-line">
                                                                                 {f.comment}
                                                                             </p>
                                                                         </div>
