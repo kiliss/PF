@@ -66,13 +66,14 @@ const Profile = () => {
             dangerMode: true,
         }).then((willDelete) => {
         if(willDelete){
-            dispatch(deleteReservation(id))
-            dispatch(getProfile())
-            swal({
-                title: "reserva eliminada",
-                icon: "success",
-                button: "Aceptar",
-            });
+            dispatch(deleteReservation(id)).then(() => {
+                dispatch(getProfile())
+                swal({
+                    title: "reserva eliminada",
+                    icon: "success",
+                    button: "Aceptar",
+                });
+            })
         }
     })}
     
@@ -156,14 +157,14 @@ const Profile = () => {
         setLoading(false);
     };
 
-    function changePhoto(e){
-        e.preventDefault()
-        localStorage.setItem('photo', photo);
-        dispatch(putUserPhoto({
-            id: usuarioo.id,
-            photo: photo 
-        }))
-    }
+    // function changePhoto(e){
+    //     e.preventDefault()
+    //     localStorage.setItem('photo', photo);
+    //     dispatch(putUserPhoto({
+    //         id: usuarioo.id,
+    //         photo: photo 
+    //     }))
+    // }
 
 
     // ACTUALIZAR TODO DE UNA SOLA VEZ
@@ -281,7 +282,7 @@ const Profile = () => {
                 }).then((compareee) => {
                     if(compareee.message === 'Contraseña correcta!'){
                         dispatch(selfDisableAcc({
-                            ban : true
+                            erased : true
                     })).then(() =>{
                         swal({
                             title: "Tu cuenta ha sido desactivada",
@@ -307,7 +308,7 @@ const Profile = () => {
     }
        
     return (
-        <div className="container mx-auto mt-48 mb-60">
+        <div className="container mx-auto mt-48 h-full xl:mb-32 lg:mb-32 md:mb-24 sm:mb-1">
         <div>
             {
                 !editProf ?
@@ -320,11 +321,7 @@ const Profile = () => {
                     </button>
                 </div>
                 <div className="flex justify-center">
-                    {
-                        !photo ?
-                        <img src={usuariooPhoto} alt="" referrerPolicy='no-referrer' className="rounded-full mx-auto absolute -top-20 w-40 h-40 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"/>
-                        : <img src={photo} alt="" referrerPolicy='no-referrer' className="rounded-full mx-auto absolute -top-20 w-40 h-40 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"/>
-                    }
+                    <img src={usuariooPhoto} alt="" referrerPolicy='no-referrer' className="rounded-full mx-auto absolute -top-20 w-40 h-40 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"/>
                 </div>
                 <div className=" mt-16">
                 <div className='flex flex-col justify-center items-center px-6 text-center'>
@@ -460,12 +457,12 @@ const Profile = () => {
                 </div>
                     <div className='flex justify-end pb-1 pr-1'>
                         <div className='flex flex-col items-center'>
-                        <button className='mt-2 font-normal text-xs bg-gray-200 enabled:hover:bg-gray-300 text-black px-1 rounded-lg' type='button' onClick={showDivDisableAcc}>Desactivar cuenta&#129055;</button>
+                        <button className='mt-2 font-normal text-xs bg-gray-200 enabled:hover:bg-gray-300 text-black px-1 rounded-lg' type='button' onClick={showDivDisableAcc}>Borrar cuenta&#129055;</button>
                         <div>
                             {
                                 !divDisableAcc ?
                                 <span></span>:
-                                <button className='font-bold text-1xl bg-red-700 enabled:hover:bg-red-900 text-white px-2 h-6 rounded-full' onClick={(e) => banUser(e)}>Desactivar</button>
+                                <button className='font-bold text-1xl bg-red-700 enabled:hover:bg-red-900 text-white px-2 h-6 rounded-full' onClick={(e) => banUser(e)}>Borrar</button>
                             }
                         </div>
                         </div>
