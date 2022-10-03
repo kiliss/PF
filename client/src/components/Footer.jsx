@@ -1,4 +1,5 @@
 import burguer from "../assets/footer/burguer.png";
+import { Link } from "react-router-dom";
 
 export default function Footer () {
     return (
@@ -8,6 +9,7 @@ export default function Footer () {
                         <div className="flex items-center space-x-4">
                             <img src={burguer} alt="Burguer" className="h-9 fill-rose-600" />
                             <p className="mt-3">PFRestaurante © 2022.</p>
+                            <Link className="mt-3" to="/politicas">Términos y Políticas</Link>
                         </div>
                         <nav className="flex flex-col flex-wrap items-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 my-10">
                             <p>Creadores:</p>

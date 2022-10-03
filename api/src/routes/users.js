@@ -7,6 +7,9 @@ const { sendEmail } = require("../auth/mailer.js")
 const jwt = require('jsonwebtoken');
 const { where } = require('sequelize');
 
+const deploy = 'https://pf-kiliss.vercel.app';
+const local = 'http://localhost:3000';
+
 const getDbUsers = async () => {
     return await User.findAll({
         attributes: ['id', 'user', 'password', 'email', 'photo', 'admin', "erased"],
@@ -294,7 +297,7 @@ router.post("/forgotPassword", async (req, res) => {
         }
         const jwtToken = jwt.sign(JSON.stringify({ id: oldUser.id, email: oldUser.email, admin: oldUser.admin }), process.env.JWT_SECRET);
         // console.log(jwtToken)
-        const link = `http://localhost:3000/resetPassword/${oldUser.id}/${jwtToken}`;
+        const link = `${deploy}/resetPassword/${oldUser.id}/${jwtToken}`;
         //enviar correo ...
         // console.log(link)
         sendEmail(
