@@ -86,6 +86,14 @@ const MannageTables = () => {
                         icon: "error",
                         button: "Aceptar",
                     });
+                
+                } else if(r !== 1 || r !== 2 || r !== 3 || r !== 4 || r !== 5 || r !== 6 || r !== 7 || r !== 8 || r !== 9 || r !== 10){
+                    swal({
+                        title: "Error",
+                        text: "El numero de sillas debe ser entre 1 y 10",
+                        icon: "error",
+                        button: "Aceptar",
+                    });
                 } else {
                 dispatch(editTable({
                     id: table.id,
@@ -100,9 +108,14 @@ const MannageTables = () => {
                         icon: "success",
                         button: "Aceptar",
                     });
+               
                 });
+        
             }}
+
+
         })
+
     }
     const createTables = () => {
         swal({
