@@ -69,7 +69,7 @@ const Profile = () => {
             dispatch(deleteReservation(id)).then(() => {
                 dispatch(getProfile())
                 swal({
-                    title: "reserva eliminada",
+                    title: "Reserva eliminada",
                     icon: "success",
                     button: "Aceptar",
                 });
@@ -189,7 +189,7 @@ const Profile = () => {
                 }))
                 return compareee
                 }).then((compareee) => {
-            if(compareee.message === 'Contraseña correcta!'){
+            if(compareee.message === '¡Contraseña correcta!'){
                 dispatch(putUserName({
                     id: usuarioo.id,
                     name: inputUser.name === "" ? usuario.user : inputUser.name
@@ -258,7 +258,7 @@ const Profile = () => {
     function banUser(e){
         e.preventDefault();
         swal({
-            title: "¿Desea desactivar su cuenta?",
+            title: "¿Desea borrar su cuenta?",
             icon: "warning",
             buttons: ["Cancelar", "Aceptar"],
             dangerMode: true,
@@ -280,12 +280,12 @@ const Profile = () => {
                     }))
                     return compareee
                 }).then((compareee) => {
-                    if(compareee.message === 'Contraseña correcta!'){
+                    if(compareee.message === '¡Contraseña correcta!'){
                         dispatch(selfDisableAcc({
                             erased : true
                     })).then(() =>{
                         swal({
-                            title: "Tu cuenta ha sido desactivada",
+                            title: "Tu cuenta ha sido borrada",
                             icon: "success",
                             button: "Aceptar",
                         });

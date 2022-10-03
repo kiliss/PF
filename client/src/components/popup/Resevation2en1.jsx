@@ -14,9 +14,14 @@ import jwt_decode from "jwt-decode"
 
 const validationForm = (input) => {
     let errors = {};
-
+    const fecha=new Date()
+    const actualFecha=`${fecha.getFullYear()}-${fecha.getMonth()+1}-0${fecha.getDate()}`
+    const hora=fecha.getHours()
     if (!input.date) {
         errors.date = "Date required"
+    }
+    if(input.date===actualFecha && input.hour.slice(0,1)<=hora){
+        errors.hour="please insert a correct hour"
     }
     if (!input.hour) {
         errors.hour = "Hour is required"
@@ -27,8 +32,8 @@ const validationForm = (input) => {
     if (input.num_Table > 1) {
         errors.num_Table = "SELECT ONLY ONE TABLE PLEASE"
     }
-    if(input.chairs<2||input.chairs>4){
-        errors.chairs="PLEASE SELECT A VALID NUM OF CHAIRS (2-4)"
+    if(input.chairs<1||input.chairs>10){
+        errors.chairs="PLEASE SELECT A VALID NUM OF CHAIRS (1-10)"
     }
     return errors
 };
@@ -37,13 +42,14 @@ const stripePromise = loadStripe("pk_test_51LkeM7HwicqFBY9CPHk3MavK9EF4OJ9ioOHqF
 
 const CheckoutForm = () => {
     const fecha=new Date()
-    const actualFecha=`${fecha.getFullYear()}-0${fecha.getMonth()+1}-${fecha.getDate()}`
+    const actualFecha=`${fecha.getFullYear()}-${fecha.getMonth()+1}-0${fecha.getDate()}`
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate()
-
+    const [invisible,setInvisible]=useState(false)
+    const [visible,setVisible]=useState(true)
   useEffect(() => {
     dispatch(getTable())
     dispatch(getProfile())
@@ -52,7 +58,7 @@ const CheckoutForm = () => {
 
 
   const tables = useSelector((state) => state.tables);
-
+    const reservations=useSelector((state)=>state.reservations)
  
 //   const decode = window.localStorage.getItem("user");
   const decodee = jwt_decode(localStorage.getItem('session'))
@@ -61,20 +67,45 @@ const CheckoutForm = () => {
     id_User: decodee.id,
     id_Table: "",
     date: "",
-    hour: "",
+    hour: "8:00",
     guest:"",
     price: 300,
     num_Table: [],
     email: decodee.email,
 })
+
   const [errors, setErrors] = useState({});
   const mesasFiltradas=tables.filter((t)=>{
 
     if(input.guest) {
-      if( t.chairs==input.guest){
-         const mesa=t
-         return mesa
-     } }})
+                
+       
+      
+       if(t.reservations[0]){
+        t.reservations.forEach((e)=>{
+            if(e.date===input.date&&e.hour.slice(0,5)===input.hour){
+             
+                 t.state=invisible  
+                  
+        }if(e.date===input.date&&e.hour.slice(0,5)!==input.hour){
+            t.state=visible
+        }
+        if(e.date!==input.date&&e.hour.slice(0,5)===input.hour){
+            t.state=visible
+        }
+    }
+        )
+       }
+       
+         if( t.chairs==input.guest){
+                   
+                   
+                    
+            const mesa=t
+            return mesa
+        }
+       }})    
+      
   function handleChange(e) {
       setInput({
           ...input,
@@ -86,7 +117,6 @@ const CheckoutForm = () => {
       })
       )
   }
-
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
@@ -107,7 +137,6 @@ const CheckoutForm = () => {
       card: elements.getElement(CardElement) // esto es como un getElementByID
     });
     
-
     if (!error) {
         setLoading(true);
         const { id } = paymentMethod;
@@ -133,9 +162,25 @@ const CheckoutForm = () => {
             console.log(error)
         }
         setLoading(false)
-    }}
+    }else if(error.message === "El año de caducidad de la tarjeta ya ha pasado." || error.message === "El año de caducidad de la tarjeta no es válido." || error.message === "La fecha de caducidad de tu tarjeta ya ha pasado."){
+        swal("Revise los campos de su tarjeta", "El año de caducidad no es valido", "warning")
+    }else if(error.message === "El número de tu tarjeta está incompleto."){
+        swal("Revise los campos de su tarjeta", "El número de tu tarjeta está incompleto", "warning")
+    }else if(error.message === "Tu código postal está incompleto."){
+        swal("Revise los campos de su tarjeta", "Tu código postal está incompleto", "warning")
+    }else if(error.message === "La fecha de caducidad de tu tarjeta está incompleta."){
+        swal("Revise los campos de su tarjeta", "La fecha de caducidad de tu tarjeta esta incompleta", "warning")
+    }else if(error.message === "El código de seguridad de tu tarjeta está incompleto."){
+        swal("Revise los campos de su tarjeta", "El código de seguridad de tu tarjeta esta incompleto", "warning")
+    }
   };
+  }
 
+  let mañana = new Date(fecha.setDate(fecha.getDate() + 1));
+
+  mañana = `${fecha.getFullYear()}-${fecha.getMonth()+1}-0${fecha.getDate()}`
+
+    
   
   return (
     
@@ -153,7 +198,7 @@ const CheckoutForm = () => {
                             type="date"
                             name="date"
                             id="date"
-                            min={actualFecha}
+                            min={mañana}
                             max="2025-04-30"
                             value={input.date}
                             onChange={handleChange}
@@ -168,17 +213,31 @@ const CheckoutForm = () => {
                             className="mb-3 block text-base font-medium text-[#07074D]" >
                             Hora
                         </label>
-                        <input
-                            type="time"
-                            step="7200"
-                            name="hour"
-                            id="hour"
-                            min="08.00" 
-                            max="23:59" 
-                            value={input.hour}
-                            onChange={handleChange}
-                            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        /> {errors.hour && <p className='form-error'>{errors.hour}</p>}
+                        <select id="framework"
+                          value={input.hour}
+                          name="hour"
+                            
+                          onChange={handleChange}
+                          className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      >
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>                
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>                
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+                <option value="21:00">21:00</option>
+                <option value="22:00">22:00</option>
+                <option value="23:00">23:00</option>
+                
+            </select>{errors.hour && <p className='form-error'>{errors.hour}</p>}
                     </div>
                 </div>
             </div>
@@ -196,8 +255,8 @@ const CheckoutForm = () => {
                             id="guest"
                             value={input.guest}
                             placeholder="2"
-                            min="2"
-                            max="4"
+                            min="1"
+                            max="10"
                             onChange={handleChange}
                             className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
                     </div>
@@ -222,7 +281,9 @@ const CheckoutForm = () => {
                                 mesasFiltradas.length ?
                                      
                                         mesasFiltradas.map(e=>{
-                                           return(<option key={`reservation-${e.num_Table}`}  value={e.id}>{`Mesa ${e.num_Table}`}</option>)
+                                           
+                                            if(e.state===true){
+                                                return(<option key={`reservation-${e.num_Table}`}  value={e.id}>{`Mesa ${e.num_Table}`}</option>) }
                                         })
                                     /*tables.map((table) => (
                                         
@@ -263,7 +324,7 @@ function Reservation(props) {
 
         <Elements stripe={stripePromise}>
             <div className="flex justify-center"> 
-                <div className="w-3/5"> 
+                <div className="2xl:w-3/5 lg:w-3/5 xl:w-3/5 md:w-4/5 sm:w-4/5"> 
                 <div> 
                 <CheckoutForm/>
                 </div>
