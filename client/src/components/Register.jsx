@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-escape */
 import React, {useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUser, emailExist } from "../redux/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import  ProfileImages from "../assets/register/ProfileImages.js"
 import swal from 'sweetalert';
 
@@ -128,6 +130,7 @@ const handleSubmit = async (e) => {
 
 useEffect(() => {
     autoUpload()
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])
 
 const [passwordShown, setPasswordShown] = useState(false);
@@ -193,8 +196,8 @@ const togglePassword = () => {
           <div>
                 <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">Imagen de perfil</label>
                 {
-                    photo ? <img src={photo} alt= "Profile image" className="w-50 h-50 rounded-full"/> : 
-                    <img src={image.url} alt= "Profile image" className="w-50 h-50 rounded-full"/>
+                    photo ? <img src={photo} alt= "Profile" className="w-50 h-50 rounded-full"/> : 
+                    <img src={image.url} alt= "Profile" className="w-50 h-50 rounded-full"/>
                 }                    
             </div>
             <div>
