@@ -85,7 +85,7 @@ router.post('/', async (req, res) => {
             sendEmail(
                 email,
                 '¡Gracias por registrarte en PFRestaurante!',
-                `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.`,
+                `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro establecimiento.`,
                 'welcome');
             res.status(200).json("El usuario ha sido creado correctamente");
         }
@@ -126,7 +126,7 @@ router.post('/google', async (req, res) => {
                 sendEmail(
                     usser.email,
                     '¡Gracias por registrarte en PFRestaurante!',
-                    `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Tu contraseña temporal es: ${password}\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.`,
+                    `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Tu contraseña temporal es: ${password}\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro establecimiento.`,
                     'welcome');
                 return res.send({ session: jwtToken, photo: usser.photo, name: usser.user });
             }

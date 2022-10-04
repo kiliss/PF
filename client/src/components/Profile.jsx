@@ -60,7 +60,7 @@ const Profile = () => {
     const handleDelete =async (e,id)=>{
         e.preventDefault();
         swal({
-            title: "Esta seguro que desea eliminar la reservacion?",
+            title: "Esta seguro que desea cancelar la reserva?",
             icon: "warning",
             buttons: ["Cancelar", "Aceptar"],
             dangerMode: true,
