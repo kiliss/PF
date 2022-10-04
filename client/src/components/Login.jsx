@@ -15,9 +15,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const clientIdGoogle = process.env.REACT_APP_CLIENT_ID_GOOGLE;
   const clientIdFacebook = process.env.REACT_APP_CLIENT_ID_FACEBOOK;
-  const deploy = 'https://pf-kiliss.vercel.app';
-  // eslint-disable-next-line no-unused-vars
-  const local = 'http://localhost:3000';
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -225,7 +223,7 @@ const Login = () => {
                     authorizationUrl="https://www.facebook.com/dialog/oauth"
                     responseType="token"
                     clientId={clientIdFacebook}
-                    redirectUri={deploy}
+                    redirectUri='http://localhost:3000'
                     scope="public_profile"
                     render={(props) => (
                       <button
