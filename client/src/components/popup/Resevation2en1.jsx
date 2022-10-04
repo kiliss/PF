@@ -287,7 +287,7 @@ const CheckoutForm = () => {
                                         <option key={`reservation-${table.num_Table}`}  value={table.id}>{`Mesa ${fitrado}`}</option>
                                     ))*/
                                     :
-                                    <option value={0}>Intente Otro Horario</option>
+                                    <option value={0} disabled>Intente Otro Horario</option>
                             }
                         </select> {errors.num_Table && <p className='form-error'>{errors.num_Table}</p>}
                     </div>
@@ -318,7 +318,7 @@ function Reservation(props) {
     return (
 
         <Elements stripe={stripePromise}>
-            <div className="flex justify-center"> 
+            <div className="flex justify-center h-screen"> 
                 <div className="2xl:w-3/5 lg:w-3/5 xl:w-3/5 md:w-4/5 sm:w-4/5"> 
                 <div> 
                 <CheckoutForm/>
