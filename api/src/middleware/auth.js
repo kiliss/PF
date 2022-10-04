@@ -9,11 +9,11 @@ const checkAuth = async (req, res, next) => {
             next();
         } else {
             res.status(409);
-            res.send({ error: '¡Tu por aqui no pasas!' });
+            res.send({ error: '¡Tu por aqui no pasas, solo usuarios!' });
         }
     } catch (e) {
         res.status(409);
-        res.send({ error: '¡Tu por aqui no pasas!' });
+        res.send({ error: '¡Tu por aqui no pasas, solo usuarios!' });
     }
 }
 
@@ -25,11 +25,11 @@ const isUser = async (req, res, next) => {
             next();
         } else {
             res.status(409);
-            res.send({ error: '¡Tu por aqui no pasas!' });
+            res.send({ error: '¡Tu por aqui no pasas, solo usuarios!' });
         }
     } catch (e) {
         res.status(409);
-        res.send({ error: '¡Tu por aqui no pasas!' });
+        res.send({ error: '¡Tu por aqui no pasas, solo usuarios!' });
     }
 }
 
@@ -41,11 +41,11 @@ const isAdmin = async (req, res, next) => {
             next();
         } else {
             res.status(409);
-            res.send({ error: '¡Tu por aqui no pasas!' });
+            res.send({ error: '¡Tu por aqui no pasas, solo admins!' });
         }
     } catch (e) {
         res.status(409);
-        res.send({ error: '¡Tu por aqui no pasas!' });
+        res.send({ error: '¡Tu por aqui no pasas, solo admins!' });
     }
 }
 

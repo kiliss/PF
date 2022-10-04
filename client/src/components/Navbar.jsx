@@ -217,8 +217,8 @@ const Navbar = () => {
                             </div>
                         </div>
                         {
-                            onHover === 'menus' && <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 border-t border-gray-300" onMouseLeave={() => setOnHover('')}>
-                                <div className="my-6 space-y-12 lg:grid lg:grid-cols-5 lg:gap-x-6 lg:gap-y-6 lg:space-y-0">
+                            onHover === 'menus' && <div className="py-6 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 border-t border-gray-300" onMouseLeave={() => setOnHover('')}>
+                                <div className="space-y-12 lg:grid lg:grid-cols-5 lg:gap-x-6 lg:gap-y-6 lg:space-y-0">
                                     {
                                         menus?.map(m => {
                                             return (
@@ -237,8 +237,8 @@ const Navbar = () => {
                             </div>
                         }
                         {
-                            onHover === 'admin' && <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 border-t border-gray-300" onMouseLeave={() => setOnHover('')}>
-                                <div className="my-6 space-y-12 lg:grid lg:grid-cols-5 lg:gap-x-6 lg:gap-y-6 lg:space-y-0">
+                            onHover === 'admin' && <div className="py-6 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 border-t border-gray-300" onMouseLeave={() => setOnHover('')}>
+                                <div className="space-y-12 lg:grid lg:grid-cols-5 lg:gap-x-6 lg:gap-y-6 lg:space-y-0">
                                     {
                                         adminNavigation?.map(a => {
                                             return (

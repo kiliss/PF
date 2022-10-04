@@ -176,11 +176,24 @@ export function getFood(id) {
     };
 };
 
+export function refreshFood() {
+    return async function (dispatch) {
+        try {
+            return dispatch({
+                type: "GET_FOOD",
+                payload: {}
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    };
+};
+
 // FILTRAR COMIDAS (*SE DEBE PROBAR*)
 export function getFoods() {
     return async function (dispatch) {
         try {
-            var json = await axios.get(`/foods`, {
+            var json = await axios.get(`/foods/all`, {
                 headers: {
                     'Authorization': localStorage.getItem('session')
                         ? localStorage.getItem('session')
@@ -222,7 +235,7 @@ export function getFoodsSearch(data) {
 export function postFood(data) {
     return async function () {
         try {
-            var json = await axios.post("/foods", data, {
+            var json = await axios.post("/foods/all", data, {
                 headers: {
                     'Authorization': localStorage.getItem('session')
                         ? localStorage.getItem('session')
@@ -642,7 +655,7 @@ export function logout() {
 export function giveFoodValoration(foodId, userId, stars) {
     return async function () {
         try {
-            const { data } = await axios.post(`/foods/score/${foodId}?user=${userId}&valoration=${stars}`, {
+            const { data } = await axios.post(`/foods/score/${foodId}?user=${userId}&valoration=${stars}`, {}, {
                 headers: {
                     'Authorization': localStorage.getItem('session')
                         ? localStorage.getItem('session')
@@ -656,7 +669,7 @@ export function giveFoodValoration(foodId, userId, stars) {
     };
 };
 
-export function giveFoodCommentary(foodId, userId, comment, time) {
+export function giveFoodCommentary(foodId, userId, comment) {
     return async function () {
         try {
             const { data } = await axios.post(`/foods/comment/${foodId}?user=${userId}`, { comment }, {
@@ -749,6 +762,48 @@ export function comparePassword(payload){
         try {
             var json = await axios.post("/login/validate", payload)
             return json.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export function getRooms(){
+    return async function (dispatch){
+        try {
+            var json = await axios.get("/users/messages/rooms")
+            return dispatch({
+                type: "GET_ROOMS",
+                payload: json.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export function getMessages(id){
+    return async function (dispatch){
+        try {
+            var json = await axios.get("/users/messages/"+ id)
+            return dispatch({
+                type: "GET_MESSAGES",
+                payload: json.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export function postMessage(payload){
+    return async function (dispatch){
+        try {
+            var json = await axios.post("/users/message", payload)
+            return dispatch({
+                type:"POST_MESSAGE",
+                payload: json.data
+            })
         } catch (error) {
             console.log(error)
         }

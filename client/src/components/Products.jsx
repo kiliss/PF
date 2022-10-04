@@ -3,7 +3,7 @@ import { Dialog, Disclosure, Menu as MenuReact, Transition } from '@headlessui/r
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { useDispatch, useSelector } from "react-redux"
-import { getFoodsSearch, getFood } from "../redux/actions";
+import { getFoodsSearch, getFood, refreshFood } from "../redux/actions";
 import Food from "./popup/Food";
 
 const sortOptions = [
@@ -295,7 +295,7 @@ const Products = () => {
                                     <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                                         {foods.length ? foods.map(f => {
                                             return (
-                                                <div className="group relative cursor-pointer" key={f.name} onClick={() => { dispatch(getFood(f.id)); setOpen(true) }}>
+                                                <div className="group relative cursor-pointer" key={f.name} onClick={() => { dispatch(refreshFood()); dispatch(getFood(f.id)); setOpen(true) }}>
                                                     <div className="h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-white group-hover:opacity-75 lg:aspect-none">
                                                         <img src={f.photo} alt={f.name} className="h-full w-full object-cover object-center lg:h-full lg:w-full" />
                                                     </div>
