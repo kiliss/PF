@@ -1,17 +1,16 @@
 import React from 'react';
 // import style from "./style/Profile.module.css";
-import { useParams, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
-import { getProfile, selfDisableAcc,deleteReservation, putUserName, putUserPasswd, putUserPhoto, comparePassword } from '../redux/actions';
+import { getReservations, getProfile, selfDisableAcc,deleteReservation, putUserName, putUserPasswd, putUserPhoto, comparePassword } from '../redux/actions';
 import jwt_decode from "jwt-decode";
 import swal from 'sweetalert';
 import { useState } from 'react';
 import image from "../assets/profile/uploadimage.png" 
 import image2 from "../assets/profile/hamburguesa.png"
-import image3 from "../assets/profile/checked.png"
 import image4 from "../assets/profile/padlock.png"
-import jwtDecode from 'jwt-decode';
+
 
 const regexPasswd = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/
 function validate(inputUser, inputPasswd, state1, state2){
@@ -55,6 +54,7 @@ const Profile = () => {
     useEffect(() => {
         dispatch(getProfile())
         // dispatch(getUsers())
+        dispatch(getReservations())
     }, [dispatch])
     
     const handleDelete =async (e,id)=>{
@@ -137,6 +137,7 @@ const Profile = () => {
 
     // CAMBIO DE IMAGEN
     const [photo, setPhoto] = useState("");
+    // eslint-disable-next-line no-unused-vars
     const [loading, setLoading] = useState(false);
     const uploadImage = async (e) => {
         const files = e.target.files;
@@ -243,11 +244,11 @@ const Profile = () => {
         setEditProf(!editProf);
     };
     
-    // MOSTRAR/OCULTAR CAMPOS PARA CAMBIO DE CONTRASEÑA
-    const [divPasswd, setDivPasswd] = useState(false)
-    const showDivPasswd = () => {
-        setDivPasswd(!divPasswd);
-    };
+    // // MOSTRAR/OCULTAR CAMPOS PARA CAMBIO DE CONTRASEÑA
+    // const [divPasswd, setDivPasswd] = useState(false)
+    // const showDivPasswd = () => {
+    //     setDivPasswd(!divPasswd);
+    // };
 
     // MOSTRAR/OCULTAR BOTON DE DESHABILITAR CUENTA
     const [divDisableAcc, setDivDisableAcc] = useState(false)

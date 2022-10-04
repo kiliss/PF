@@ -37,7 +37,7 @@ async function loadMenus() {
   }
 };
 
-conn.sync({ force: false }).then(async () => {
+conn.sync({ force: true }).then(async () => {
   loadMenus();
   server.listen(process.env.PORT, () => {
     console.log(`Restaurant listening at ${process.env.PORT}`);

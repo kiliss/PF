@@ -19,7 +19,7 @@ const adminNavigation = [
     { name: 'Menús', href: '/manage/menus' },
     { name: 'Usuarios', href: '/manage/users' },
     { name: 'Reservaciones', href: '/manage/reservations' },
-    { name: "Mesas", href: "/manage/tables"}
+    { name: "Mesas", href: "/manage/tables" }
 ];
 
 function classNames(...classes) {
@@ -170,6 +170,16 @@ const Navbar = () => {
                                                                     className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black')}
                                                                 >
                                                                     Ver Perfíl
+                                                                </a>
+                                                            )}
+                                                        </Menu.Item>
+                                                        <Menu.Item>
+                                                            {({ active }) => (
+                                                                <a
+                                                                    href="/chat"
+                                                                    className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black')}
+                                                                >
+                                                                    Preguntanos
                                                                 </a>
                                                             )}
                                                         </Menu.Item>
