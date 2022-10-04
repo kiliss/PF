@@ -7,8 +7,7 @@ const { sendEmail } = require("../auth/mailer.js")
 const jwt = require('jsonwebtoken');
 const { where } = require('sequelize');
 
-const deploy = 'https://pf-kiliss.vercel.app';
-const local = 'http://localhost:3000';
+const host = process.env.HOST;
 
 const getDbUsers = async () => {
     return await User.findAll({
@@ -299,7 +298,7 @@ router.post("/forgotPassword", async (req, res) => {
         }
         const jwtToken = jwt.sign(JSON.stringify({ id: oldUser.id, email: oldUser.email, admin: oldUser.admin }), process.env.JWT_SECRET);
         // console.log(jwtToken)
-        const link = `${deploy}/resetPassword/${oldUser.id}/${jwtToken}`;
+        const link = `${host}/resetPassword/${oldUser.id}/${jwtToken}`;
         //enviar correo ...
         // console.log(link)
         sendEmail(
@@ -319,12 +318,16 @@ router.post("/resetPassword/:id/:token", async (req, res) => {
     const { password } = req.body;
     // console.log('id: ',id, ' pass: ',password, ' token: ', token)   
     const oldUser = await User.findOne({ where: { id: id } });
+    console.log(oldUser)
     if (!oldUser) {
         return res.json({ message: "Usuario no existe!" });
     }
     try {
         const verify = jwt.verify(token, process.env.JWT_SECRET);
+        console.log(verify)
         if (verify.id === oldUser.id) {
+            console.log(verify)
+            console.log(oldUser)
             const encryptedPassword = await bcrypt.hash(password, 10);
             await User.update(
                 { password: encryptedPassword },
