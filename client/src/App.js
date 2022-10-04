@@ -4,8 +4,8 @@ import Home from "./components/Home";
 import Menu from "./components/Menu";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
-import Tables from "./components/Tables";
-import Table from "./components/Tables";
+// import Tables from "./components/Tables";
+// import Table from "./components/Tables";
 import Navbar from "./components/Navbar";
 import Register from './components/Register';
 import TableAdmin from './components/TableAdmin';
@@ -21,6 +21,8 @@ import ResetPassword from './components/ResetPassword';
 import MannageReservations from './components/MannageReservations';
 import Users from './components/Users';
 import MannageTables from './components/MannageTables';
+import Chat from './components/Chat';
+import Politicas from './components/Politicas';
 
 
 
@@ -37,12 +39,14 @@ function App() {
           <Route exact path='/register' element={<Register />} />
           <Route exact path='/forgotPassword' element={<ForgotPassword />} />
           <Route exact path='/resetPassword/:id/:token' element={<ResetPassword />} />
+          <Route exact path='/politicas' element={<Politicas />} />
         </Route>
         <Route element={<UserRoutes />}>
           <Route exact path='/profile' element={<Profile />} />
           <Route exact path='/reservation' element={<Reservation />} />
-          <Route exact path='/tables' element={<Tables />} />
-          <Route exact path='/tables/:id' element={<Table />} />
+          {/* <Route exact path='/tables' element={<Tables />} />
+          <Route exact path='/tables/:id' element={<Table />} /> */}
+          <Route exact path='/chat' element={<Chat />} />
         </Route>
         <Route element={<AdminRoutes />}>
           <Route exact path='/manage/reservations' element={<MannageReservations />} />

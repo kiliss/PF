@@ -1,9 +1,6 @@
-import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import { createReservation, getProfile, getReservationDetail, getReservations, getTable } from '../../redux/actions/index';
+import { createReservation, getProfile, getReservations, getTable } from '../../redux/actions/index';
 import { useEffect } from "react";
 import { useState } from "react";
 import {loadStripe} from "@stripe/stripe-js"
@@ -42,14 +39,13 @@ const stripePromise = loadStripe("pk_test_51LkeM7HwicqFBY9CPHk3MavK9EF4OJ9ioOHqF
 
 const CheckoutForm = () => {
     const fecha=new Date()
-    const actualFecha=`${fecha.getFullYear()}-${fecha.getMonth()+1}-0${fecha.getDate()}`
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate()
-    const [invisible,setInvisible]=useState(false)
-    const [visible,setVisible]=useState(true)
+    const [invisible]=useState(false)
+    const [visible]=useState(true)
   useEffect(() => {
     dispatch(getTable())
     dispatch(getProfile())
@@ -58,7 +54,6 @@ const CheckoutForm = () => {
 
 
   const tables = useSelector((state) => state.tables);
-    const reservations=useSelector((state)=>state.reservations)
  
 //   const decode = window.localStorage.getItem("user");
   const decodee = jwt_decode(localStorage.getItem('session'))
@@ -67,7 +62,7 @@ const CheckoutForm = () => {
     id_User: decodee.id,
     id_Table: "",
     date: "",
-    hour: "8:00",
+    hour: "",
     guest:"",
     price: 300,
     num_Table: [],
@@ -75,6 +70,7 @@ const CheckoutForm = () => {
 })
 
   const [errors, setErrors] = useState({});
+  // eslint-disable-next-line array-callback-return
   const mesasFiltradas=tables.filter((t)=>{
 
     if(input.guest) {
@@ -96,11 +92,9 @@ const CheckoutForm = () => {
     }
         )
        }
-       
-         if( t.chairs==input.guest){
-                   
-                   
-                    
+
+         // eslint-disable-next-line eqeqeq
+        if( t.chairs==input.guest){
             const mesa=t
             return mesa
         }
@@ -216,10 +210,10 @@ const CheckoutForm = () => {
                         <select id="framework"
                           value={input.hour}
                           name="hour"
-                            
                           onChange={handleChange}
                           className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                       >
+                <option value="hora" hidden>--:--</option>
                 <option value="08:00">08:00</option>
                 <option value="09:00">09:00</option>
                 <option value="10:00">10:00</option>
@@ -280,6 +274,7 @@ const CheckoutForm = () => {
                             {
                                 mesasFiltradas.length ?
                                      
+                                        // eslint-disable-next-line array-callback-return
                                         mesasFiltradas.map(e=>{
                                            
                                             if(e.state===true){

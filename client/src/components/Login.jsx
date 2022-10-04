@@ -6,8 +6,8 @@ import { useEffect } from "react";
 import { GoogleLogin } from 'react-google-login';
 import swal from "sweetalert";
 import { gapi } from 'gapi-script';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import logoFacebook from '../assets/login/logo_facebook.webp'
+import OAuth2Login from 'react-simple-oauth2-login';
 
 
 const Login = () => {
@@ -15,6 +15,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const clientIdGoogle = process.env.REACT_APP_CLIENT_ID_GOOGLE;
   const clientIdFacebook = process.env.REACT_APP_CLIENT_ID_FACEBOOK;
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -96,31 +97,32 @@ const Login = () => {
     });
   };
 
-
-  const responseFacebook = async (res) =>{
-
-    if(res.name && res.email && res.picture.data.url && res.id){
+  const facebookSuccess = async (res) => {
+    const accessToken = res.access_token
+    const result = await fetch(`https://graph.facebook.com/me?fields=id,name,email,picture&access_token=${accessToken}`)
+    const profile = await result.json()
 
     const userFacebook = {
-      user: res.name,
-      email: res.email,
-      photo: res.picture.data.url,
-      facebookId: res.id,
+      user: profile.name,
+      email: profile.email,
+      photo: profile.picture.data.url,
+      facebookId: profile.id,
     }
-    let data = await dispatch(loginFacebook(userFacebook));
-  
+    const data = await dispatch(loginFacebook(userFacebook))
+
     window.localStorage.setItem('session', data.data.session);
     window.localStorage.setItem('photo', data.data.photo);
     window.localStorage.setItem('name', data.data.name);
     navigate('/');
-  }else{
+  }
+
+  const facebookFailure = () => {
     swal({
       title: "Fallo inicio de sesión con Facebok, intenta más tarde!",
       icon: "warning",
       button: "Aceptar",
     });
   }
-}
 
 
   const [passwordShown, setPasswordShown] = useState(false);
@@ -217,25 +219,29 @@ const Login = () => {
                     onFailure={googleFailure}
                     cookiePolicy={'single_host_origin'}
                   />
-                  {/* <FacebookLogin
-                    appId={clientIdFacebook}
-                    fields="name,email,picture,id"
-                    callback={responseFacebook} 
+                  <OAuth2Login
+                    authorizationUrl="https://www.facebook.com/dialog/oauth"
+                    responseType="token"
+                    clientId={clientIdFacebook}
+                    redirectUri='http://localhost:3000'
+                    scope="public_profile"
                     render={(props) => (
-                      <button 
-                      onClick={props.onClick}
-                      className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                      type="button"
-                    >
-                      <img
-                        alt="..."
-                        className="w-5 mr-1"
-                        src={logoFacebook}
-                      />
-                      Facebook{" "}
-                    </button>
-                  )}
-                    /> */}
+                      <button
+                        onClick={props.onClick}
+                        className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                        type="button"
+                      >
+                        <img
+                          alt="..."
+                          className="w-5 mr-1"
+                          src={logoFacebook}
+                        />
+                        Facebook{" "}
+                      </button>
+                    )}
+                    onSuccess={facebookSuccess}
+                    onFailure={facebookFailure}
+                  />
                 </div>
               </form>
               <div className="w-full md:w-12/12 px-4 mx-auto text-center">

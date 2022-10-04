@@ -17,7 +17,15 @@ const MannageTables = () => {
     }, [dispatch, reload]);
 
 
-    const handleDelete = (id) => {
+    const handleDelete = (table) => {
+        if(table.reservations.length > 0){
+            swal({
+                title: "Error",
+                text: "No se puede eliminar una mesa con reservas",
+                icon: "error",
+                button: "Aceptar",
+            });
+        } else {
         swal({
             title: "Esta seguro de eliminar la Mesa?",
             text: "Una vez eliminada no se podra recuperar",
@@ -27,7 +35,7 @@ const MannageTables = () => {
             })
             .then((willDelete) => {
             if (willDelete) {
-        dispatch(deleteTable(id)).then(() => {
+        dispatch(deleteTable(table.id)).then(() => {
             setReload(true)
             swal({
                 title: "Mesa eliminada",
@@ -38,6 +46,7 @@ const MannageTables = () => {
             });
         }
     });
+    }
     }
     const editTables = (table) => {
         swal({
@@ -66,6 +75,7 @@ const MannageTables = () => {
                 });
             }
         });
+       
     }
 
     const editNumeroChairs = (table) => {
@@ -78,7 +88,14 @@ const MannageTables = () => {
                 },
             },
         }).then((r) => {
-            if (r) {
+            if (isNaN(r)) {
+                swal({
+                    title: "Error",
+                    text: "Debe ingresar un numero",
+                    icon: "error",
+                    button: "Aceptar",
+                });
+            } else {
                 if(r < 1 || r > 10){
                     swal({
                         title: "Error",
@@ -101,7 +118,7 @@ const MannageTables = () => {
                         button: "Aceptar",
                     });
                 });
-            }}
+            }} 
         })
     }
     const createTables = () => {
@@ -114,7 +131,14 @@ const MannageTables = () => {
                 },
             },
         }).then((r) => {
-            if (r) {
+            if (isNaN(r)) {
+                swal({
+                    title: "Error",
+                    text: "Debe ingresar un numero",
+                    icon: "error",
+                    button: "Aceptar",
+                });
+            } else {
                 if(r < 1 || r > 20){
                     swal({
                         title: "Error",
@@ -147,7 +171,9 @@ const MannageTables = () => {
                 }
                 });
             }}
+        
         })
+   
     }
     //console.log(tables)
 
@@ -188,7 +214,7 @@ const MannageTables = () => {
                                     }
                                 </td>
                                 <td className="p-3 px-5">
-                                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => handleDelete(table.id)}>Eliminar</button>
+                                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => handleDelete(table)}>Eliminar</button>
                                 </td>
                             </tr>
                         ))
@@ -211,7 +237,6 @@ const MannageTables = () => {
             {
                 tables?.map((table) => (
                     <div className="bg-white shadow-md rounded-lg p-4 mb-2" key={`m-${table.id}`}>
-                    
                         <div className="flex space-x-3 justify-between items-end">
                             <div className="text-gray-700">
                                 
@@ -222,7 +247,7 @@ const MannageTables = () => {
                                 <p className="text-sm text-gray-500">State: {table.state === true ? <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4" onClick={() => editTables(table)}>Disponible</button> : <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 " onClick={() => editTables(table)}>No Disponible</button>}</p>
                             </div>
                             <div className="flex justify-end">
-                            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => handleDelete(table.id)}>Eliminar</button>
+                            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => handleDelete(table)}>Eliminar</button>
                         </div>
                         </div>
                     </div>

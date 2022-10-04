@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { User, Feedback, Reservation, Table } = require('../db.js');
+const { User, Feedback, Reservation, Table, Message } = require('../db.js');
 const bcrypt = require('bcrypt');
 const { checkAuth, isUser, isAdmin } = require("../middleware/auth.js");
 const { sendEmail } = require("../auth/mailer.js")
 const jwt = require('jsonwebtoken');
 const { where } = require('sequelize');
+
+const deploy = 'https://pf-kiliss.vercel.app';
+const local = 'http://localhost:3000';
 
 const getDbUsers = async () => {
     return await User.findAll({
@@ -294,7 +297,7 @@ router.post("/forgotPassword", async (req, res) => {
         }
         const jwtToken = jwt.sign(JSON.stringify({ id: oldUser.id, email: oldUser.email, admin: oldUser.admin }), process.env.JWT_SECRET);
         // console.log(jwtToken)
-        const link = `http://localhost:3000/resetPassword/${oldUser.id}/${jwtToken}`;
+        const link = `${deploy}/resetPassword/${oldUser.id}/${jwtToken}`;
         //enviar correo ...
         // console.log(link)
         sendEmail(
@@ -338,6 +341,57 @@ router.post("/resetPassword/:id/:token", async (req, res) => {
         console.log(error);
         res.json({ Error: "Algo salió mal" });
     }
+});
+
+router.get('/messages/rooms', async (req, res) => {
+    try {
+        const room = await User.findAll({
+            where:{
+                admin: false,
+                erased: false
+            },
+            include: [{
+                model: Message,
+            }]
+    })
+    res.status(200).json(room.filter(u => u.messages.length > 0));
+    } catch (error) {
+        res.status(409).json({message: error});
+    }
+    
+});
+
+router.get('/messages/users/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const messages = await Message.findAll()
+        if(messages){
+            res.status(200).json(messages.filter(message => message.userId === id || message.receptorId === id));
+        }else {
+            res.status(404).json({message: 'No hay mensajes'})
+        }
+
+        
+    } catch (error) {
+        res.status(409).json({message: error});
+    }
+    
+});
+
+router.post('/message', async (req, res) => {
+    const { message, userId = 0, receptorId = 0 } = req.body;
+    try {
+        const newMessage = await Message.create({
+            message,
+            userId,
+            receptorId,
+            date: new Date().toString()
+        })
+        res.status(200).json(newMessage);
+    } catch (error) {
+        res.status(409).json({message: error});
+    }
+    
 });
 
 
