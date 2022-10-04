@@ -142,8 +142,18 @@ const CheckoutForm = () => {
               elements.getElement(CardElement).clear();
               if (data.data.message === "Successfull payment"){
                 swal("Pago aceptado", "Tu reserva fue registrada con éxito", "success").then(() => {
-                    dispatch(createReservation(input))
-                    navigate("/")
+                    dispatch(createReservation(input)).then((a) => {
+                        if(a.data === "Error creando la reservacion, intente nuevamente mas tarde"){
+                            swal({
+                                title: "Error creando la reservacion, intente nuevamente mas tarde",
+                                text: "Por favor, comuniquese con nosotros",
+                                icon: "warning",
+                                buttons: "aceptar",
+                            })
+                        } else if(a.data === "La reservación ha sido creado correctamente"){
+                        navigate("/")
+                        }
+                    })
                 })
               } else if(data.data.message === "Your card's security code is incorrect."){
                 swal("Pago rechazado", "Código de seguridad invalido", "error");
@@ -151,6 +161,8 @@ const CheckoutForm = () => {
                 swal("Pago rechazado", "Fondos insuficientes", "error");
               } else if(data.data.message === "Your card has expired."){
                 swal("Pago rechazado", "Tu tarjeta expiró", "error");
+              } else if(data.data.message === "Error creando la reservacion, intente nuevamente mas tarde"){
+                swal("Error", "Error creando la reservacion, intente nuevamente mas tarde", "error");
               }
         } catch (error) {
             console.log(error)
