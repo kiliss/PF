@@ -4,8 +4,8 @@ import Home from "./components/Home";
 import Menu from "./components/Menu";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
-import Tables from "./components/Tables";
-import Table from "./components/Tables";
+// import Tables from "./components/Tables";
+// import Table from "./components/Tables";
 import Navbar from "./components/Navbar";
 import Register from './components/Register';
 import TableAdmin from './components/TableAdmin';
@@ -44,8 +44,8 @@ function App() {
         <Route element={<UserRoutes />}>
           <Route exact path='/profile' element={<Profile />} />
           <Route exact path='/reservation' element={<Reservation />} />
-          <Route exact path='/tables' element={<Tables />} />
-          <Route exact path='/tables/:id' element={<Table />} />
+          {/* <Route exact path='/tables' element={<Tables />} />
+          <Route exact path='/tables/:id' element={<Table />} /> */}
           <Route exact path='/chat' element={<Chat />} />
         </Route>
         <Route element={<AdminRoutes />}>

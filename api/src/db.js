@@ -104,6 +104,9 @@ Feedback.belongsTo(User);
 User.hasMany(Message);
 Message.belongsTo(User);
 
+Message.hasMany(User);
+User.belongsTo(Message);
+
 
 module.exports = {
     ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
