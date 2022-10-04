@@ -68,6 +68,7 @@ const CheckoutForm = () => {
     num_Table: [],
     email: decodee.email,
 })
+console.log(input)
 
   const [errors, setErrors] = useState({});
   // eslint-disable-next-line array-callback-return
@@ -103,6 +104,18 @@ const CheckoutForm = () => {
   function handleChange(e) {
       setInput({
           ...input,
+          [e.target.name]: e.target.value
+      })
+      setErrors(validationForm({
+          ...input,
+          [e.target.name]: e.target.name
+      })
+      )
+  }
+  function handleChangeAsientos(e) {
+      setInput({
+          ...input,
+          id_Table: "" ,
           [e.target.name]: e.target.value
       })
       setErrors(validationForm({
@@ -151,6 +164,8 @@ const CheckoutForm = () => {
                 swal("Pago rechazado", "Fondos insuficientes", "error");
               } else if(data.data.message === "Your card has expired."){
                 swal("Pago rechazado", "Tu tarjeta expiró", "error");
+              } else if(data.data.message === "Your card was declined. Your request was in test mode, but used a non test (live) card. For a list of valid test cards, visit: https://stripe.com/docs/testing."){
+                swal("Pago rechazado", "Tu tarjeta no es de prueba", "error");
               }
         } catch (error) {
             console.log(error)
@@ -248,10 +263,10 @@ const CheckoutForm = () => {
                             name="guest"
                             id="guest"
                             value={input.guest}
-                            placeholder="2"
+                            placeholder="Seleccione sus asientos"
                             min="1"
                             max="10"
-                            onChange={handleChange}
+                            onChange={handleChangeAsientos}
                             className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
                     </div>
                 </div>
@@ -287,7 +302,7 @@ const CheckoutForm = () => {
                                         <option key={`reservation-${table.num_Table}`}  value={table.id}>{`Mesa ${fitrado}`}</option>
                                     ))*/
                                     :
-                                    <option value={0}>Intente Otro Horario</option>
+                                    <option value={0} disabled>Intente Otro Horario</option>
                             }
                         </select> {errors.num_Table && <p className='form-error'>{errors.num_Table}</p>}
                     </div>
@@ -318,7 +333,7 @@ function Reservation(props) {
     return (
 
         <Elements stripe={stripePromise}>
-            <div className="flex justify-center"> 
+            <div className="flex justify-center h-screen"> 
                 <div className="2xl:w-3/5 lg:w-3/5 xl:w-3/5 md:w-4/5 sm:w-4/5"> 
                 <div> 
                 <CheckoutForm/>
