@@ -35,7 +35,7 @@ const timeSince = (stringDate) => {
 }
 
 
-router.get('/', isAdmin, async (req, res) => {
+router.get('/all', isAdmin, async (req, res) => {
     try {
         let foods = await Food.findAll({
             include: [{
@@ -127,7 +127,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', isAdmin, async (req, res) => {          // crear comida
+router.post('/all', isAdmin, async (req, res) => {          // crear comida
     const { name, photo, summary, price, stock, menu, drinkable, vegetarian } = req.body;
     console.log(req.body)
     try {

@@ -55,7 +55,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Bill, Foodcount, Food, Reservation, Table, User, Menu, Feedback, Order, Menu_food, Score } = sequelize.models;
+const { Bill, Foodcount, Food, Reservation, Table, User, Menu, Feedback, Order, Menu_food, Score, Message } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
@@ -100,6 +100,9 @@ Feedback.belongsTo(Food);
 
 User.hasMany(Feedback);
 Feedback.belongsTo(User);
+
+User.hasMany(Message);
+Message.belongsTo(User);
 
 
 module.exports = {

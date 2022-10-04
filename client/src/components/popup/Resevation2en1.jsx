@@ -32,8 +32,8 @@ const validationForm = (input) => {
     if (input.num_Table > 1) {
         errors.num_Table = "SELECT ONLY ONE TABLE PLEASE"
     }
-    if(input.chairs<2||input.chairs>4){
-        errors.chairs="PLEASE SELECT A VALID NUM OF CHAIRS (2-4)"
+    if(input.chairs<1||input.chairs>10){
+        errors.chairs="PLEASE SELECT A VALID NUM OF CHAIRS (1-10)"
     }
     return errors
 };
@@ -67,7 +67,7 @@ const CheckoutForm = () => {
     id_User: decodee.id,
     id_Table: "",
     date: "",
-    hour: "",
+    hour: "8:00",
     guest:"",
     price: 300,
     num_Table: [],
@@ -175,6 +175,12 @@ const CheckoutForm = () => {
     }
   };
   }
+
+  let mañana = new Date(fecha.setDate(fecha.getDate() + 1));
+
+  mañana = `${fecha.getFullYear()}-${fecha.getMonth()+1}-0${fecha.getDate()}`
+
+    
   
   return (
     
@@ -192,7 +198,7 @@ const CheckoutForm = () => {
                             type="date"
                             name="date"
                             id="date"
-                            min={actualFecha}
+                            min={mañana}
                             max="2025-04-30"
                             value={input.date}
                             onChange={handleChange}
@@ -249,8 +255,8 @@ const CheckoutForm = () => {
                             id="guest"
                             value={input.guest}
                             placeholder="2"
-                            min="2"
-                            max="4"
+                            min="1"
+                            max="10"
                             onChange={handleChange}
                             className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
                     </div>
@@ -318,7 +324,7 @@ function Reservation(props) {
 
         <Elements stripe={stripePromise}>
             <div className="flex justify-center"> 
-                <div className="w-3/5"> 
+                <div className="2xl:w-3/5 lg:w-3/5 xl:w-3/5 md:w-4/5 sm:w-4/5"> 
                 <div> 
                 <CheckoutForm/>
                 </div>
