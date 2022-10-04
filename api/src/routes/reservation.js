@@ -70,15 +70,18 @@ router.get("/:id", isUser,async(req,res)=>{
 
 router.post('/', isUser, async (req,res)=>{
     const {id_User,id_Table,date,hour,price,Cant_User, email}=req.body;
+    const table = await Table.findByPk(id_Table)
+    const user = await User.findByPk(id_User)
+    if(!table || !user){
+        return res.status(404).json("Error creando la reservacion, intente nuevamente mas tarde")
+    } 
     try{
-          const reservation=await Reservation.create({
+        const reservation=await Reservation.create({
             date:date,
             hour:hour,
             price:price,
             //Cant_User:Cant_User
         })  
-        const table = await Table.findByPk(id_Table)
-        const user = await User.findByPk(id_User)
         reservation.addTables([table])
         reservation.addUsers([id_User])
         res.status(200).json("La reservación ha sido creado correctamente")
