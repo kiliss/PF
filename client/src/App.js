@@ -13,6 +13,7 @@ import Products from './components/Products';
 import VisitorRoutes from './utils/VisitorRoutes';
 import UserRoutes from './utils/UserRoutes';
 import AdminRoutes from './utils/AdminRoutes';
+import UserNoAdminRoutes from './utils/UserNoAdminRoutes';
 import Footer from './components/Footer';
 import Reservation from './components/popup/Resevation2en1'
 import MenuTable from './components/MenuTable';
@@ -23,8 +24,6 @@ import Users from './components/Users';
 import MannageTables from './components/MannageTables';
 import Chat from './components/Chat';
 import Politicas from './components/Politicas';
-
-
 
 function App() {
   return (
@@ -43,10 +42,12 @@ function App() {
         </Route>
         <Route element={<UserRoutes />}>
           <Route exact path='/profile' element={<Profile />} />
-          <Route exact path='/reservation' element={<Reservation />} />
           {/* <Route exact path='/tables' element={<Tables />} />
           <Route exact path='/tables/:id' element={<Table />} /> */}
           <Route exact path='/chat' element={<Chat />} />
+        </Route>
+        <Route element={<UserNoAdminRoutes />}>
+          <Route exact path='/reservation' element={<Reservation />} />
         </Route>
         <Route element={<AdminRoutes />}>
           <Route exact path='/manage/reservations' element={<MannageReservations />} />

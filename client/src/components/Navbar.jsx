@@ -38,7 +38,7 @@ const Navbar = () => {
     const { admin } = localS ? jwt_decode(localS) : { 'admin': false };
 
     const dispatch = useDispatch();
-    const menus = useSelector((state) => state.menus);
+    const menus = useSelector((state) => state.menusNavbar);
 
     useEffect(() => {
         dispatch(getVisibleMenus());
@@ -141,9 +141,9 @@ const Navbar = () => {
                                         <>
                                             {/* Profile dropdown */}
                                             <Menu as="div" className="relative ml-3" onMouseEnter={() => setOnHover('')}>
-                                                <div>
+                                                <div className='flex gap-x-2 items-center'>
+                                                    <span className="hidden md:block text-black text-sm font-medium">{localStorage.getItem('name')}</span>
                                                     <Menu.Button className="flex rounded-full bg-gray-200 text-sm focus:outline-none ring-2 ring-gray-200 hover:ring-red-900">
-                                                        <span className="sr-only">Open user menu</span>
                                                         <img
                                                             loading='eager'
                                                             className="h-8 w-8 rounded-full"
@@ -179,7 +179,7 @@ const Navbar = () => {
                                                                     href="/chat"
                                                                     className={classNames(active ? 'bg-gray-300' : '', 'block px-4 py-2 text-sm text-black')}
                                                                 >
-                                                                    Preguntanos
+                                                                    Chat de Preguntas
                                                                 </a>
                                                             )}
                                                         </Menu.Item>

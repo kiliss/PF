@@ -45,7 +45,7 @@ const MannageReservations = () => {
             <div className="text-gray-900 bg-gray-200 min-h-screen overflow-x-auto">
         <div className="p-4 flex">
             <h1 className="text-3xl">
-                Reservations
+                Reservaciones
             </h1>
         </div>
             {
@@ -55,8 +55,8 @@ const MannageReservations = () => {
                 <tbody>
                     <tr className="border-b">
                         <th className="text-left p-3 px-5">Foto</th>
-                        <th className="text-left p-3 px-5">User</th>
-                        <th className="text-left p-3 px-5">Email</th>
+                        <th className="text-left p-3 px-5">Usuario</th>
+                        <th className="text-left p-3 px-5">Correo</th>
                         <th className="text-left p-3 px-5">Fecha</th>
                         <th className="text-left p-3 px-5">Hora</th>
                         <th className="text-left p-3 px-5">Mesa N°</th>
@@ -100,7 +100,7 @@ const MannageReservations = () => {
         </div> : <div className="bg-white shadow-md rounded-lg p-4 mb-2">
                             <div className="flex items-center space-x-3">
                                 <div className="text-gray-700">
-                                    <p className="font-semibold">No hay reservas</p>
+                                    <p className="font-semibold">No Hay Reservaciones</p>
                                 </div>
                             </div>
                         </div>

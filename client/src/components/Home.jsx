@@ -6,7 +6,7 @@ import image from "../assets/home/burger-header.png"
 
 const Home = () => {
     const dispatch = useDispatch();
-    const menus = useSelector((state) => state.menus).filter(m => m.homeVisible === true);
+    const menus = useSelector((state) => state.menusNavbar).filter(m => m.homeVisible === true);
 
     useEffect(() => {
         dispatch(getVisibleMenus());
@@ -31,7 +31,7 @@ const Home = () => {
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:pt-8 lg:pb-32">
                         <h2 className="text-2xl font-bold text-gray-900 font-['Cabin_Sketch']">Menús</h2>
-                        <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
+                        <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-y-6 lg:gap-x-6 lg:space-y-0">
                             {
                                 menus.map(m => {
                                     return (
