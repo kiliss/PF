@@ -26,7 +26,7 @@ export default function Chat() {
   //console.log(messages);
 
   useEffect(() => {
-    dispatch(getRooms());
+    if (token.admin) dispatch(getRooms());
     if (!token.admin) dispatch(getMessages(token.id));
     // eslint-disable-next-line
   }, []);
@@ -38,8 +38,8 @@ export default function Chat() {
       });
     }
     if (room) {
-      socket.on(`room${room}`, (message, userId, room) => {
-        if (token.id !== userId) dispatch(receiveMessages({ message, userId, room }));
+      socket.on(`room${room}`, (message, userId, room, user) => {
+        if (token.id !== userId) dispatch(receiveMessages({ message, userId, room, user: { user } }));
       });
 
     }
