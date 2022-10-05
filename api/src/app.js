@@ -27,9 +27,10 @@ const server = express();
 const sserver = http.createServer(server);
 const io = require("socket.io")(sserver, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.REACT_APP_API,
   },
 });
+const { isUser } = require("./middleware/auth.js");
 
 // server.use(cors({
 
@@ -66,7 +67,7 @@ server.use(
   })
 );
 
-server.post('/message', async (req, res) => {
+server.post('/message', isUser, async (req, res) => {
   const { message, userId = 0, room = 0 } = req.body;
   try {
       const newMessage = await Message.create({
@@ -77,6 +78,7 @@ server.post('/message', async (req, res) => {
       })
 
       io.emit(`room${room}`, message, userId, room);
+      io.emit('rooms');
 
       res.status(200).json(newMessage);
   } catch (error) {

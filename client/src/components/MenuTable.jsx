@@ -80,13 +80,13 @@ const MenuTable = () => {
             <tbody>
                 <tr className="border-b">
                     <th className="text-left p-3 px-5">Foto</th>
-                    <th className="text-left p-3 px-5">Menu</th>
+                    <th className="text-left p-3 px-5">Nombre</th>
                     <th className="text-left p-3 px-5">
-                        Edit
+                        Editar
                     </th>
                     <th className="text-left p-3 px-5">
-                    <button onClick={() => setOpenCreateMenu(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Crear menu</button>
-                    <button onClick={() => setOpenDeleteMenu(true)} className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Borrar menu</button>
+                    <button onClick={() => setOpenCreateMenu(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Crear Menú</button>
+                    <button onClick={() => setOpenDeleteMenu(true)} className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Borrar Menú</button>
                     </th>
                 </tr>
                 {
@@ -101,10 +101,10 @@ const MenuTable = () => {
                             </td>
                             <td className="p-3 px-5">
                                 {
-                                    menu.visible ? <button onClick={(e)=>changeVisibility(e, menu)} className="mr-2 ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4">Visible en Navbar</button> : <button onClick={(e)=>changeVisibility(e, menu)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ">No visible en NavBar</button>
+                                    !menu.visible ? <button onClick={(e)=>changeVisibility(e, menu)} className="mr-2 ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4">Activar</button> : <button onClick={(e)=>changeVisibility(e, menu)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ">Desactivar</button>
                                 }
                                 {
-                                    menu.homeVisible ? <button onClick={(e)=>changeHomeVisibility(e, menu)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4">Visible en Home</button> : <button onClick={(e)=>changeHomeVisibility(e, menu)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ">No visible en Home</button>
+                                    !menu.homeVisible ? <button onClick={(e)=>changeHomeVisibility(e, menu)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4">Añadir a Home</button> : <button onClick={(e)=>changeHomeVisibility(e, menu)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ">Quitar de Home</button>
                                 }
                             </td>
                         </tr>
@@ -117,8 +117,8 @@ const MenuTable = () => {
                     <div className="bg-white shadow-md rounded-lg pb-4 mb-2 ml-2 mr-2">
                         <div className="flex items-center space-x-3 flex flex-col">
                             <div className="text-gray-700">
-                                <button onClick={() => setOpenCreateMenu(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Crear menu</button>
-                                <button onClick={() => setOpenDeleteMenu(true)} className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Borrar menu</button>
+                                <button onClick={() => setOpenCreateMenu(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Crear Menú</button>
+                                <button onClick={() => setOpenDeleteMenu(true)} className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full ml-4 mt-4">Borrar Menú</button>
                             </div>
                         </div>
                     </div>
@@ -134,10 +134,10 @@ const MenuTable = () => {
                                 </div>
                                 <div className="mt-4">
                                     {
-                                        menu.visible ? <button onClick={(e)=>changeVisibility(e, menu)} className="mr-2 ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4">Visible en Navbar</button> : <button onClick={(e)=>changeVisibility(e, menu)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ">No visible en NavBar</button>
+                                        !menu.visible ? <button onClick={(e)=>changeVisibility(e, menu)} className="mr-2 ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4">Activar</button> : <button onClick={(e)=>changeVisibility(e, menu)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ">Desactivar</button>
                                     }
                                     {
-                                        menu.homeVisible ? <button onClick={(e)=>changeHomeVisibility(e, menu)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4">Visible en Home</button> : <button onClick={(e)=>changeHomeVisibility(e, menu)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ">No visible en Home</button>
+                                        !menu.homeVisible ? <button onClick={(e)=>changeHomeVisibility(e, menu)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4">Añadir a Home</button> : <button onClick={(e)=>changeHomeVisibility(e, menu)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ">Quitar de Home</button>
                                     }
                                 </div>
                             </div>

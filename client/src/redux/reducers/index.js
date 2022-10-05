@@ -1,5 +1,6 @@
 const initialState = {
   menus: [],
+  menusNavbar: [],
   menu: {},
   foods: [],
   food: {},
@@ -9,7 +10,7 @@ const initialState = {
   reservation: [],
   table: [],
   tables: [],
-  rooms:[],
+  rooms: {},
   messages: [],
 };
 
@@ -19,6 +20,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         menus: action.payload,
+      };
+    case "GET_MENUS_NAVBAR":
+      return {
+        ...state,
+        menusNavbar: action.payload,
       };
     case "GET_MENU":
       return {
