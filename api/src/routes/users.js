@@ -7,8 +7,7 @@ const { sendEmail } = require("../auth/mailer.js")
 const jwt = require('jsonwebtoken');
 const { where } = require('sequelize');
 
-const deploy = 'https://pf-kiliss.vercel.app';
-const local = 'http://localhost:3000';
+const host = process.env.HOST;
 
 const getDbUsers = async () => {
     return await User.findAll({
@@ -85,8 +84,7 @@ router.post('/', async (req, res) => {
             sendEmail(
                 email,
                 '¡Gracias por registrarte en PFRestaurante!',
-                `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.`,
-                'welcome');
+                `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro establecimiento.`,'welcome');
             res.status(200).json("El usuario ha sido creado correctamente");
         }
         else res.status(403).json("El usuario no se ha creado");
@@ -126,8 +124,7 @@ router.post('/google', async (req, res) => {
                 sendEmail(
                     usser.email,
                     '¡Gracias por registrarte en PFRestaurante!',
-                    `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Tu contraseña temporal es: ${password}\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro página.`,
-                    'welcome');
+                    `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Tu contraseña temporal es: ${password}\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro establecimiento.`,'welcome');
                 return res.send({ session: jwtToken, photo: usser.photo, name: usser.user });
             }
         }
@@ -299,13 +296,13 @@ router.post("/forgotPassword", async (req, res) => {
         }
         const jwtToken = jwt.sign(JSON.stringify({ id: oldUser.id, email: oldUser.email, admin: oldUser.admin }), process.env.JWT_SECRET);
         // console.log(jwtToken)
-        const link = `${deploy}/resetPassword/${oldUser.id}/${jwtToken}`;
+        const link = `${host}/resetPassword/${oldUser.id}/${jwtToken}`;
         //enviar correo ...
         // console.log(link)
         sendEmail(
             oldUser.email,
             '¡Proceso de recuperación de contraseña!',
-            `Ingresa al siguiente link para modificar tu contraseña: \n\xA0 ${link}`,
+            `Ingresa al siguiente link para modificar tu contraseña:\n\xA0${link}`,
             'Forgot password');
         return res.send({ message: 'Correo enviado!' });
     } catch (error) {
@@ -319,12 +316,16 @@ router.post("/resetPassword/:id/:token", async (req, res) => {
     const { password } = req.body;
     // console.log('id: ',id, ' pass: ',password, ' token: ', token)   
     const oldUser = await User.findOne({ where: { id: id } });
+    console.log(oldUser)
     if (!oldUser) {
         return res.json({ message: "Usuario no existe!" });
     }
     try {
         const verify = jwt.verify(token, process.env.JWT_SECRET);
+        console.log(verify)
         if (verify.id === oldUser.id) {
+            console.log(verify)
+            console.log(oldUser)
             const encryptedPassword = await bcrypt.hash(password, 10);
             await User.update(
                 { password: encryptedPassword },

@@ -68,6 +68,7 @@ const MannageReservations = () => {
                         reservations?.map((reservation) => (
                             <tr className="border-b hover:bg-orange-100 bg-gray-100" key={reservation.id}>
                                 <td className="p-3 px-5">
+                                    {console.log(reservation)}
                                     <img className="w-10 h-10 rounded-full object-cover" src={reservation.users[0]?.photo} alt="" />
                                 </td>
                                 <td className="p-3 px-5">
