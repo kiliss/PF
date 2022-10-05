@@ -141,25 +141,25 @@ const Login = () => {
             </div>
             <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
               <div className="text-blueGray-400 text-center mb-3 font-bold">
-                <small>Sign in with your credentials</small>
+                <small>Ingresa con tus credenciales</small>
               </div>
               <form>
                 <div className="relative w-full mb-3">
                   <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                    Email
+                    Correo
                   </label>
                   <input
                     name="email"
                     value={user.email}
                     type="email"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="Email"
+                    placeholder="Correo"
                     onChange={(e) => handleChange(e)}
                   />
                 </div>
                 <div className="relative w-full mb-3">
                   <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                    Password
+                    Contraseña
                   </label>
                   <div className="flex justify-end items-center relative">
                     <input
@@ -167,7 +167,7 @@ const Login = () => {
                       value={user.password}
                       type={passwordShown ? "text" : "password"}
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Password"
+                      placeholder="Contraseña"
                       onChange={(e) => handleChange(e)}
                     />
                     <button className="absolute px-1" type="button" onClick={togglePassword}>{passwordShown === false ?
@@ -188,13 +188,13 @@ const Login = () => {
                     onClick={handleSubmit}
                   >
                     {" "}
-                    Sign In{" "}
+                    Iniciar Sesion{" "}
                   </button>
                 </div>
                 <br /><br />
                 <div className="text-center mb-3">
                   <h6 className="text-blueGray-500 text-sm font-bold">
-                    Sing in with
+                    Ingresa con
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
@@ -219,7 +219,7 @@ const Login = () => {
                     onFailure={googleFailure}
                     cookiePolicy={'single_host_origin'}
                   />
-                  <OAuth2Login
+                  {/* <OAuth2Login
                     authorizationUrl="https://www.facebook.com/dialog/oauth"
                     responseType="token"
                     clientId={clientIdFacebook}
@@ -241,11 +241,11 @@ const Login = () => {
                     )}
                     onSuccess={facebookSuccess}
                     onFailure={facebookFailure}
-                  />
+                  /> */}
                 </div>
               </form>
               <div className="w-full md:w-12/12 px-4 mx-auto text-center">
-                <Link to="/forgotPassword">Olvidaste tu contraseña?</Link>
+                <Link to="/forgotPassword">¿Olvidaste tu contraseña?</Link>
               </div>
             </div>
           </div>
@@ -254,7 +254,7 @@ const Login = () => {
           <div className="container mx-auto px-2">
             <div className="flex flex-wrap items-center md:justify-between justify-center">
               <div className="w-full md:w-6/12 px-4 mx-auto text-center">
-                <Link to="/register">No tienes cuenta?</Link>
+                <Link to="/register">¿No tienes cuenta?</Link>
               </div>
             </div>
           </div>
