@@ -1,4 +1,4 @@
-const {sserver} = require('./src/app.js');
+const { server } = require('./src/app.js');
 const { conn, Menu, Food, Menu_food, User, Table } = require('./src/db.js');
 const { QueryTypes } = require('sequelize');
 // const { conn } = require('./src/db.js');
@@ -39,7 +39,7 @@ async function loadMenus() {
 
 conn.sync({ force: false }).then(async () => {
   loadMenus();
-  sserver.listen(process.env.PORT, () => {
+  server.listen(process.env.PORT, () => {
     console.log(`Restaurant listening at ${process.env.PORT}`);
   });
 });
