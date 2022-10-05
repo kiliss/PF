@@ -32,7 +32,7 @@ export function getVisibleMenus(data) {
         try {
             var json = await axios.get(`/menus/visible${objectToQueries(data)}`);
             return dispatch({
-                type: "GET_MENUS",
+                type: "GET_MENUS_NAVBAR",
                 payload: json.data
             })
         } catch (error) {
@@ -70,8 +70,8 @@ export function getVisibleMenu(data) {
     };
 };
 
-export function menuExist(name){
-    return async function(){
+export function menuExist(name) {
+    return async function () {
         try {
             var { data } = await axios.get(`/menus/exist/${name}`);
             return data.message
@@ -354,8 +354,8 @@ export function selfDisableAcc(ban) {
     }
 }
 
-export function emailExist(email){
-    return async function(){
+export function emailExist(email) {
+    return async function () {
         try {
             var { data } = await axios.get(`/users/findemail/?email=${email}`)
             return data
@@ -417,7 +417,7 @@ export function createUser(payload) {
 export function recuperarContra(email) {
     return async function () {
         try {
-            var json = await axios.post("/users/forgotPassword", {email})
+            var json = await axios.post("/users/forgotPassword", { email })
             return json;
         } catch (error) {
             console.log(error)
@@ -757,8 +757,8 @@ export function putUserPhoto(payload) {
     }
 }
 
-export function comparePassword(payload){
-    return async function (){
+export function comparePassword(payload) {
+    return async function () {
         try {
             var json = await axios.post("/login/validate", payload)
             return json.data
@@ -768,44 +768,76 @@ export function comparePassword(payload){
     }
 }
 
-export function getRooms(){
-    return async function (dispatch){
+export function getRooms() {
+    return async function (dispatch) {
         try {
-            var json = await axios.get("/users/messages/rooms")
+            var { data } = await axios.get("/users/messages/rooms", {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
             return dispatch({
                 type: "GET_ROOMS",
-                payload: json.data
+                payload: data
             })
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.log(err);
         }
     }
 }
 
-export function getMessages(id){
-    return async function (dispatch){
+export function getMessages(id) {
+    return async function (dispatch) {
         try {
-            var json = await axios.get("/users/messages/"+ id)
+            var { data } = await axios.get("/users/messages/" + id, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
             return dispatch({
                 type: "GET_MESSAGES",
-                payload: json.data
+                payload: data
             })
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.log(err);
         }
     }
 }
 
-export function postMessage(payload){
-    return async function (dispatch){
+export function postMessage(payload) {
+    return async function (dispatch) {
         try {
-            var json = await axios.post("/users/message", payload)
+            var { data } = await axios.post("/message", payload, {
+                headers: {
+                    'Authorization': localStorage.getItem('session')
+                        ? localStorage.getItem('session')
+                        : ''
+                }
+            });
+            data.user = { user: payload.user };
             return dispatch({
-                type:"POST_MESSAGE",
-                payload: json.data
+                type: "POST_MESSAGE",
+                payload: data
             })
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
+export function receiveMessages(payload) {
+    return async function (dispatch) {
+        try {
+            return dispatch({
+                type: "POST_MESSAGE",
+                payload: payload
+            })
+        } catch (err) {
+            console.log(err);
         }
     }
 }

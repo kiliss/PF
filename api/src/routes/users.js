@@ -1,6 +1,7 @@
 const express = require('express');
+const { QueryTypes } = require('sequelize');
 const router = express.Router();
-const { User, Feedback, Reservation, Table, Message } = require('../db.js');
+const { User, Feedback, Reservation, Table, Message, conn } = require('../db.js');
 const bcrypt = require('bcrypt');
 const { checkAuth, isUser, isAdmin } = require("../middleware/auth.js");
 const { sendEmail } = require("../auth/mailer.js")
@@ -84,7 +85,7 @@ router.post('/', async (req, res) => {
             sendEmail(
                 email,
                 '¡Gracias por registrarte en PFRestaurante!',
-                `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro establecimiento.`,'welcome');
+                `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestra página.`,'welcome');
             res.status(200).json("El usuario ha sido creado correctamente");
         }
         else res.status(403).json("El usuario no se ha creado");
@@ -124,7 +125,7 @@ router.post('/google', async (req, res) => {
                 sendEmail(
                     usser.email,
                     '¡Gracias por registrarte en PFRestaurante!',
-                    `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Tu contraseña temporal es: ${password}\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestro establecimiento.`,'welcome');
+                    `Ahora que formas parte de la familia, tu experiencia mejorara drásticamente:\n\xA0• Podrás realizar reservas dentro de nuestro establecimiento.\n\xA0• Hacer valoraciones de las comidas y bebidas que tenemos a disposición.\n\xA0\n\xA0Tu contraseña temporal es: ${password}\n\xA0\n\xA0Esperamos que disfrutes tu estadía en nuestra página.`,'welcome');
                 return res.send({ session: jwtToken, photo: usser.photo, name: usser.user });
             }
         }
@@ -346,25 +347,28 @@ router.post("/resetPassword/:id/:token", async (req, res) => {
     }
 });
 
-router.get('/messages/rooms', async (req, res) => {
+router.get('/messages/rooms', isUser, async (req, res) => {
     try {
-        const room = await User.findAll({
-            where: {
-                admin: false,
-                erased: false
-            },
+        let rooms = await Message.findAll({
             include: [{
-                model: Message,
-            }]
-        })
-        res.status(200).json(room.filter(u => u.messages.length > 0));
+                model: User,
+            }],
+            order: [
+                ['id', 'DESC']
+            ]
+        });
+        res.status(200).json(rooms.reduce(function (r, a) {
+            r[a.room] = r[a.room] || [];
+            r[a.room].push(a);
+            return r;
+        }, Object.create(null)));
     } catch (error) {
         res.status(409).json({ message: error });
     }
 
 });
 
-router.get('/messages/:id', async (req, res) => {
+router.get('/messages/:id', isUser, async (req, res) => {
     const { id } = req.params;
     try {
         let messages = await Message.findAll({
@@ -388,22 +392,5 @@ router.get('/messages/:id', async (req, res) => {
     }
 
 });
-
-router.post('/message', async (req, res) => {
-    const { message, userId = 0, room = 0 } = req.body;
-    try {
-        const newMessage = await Message.create({
-            message,
-            userId,
-            room,
-            date: new Date().toString()
-        })
-        res.status(200).json(newMessage);
-    } catch (error) {
-        res.status(409).json({ message: error });
-    }
-
-});
-
 
 module.exports = router;

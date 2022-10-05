@@ -192,7 +192,7 @@ const MannageTables = () => {
                     <tr className="border-b">
                         <th className="text-left p-3 px-5">N° Mesa</th>
                         <th className="text-left p-3 px-5">Sillas</th>
-                        <th className="text-left p-3 px-5">State</th>
+                        <th className="text-left p-3 px-5">Estado</th>
                         <th className="text-left p-3 px-5">
                             {<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={createTables}>Crear Mesa</button>}
                         </th>
@@ -224,7 +224,7 @@ const MannageTables = () => {
         </div> : <div className="bg-white shadow-md rounded-lg p-4 mb-2">
                             <div className="flex items-center space-x-3">
                                 <div className="text-gray-700">
-                                    <p className="font-semibold">No hay reservas</p>
+                                    <p className="font-semibold">No Hay Reservaciones</p>
                                 </div>
                             </div>
                         </div>
@@ -244,7 +244,7 @@ const MannageTables = () => {
                                 <p className="text-sm text-gray-500">Sillas: {
                                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => editNumeroChairs(table)}>{table.chairs}</button>
                                 }</p>
-                                <p className="text-sm text-gray-500">State: {table.state === true ? <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4" onClick={() => editTables(table)}>Disponible</button> : <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 " onClick={() => editTables(table)}>No Disponible</button>}</p>
+                                <p className="text-sm text-gray-500">Estado: {table.state === true ? <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4" onClick={() => editTables(table)}>Disponible</button> : <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 " onClick={() => editTables(table)}>No Disponible</button>}</p>
                             </div>
                             <div className="flex justify-end">
                             <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => handleDelete(table)}>Eliminar</button>
