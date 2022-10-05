@@ -141,11 +141,11 @@ const TableAdmin = () => {
                     <tbody>
                         <tr className="border-b">
                             <th className="text-left p-3 px-5">Foto</th>
-                            <th className="text-left p-3 px-5">Food</th>
-                            <th className="text-left p-3 px-5">Detail</th>
+                            <th className="text-left p-3 px-5">Producto</th>
+                            <th className="text-left p-3 px-5">Detalle</th>
                             <th className="text-left p-3 px-5">
                             <select className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" onChange={(e)=> handleChange(e)} defaultValue="Menu"  >
-                                            <option hidden>Select Menu</option>
+                                            <option hidden>Selecciona Menu</option>
                                                 {
                                                     menuus?.map((menu) => {
                                                         return(
@@ -167,7 +167,7 @@ const TableAdmin = () => {
                                         </td>
                                         <td className="p-3 px-5">{food.name}</td>
                                         <td className="p-3 px-5">
-                                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { dispatch(getFood(food.id)); setOpen(true) }}>Edit</button>
+                                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { dispatch(getFood(food.id)); setOpen(true) }}>Editar</button>
                                         </td>
                                         <td className="p-3 px-5 font-bold text-orange-500">{menu}
                                         </td>
@@ -209,7 +209,7 @@ const TableAdmin = () => {
                                     </div>
                                 </div>
                                 <div className="flex justify-end mt-4">
-                                    <button className="bg-blue-500 hover:bg-blue-700 text-white px-2 rounded mr-3" onClick={() => { dispatch(getFood(food.id)); setOpen(true) }}>View</button><button type="button" onClick={(e)=> handleAdd(e, food)} className="mr-3 px-2 text-sm bg-blue-500 hover:bg-blue-700 text-white rounded focus:outline-none focus:shadow-outline">Save Menu</button><button type="button" onClick={(e) => handleDeleteMenu(e, food)} className="mr-3 text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline">Delete Menu</button><button type="button" onClick={(e) => handleDelete(e, food.id)} className="text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline">Delete Food</button>
+                                    <button className="bg-blue-500 hover:bg-blue-700 text-white px-2 rounded mr-3" onClick={() => { dispatch(getFood(food.id)); setOpen(true) }}>View</button><button type="button" onClick={(e)=> handleAdd(e, food)} className="mr-3 px-2 text-sm bg-blue-500 hover:bg-blue-700 text-white rounded focus:outline-none focus:shadow-outline">Añadir Menu</button><button type="button" onClick={(e) => handleDeleteMenu(e, food)} className="mr-3 text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline">Quitar Menu</button><button type="button" onClick={(e) => handleDelete(e, food.id)} className="text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline">Borrar producto</button>
                                 </div>
                                 <div>
                                 </div>

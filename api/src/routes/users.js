@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const { User, Feedback, Reservation, Table, Message } = require('../db.js');
 const bcrypt = require('bcrypt');
@@ -398,6 +399,9 @@ router.post('/message', async (req, res) => {
             room,
             date: new Date().toString()
         })
+
+        io.emit(`room${room}`, message, userId, room);
+
         res.status(200).json(newMessage);
     } catch (error) {
         res.status(409).json({ message: error });
