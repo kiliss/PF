@@ -30,7 +30,7 @@ const io = require("socket.io")(sserver, {
     origin: process.env.HOST,
   },
 });
-const { isUser } = require("./middleware/auth.js");
+//const { isUser } = require("./middleware/auth.js");
 
 // server.use(cors({
 
@@ -67,7 +67,7 @@ server.use(
   })
 );
 
-server.post('/message', isUser, async (req, res) => {
+server.post('/message', async (req, res) => {
   const { message, userId = 0, room = 0 } = req.body;
   try {
       const newMessage = await Message.create({
