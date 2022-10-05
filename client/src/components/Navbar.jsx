@@ -142,7 +142,9 @@ const Navbar = () => {
                                             {/* Profile dropdown */}
                                             <Menu as="div" className="relative ml-3" onMouseEnter={() => setOnHover('')}>
                                                 <div className='flex gap-x-2 items-center'>
-                                                    <span className="hidden md:block text-black text-sm font-medium">{localStorage.getItem('name')}</span>
+                                                    {
+                                                        //<span className="hidden md:block text-black text-sm font-medium">{localStorage.getItem('name')}</span>
+                                                    }
                                                     <Menu.Button className="flex rounded-full bg-gray-200 text-sm focus:outline-none ring-2 ring-gray-200 hover:ring-red-900">
                                                         <img
                                                             loading='eager'

@@ -41,8 +41,10 @@ server.use(
   })
 );
 
-server.post('/message', async (req, res) => {
-  const { message, userId = 0, room = 0 } = req.body;
+const { isUser } = require("./middleware/auth.js");
+
+server.post('/message', isUser, async (req, res) => {
+  const { message, userId = 0, room = 0, user } = req.body;
   try {
       const newMessage = await Message.create({
           message,
@@ -51,7 +53,7 @@ server.post('/message', async (req, res) => {
           date: new Date().toString()
       })
 
-      io.emit(`room${room}`, message, userId, room);
+      io.emit(`room${room}`, message, userId, room, user);
       io.emit('rooms');
 
       res.status(200).json(newMessage);
