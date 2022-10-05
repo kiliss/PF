@@ -347,7 +347,7 @@ router.post("/resetPassword/:id/:token", async (req, res) => {
     }
 });
 
-router.get('/messages/rooms', async (req, res) => {
+router.get('/messages/rooms', isAdmin, async (req, res) => {
     try {
         let rooms = await Message.findAll({
             include: [{
@@ -368,7 +368,7 @@ router.get('/messages/rooms', async (req, res) => {
 
 });
 
-router.get('/messages/:id', async (req, res) => {
+router.get('/messages/:id', isUser, async (req, res) => {
     const { id } = req.params;
     try {
         let messages = await Message.findAll({
