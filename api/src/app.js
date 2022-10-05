@@ -21,15 +21,12 @@ const feedbacks = require("./routes/feedbacks");
 const table = require("./routes/table");
 
 const pruebapay = require("./routes/pruebapay");
+const socketio = require('socket.io');
 
 const cors = require("cors");
-const server = express();
-const sserver = http.createServer(server);
-const io = require("socket.io")(sserver, {
-  cors: {
-    origin: process.env.HOST,
-  },
-});
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
 //const { isUser } = require("./middleware/auth.js");
 
 // server.use(cors({
@@ -104,4 +101,4 @@ server.use("/login", login);
 server.use("/feedbacks", feedbacks);
 server.use("/pay", pruebapay);
 
-module.exports = { server, sserver };
+module.exports = { server };
