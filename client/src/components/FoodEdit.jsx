@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { updateFood } from "../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Dialog, Transition } from "@headlessui/react";
@@ -146,6 +146,7 @@ export default function Food(props) {
   };
 
   const [photo, setPhoto] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const uploadImage = async (e) => {
     const files = e.target.files;

@@ -1,9 +1,6 @@
-import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import { createReservation, getProfile, getReservationDetail, getReservations, getTable } from '../../redux/actions/index';
+import { createReservation, getProfile, getReservations, getTable } from '../../redux/actions/index';
 import { useEffect } from "react";
 import { useState } from "react";
 import {loadStripe} from "@stripe/stripe-js"
@@ -42,14 +39,13 @@ const stripePromise = loadStripe("pk_test_51LkeM7HwicqFBY9CPHk3MavK9EF4OJ9ioOHqF
 
 const CheckoutForm = () => {
     const fecha=new Date()
-    const actualFecha=`${fecha.getFullYear()}-${fecha.getMonth()+1}-0${fecha.getDate()}`
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate()
-    const [invisible,setInvisible]=useState(false)
-    const [visible,setVisible]=useState(true)
+    const [invisible]=useState(false)
+    const [visible]=useState(true)
   useEffect(() => {
     dispatch(getTable())
     dispatch(getProfile())
@@ -58,7 +54,6 @@ const CheckoutForm = () => {
 
 
   const tables = useSelector((state) => state.tables);
-    const reservations=useSelector((state)=>state.reservations)
  
 //   const decode = window.localStorage.getItem("user");
   const decodee = jwt_decode(localStorage.getItem('session'))
@@ -67,14 +62,16 @@ const CheckoutForm = () => {
     id_User: decodee.id,
     id_Table: "",
     date: "",
-    hour: "8:00",
+    hour: "",
     guest:"",
     price: 300,
     num_Table: [],
     email: decodee.email,
 })
+console.log(input)
 
   const [errors, setErrors] = useState({});
+  // eslint-disable-next-line array-callback-return
   const mesasFiltradas=tables.filter((t)=>{
 
     if(input.guest) {
@@ -96,11 +93,9 @@ const CheckoutForm = () => {
     }
         )
        }
-       
-         if( t.chairs==input.guest){
-                   
-                   
-                    
+
+         // eslint-disable-next-line eqeqeq
+        if( t.chairs==input.guest){
             const mesa=t
             return mesa
         }
@@ -109,6 +104,18 @@ const CheckoutForm = () => {
   function handleChange(e) {
       setInput({
           ...input,
+          [e.target.name]: e.target.value
+      })
+      setErrors(validationForm({
+          ...input,
+          [e.target.name]: e.target.name
+      })
+      )
+  }
+  function handleChangeAsientos(e) {
+      setInput({
+          ...input,
+          id_Table: "" ,
           [e.target.name]: e.target.value
       })
       setErrors(validationForm({
@@ -148,8 +155,18 @@ const CheckoutForm = () => {
               elements.getElement(CardElement).clear();
               if (data.data.message === "Successfull payment"){
                 swal("Pago aceptado", "Tu reserva fue registrada con éxito", "success").then(() => {
-                    dispatch(createReservation(input))
-                    navigate("/")
+                    dispatch(createReservation(input)).then((a) => {
+                        if(a.data === "Error creando la reservacion, intente nuevamente mas tarde"){
+                            swal({
+                                title: "Error creando la reservacion, intente nuevamente mas tarde",
+                                text: "Por favor, comuniquese con nosotros",
+                                icon: "warning",
+                                buttons: "aceptar",
+                            })
+                        } else if(a.data === "La reservación ha sido creado correctamente"){
+                        navigate("/")
+                        }
+                    })
                 })
               } else if(data.data.message === "Your card's security code is incorrect."){
                 swal("Pago rechazado", "Código de seguridad invalido", "error");
@@ -157,6 +174,11 @@ const CheckoutForm = () => {
                 swal("Pago rechazado", "Fondos insuficientes", "error");
               } else if(data.data.message === "Your card has expired."){
                 swal("Pago rechazado", "Tu tarjeta expiró", "error");
+              } else if(data.data.message === "Error creando la reservacion, intente nuevamente mas tarde"){
+                swal("Error", "Error creando la reservacion, intente nuevamente mas tarde", "error");
+              } else if(data.data.message === "Your card was declined. Your request was in test mode, but used a non test (live) card. For a list of valid test cards, visit: https://stripe.com/docs/testing."){
+                swal("Pago rechazado", "Tu tarjeta no es de prueba", "error");
+
               }
         } catch (error) {
             console.log(error)
@@ -216,10 +238,10 @@ const CheckoutForm = () => {
                         <select id="framework"
                           value={input.hour}
                           name="hour"
-                            
                           onChange={handleChange}
                           className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                       >
+                <option value="hora" hidden>--:--</option>
                 <option value="08:00">08:00</option>
                 <option value="09:00">09:00</option>
                 <option value="10:00">10:00</option>
@@ -254,10 +276,10 @@ const CheckoutForm = () => {
                             name="guest"
                             id="guest"
                             value={input.guest}
-                            placeholder="2"
+                            placeholder="Seleccione sus asientos"
                             min="1"
                             max="10"
-                            onChange={handleChange}
+                            onChange={handleChangeAsientos}
                             className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"/>
                     </div>
                 </div>
@@ -280,6 +302,7 @@ const CheckoutForm = () => {
                             {
                                 mesasFiltradas.length ?
                                      
+                                        // eslint-disable-next-line array-callback-return
                                         mesasFiltradas.map(e=>{
                                            
                                             if(e.state===true){
@@ -292,7 +315,7 @@ const CheckoutForm = () => {
                                         <option key={`reservation-${table.num_Table}`}  value={table.id}>{`Mesa ${fitrado}`}</option>
                                     ))*/
                                     :
-                                    <option value={0}>Intente Otro Horario</option>
+                                    <option value={0} disabled>Intente Otro Horario</option>
                             }
                         </select> {errors.num_Table && <p className='form-error'>{errors.num_Table}</p>}
                     </div>
@@ -323,7 +346,7 @@ function Reservation(props) {
     return (
 
         <Elements stripe={stripePromise}>
-            <div className="flex justify-center"> 
+            <div className="flex justify-center h-screen"> 
                 <div className="2xl:w-3/5 lg:w-3/5 xl:w-3/5 md:w-4/5 sm:w-4/5"> 
                 <div> 
                 <CheckoutForm/>

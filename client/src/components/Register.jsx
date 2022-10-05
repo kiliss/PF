@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-escape */
 import React, {useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUser, emailExist } from "../redux/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import  ProfileImages from "../assets/register/ProfileImages.js"
 import swal from 'sweetalert';
 
@@ -128,6 +130,7 @@ const handleSubmit = async (e) => {
 
 useEffect(() => {
     autoUpload()
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])
 
 const [passwordShown, setPasswordShown] = useState(false);
@@ -187,14 +190,14 @@ const togglePassword = () => {
             {error.repassword && <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {error.repassword} </span>}
           </div>
           <div className="relative w-full mb-3">
-            <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">E-mail</label><input name="email" value={input.email} type="email" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="E-mail" onChange={(e)=> handleChange(e)}/>
+            <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">Correo</label><input name="email" value={input.email} type="email" className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" placeholder="Correo" onChange={(e)=> handleChange(e)}/>
             {error.email && <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"> {error.email} </span>}
           </div>
           <div>
                 <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">Imagen de perfil</label>
                 {
-                    photo ? <img src={photo} alt= "Profile image" className="w-50 h-50 rounded-full"/> : 
-                    <img src={image.url} alt= "Profile image" className="w-50 h-50 rounded-full"/>
+                    photo ? <img src={photo} alt= "Profile" className="w-50 h-50 rounded-full"/> : 
+                    <img src={image.url} alt= "Profile" className="w-50 h-50 rounded-full"/>
                 }                    
             </div>
             <div>
@@ -224,7 +227,7 @@ const togglePassword = () => {
         <div className="container mx-auto px-2">
           <div className="flex flex-wrap items-center md:justify-between justify-center">
             <div className="w-full md:w-6/12 px-4 mx-auto text-center">
-              <Link to="/login">Ya tienes cuenta?</Link>
+              <Link to="/login">¿Ya tienes cuenta?</Link>
             </div>
           </div>
         </div>

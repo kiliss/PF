@@ -82,10 +82,10 @@ const Users = () => {
             <tbody>
                 <tr className="border-b">
                     <th className="text-left p-3 px-5">Foto</th>
-                    <th className="text-left p-3 px-5">Name</th>
-                    <th className="text-left p-3 px-5">Email</th>
-                    <th className="text-left p-3 px-5">Role</th>
-                    <th className="text-left p-3 px-5">Status</th>
+                    <th className="text-left p-3 px-5">Nombre</th>
+                    <th className="text-left p-3 px-5">Correo</th>
+                    <th className="text-left p-3 px-5">Rol</th>
+                    <th className="text-left p-3 px-5">Estado</th>
                     
                 </tr>
                 {
@@ -102,13 +102,13 @@ const Users = () => {
                                             Admin</button>
                                     ) : (
                                         <button onClick={(e) => handleAdmin(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
-                                            User</button>
+                                            Usuario</button>
                                     )
 
                                 }
                             </td>
                             <td className="p-3 px-5">
-                                <button onClick={(e) => banUser(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
+                                <button onClick={(e) => banUser(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Borrar</button>
                             </td>
                         </tr> : null
                     ))
@@ -135,11 +135,11 @@ const Users = () => {
                                                 Admin</button>
                                         ) : (
                                             <button onClick={(e) => handleAdmin(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
-                                                User</button>
+                                                Usuario</button>
                                         )
                                     }
                                     {
-                                        <button onClick={(e) => banUser(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
+                                        <button onClick={(e) => banUser(e, user)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Borrar</button>
                                     }
                                 </div>
                             </div>

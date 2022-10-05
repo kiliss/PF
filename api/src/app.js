@@ -1,4 +1,3 @@
-
 const express = require("express");
 require("dotenv").config();
 const bodyParser = require("body-parser");
@@ -7,7 +6,10 @@ const foods = require("./routes/foods");
 const menus = require("./routes/menus");
 const passport = require("passport");
 require("./auth/passport.js");
- const session = require("express-session");
+const session = require("express-session");
+const http = require("http");
+
+const { Message } = require("./db.js");
 
 // const cookieSession = require('cookie-session');
 
@@ -18,10 +20,17 @@ const reservation = require("./routes/reservation");
 const feedbacks = require("./routes/feedbacks");
 const table = require("./routes/table");
 
-const pruebapay=require('./routes/pruebapay')
+const pruebapay = require("./routes/pruebapay");
 
 const cors = require("cors");
 const server = express();
+const sserver = http.createServer(server);
+const io = require("socket.io")(sserver, {
+  cors: {
+    origin: process.env.HOST,
+  },
+});
+const { isUser } = require("./middleware/auth.js");
 
 // server.use(cors({
 
@@ -57,6 +66,31 @@ server.use(
     secret: "secret",
   })
 );
+
+server.post('/message', isUser, async (req, res) => {
+  const { message, userId = 0, room = 0 } = req.body;
+  try {
+      const newMessage = await Message.create({
+          message,
+          userId,
+          room,
+          date: new Date().toString()
+      })
+
+      io.emit(`room${room}`, message, userId, room);
+      io.emit('rooms');
+
+      res.status(200).json(newMessage);
+  } catch (error) {
+      res.status(409).json({ message: error });
+  }
+
+});
+
+io.on("connection", (socket) => {
+
+});
+
 server.use(passport.initialize());
 server.use(passport.session());
 
@@ -68,6 +102,6 @@ server.use("/users", users);
 server.use("/reservation", reservation);
 server.use("/login", login);
 server.use("/feedbacks", feedbacks);
-server.use('/pay', pruebapay);
+server.use("/pay", pruebapay);
 
-module.exports = server;
+module.exports = { server, sserver };
