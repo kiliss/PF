@@ -24,33 +24,10 @@ const pruebapay = require("./routes/pruebapay");
 const socketio = require('socket.io');
 
 const cors = require("cors");
-const app = express();
-const server = http.createServer(app);
-const io = socketio(server);
-//const { isUser } = require("./middleware/auth.js");
-
-// server.use(cors({
-
-// }));
-
-// server.use(cookieSession({
-//     name: "user",
-//     keys:["pgrestaurant"],
-//     maxAge: 24*60*60*1000
-// }));
-
-// server.cookieParser()
-// {
-//     origin:'http://localhost:3000',
-//     methods: 'GET,POST,PUT,DELETE',
-//     credentials: true,
-// }
+const server = express();
 server.use(cors());
-// server.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-//   });
+const sserver = http.createServer(server);
+const io = socketio(sserver);
 
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 server.use(bodyParser.json({ limit: "50mb" }));
@@ -101,4 +78,4 @@ server.use("/login", login);
 server.use("/feedbacks", feedbacks);
 server.use("/pay", pruebapay);
 
-module.exports = { server };
+module.exports = { server: sserver };
