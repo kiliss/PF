@@ -799,12 +799,25 @@ export function getMessages(id){
 export function postMessage(payload){
     return async function (dispatch){
         try {
-            var json = await axios.post("/users/message", payload)
+            var json = await axios.post("/message", payload)
             return dispatch({
                 type:"POST_MESSAGE",
                 payload: json.data
             })
         } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export function receiveMessages(payload){
+    return async function (dispatch) {
+        try {
+            return dispatch({
+                type: "POST_MESSAGE",
+                payload: payload
+            })
+        } catch (error){
             console.log(error)
         }
     }
