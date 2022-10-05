@@ -347,7 +347,7 @@ router.post("/resetPassword/:id/:token", async (req, res) => {
     }
 });
 
-router.get('/messages/rooms', isUser, async (req, res) => {
+router.get('/messages/rooms', isAdmin, async (req, res) => {
     try {
         let rooms = await Message.findAll({
             include: [{
