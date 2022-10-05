@@ -27,7 +27,7 @@ const server = express();
 const sserver = http.createServer(server);
 const io = require("socket.io")(sserver, {
   cors: {
-    origin: process.env.REACT_APP_API,
+    origin: process.env.HOST,
   },
 });
 const { isUser } = require("./middleware/auth.js");
