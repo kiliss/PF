@@ -208,6 +208,8 @@ const Profile = () => {
                     text: "",
                     icon: "success",
                     button: "Aceptar",
+                }).then(() => {
+                    if(inputUser.name !== localStorage.getItem('name')) window.localStorage.setItem('name', inputUser.name);
                 })
             } else {
                 swal({
