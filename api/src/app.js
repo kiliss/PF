@@ -41,7 +41,9 @@ server.use(
   })
 );
 
-server.post('/message', async (req, res) => {
+const { isUser } = require("./middleware/auth.js");
+
+server.post('/message', isUser, async (req, res) => {
   const { message, userId = 0, room = 0, user } = req.body;
   try {
       const newMessage = await Message.create({
